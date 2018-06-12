@@ -1,5 +1,6 @@
-# testwell
+[API Documentation here.](https://godoc.org/github.com/rubrikinc/testwell/assert)
 
+# testwel
 A small set of convenient testing functions for Go.
 
 Two identical packages (same API) are provided: `expect` and `assert`.
