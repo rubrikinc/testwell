@@ -1,0 +1,398 @@
+package {{ .Package }}
+
+import (
+    "reflect"
+    "github.com/rubrikinc/testwell/internal/cmp"
+    "github.com/rubrikinc/testwell/internal/fail"
+    "github.com/rubrikinc/testwell/testing"
+)
+
+{{ $msgfmtcomment :=  "// msg is an optional list of arguments following the `fmt.Printf()` format." -}}
+
+{{ define "helper" }}
+if h, ok := {{ . }}.(testing.Helper); ok {
+    h.Helper() // Go 1.9 compatibility
+}
+{{ end }}
+
+// True tests if val is True.
+{{ $msgfmtcomment }}
+func True(t testing.T, tval bool, msg ...interface{}) bool {
+    {{- template "helper" "t" }}
+    if tval {
+        return true
+    }
+    return failTest(
+        t,
+        fail.Failure("True").
+            Reason(`expected "true", got "%v" instead`, tval).
+            ExtraMsg(msg...),
+    )
+}
+
+// False tests if val is False.
+{{ $msgfmtcomment }}
+func False(t testing.T, tval bool, msg ...interface{}) bool {
+    {{- template "helper" "t" }}
+    if !tval {
+        return true
+    }
+    return failTest(
+        t,
+        fail.Failure("False").
+            Reason(`expected "false", got "%v" instead`, tval).
+            ExtraMsg(msg...),
+    )
+}
+
+{{ range $T := PrimitiveTypes | GenericType | ErrorType }}
+    // Equal{{ $T.N }} tests if `tval` is equal to `expected` using the `==`
+    // operator. The expected value comes first, followed by the value to test
+    // against.
+    {{ $msgfmtcomment }}
+    // This version takes takes two {{ $T.T }}.
+    {{- if eq $T.T "interface{}" }}
+    // This is a strict equality test. It will fail if `expected` and `tval`
+    // have different types. For example, int32(42) is not equal to int64(42).
+    // You can use the typed versions of `Equal` for more static typing.
+    // Note that Slice, map, and function values are not comparable.
+    // See also `DeepEqual`.
+    {{- end }}
+    func Equal{{ $T.N }}(t testing.T,
+            expected {{ $T.T }},
+            tval {{ $T.T }},
+            msg ...interface{}) bool {
+        {{- template "helper" "t" }}
+        failure := fail.Failure("Equal{{ $T.N }}")
+
+        if ok, err := cmp.Equal(expected, tval); err != nil {
+            failure = failure.Error(err)
+            if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
+                failure = failure.Error(cerr)
+                if reflect.TypeOf(expected) == nil {
+                    failure = failure.Hint("see Nil for <nil> checks")
+                } else {
+                    failure = failure.Hint("take a look at DeepEqual")
+                }
+            }
+        } else if ok {
+            return true
+        }
+
+        failure = failure.Reason(
+                `expected value "%+v" (%T), got "%+v" (%T) instead`,
+                expected, expected, tval, tval)
+        return failTest(t, failure.ExtraMsg(msg...))
+    }
+
+    // NotEqual{{ $T.N }} tests if `tval` is not equal to `expected` using the
+    // `!=` operator. The expected value comes first, followed by the value to
+    // test against.
+    {{ $msgfmtcomment }}
+    // This version takes takes two {{ $T.T }}
+    {{- if eq $T.T "interface{}" }}
+    // This is a strict non-equality test. It will pass only when
+    // `expected` and `tval` have identical type but non-equal values.
+    // For example, given int32(42) and int64(42), the test will fail because
+    // the types are not comparables. Given int32(42) and int32(42), the test
+    // will fail because the two values are equal.
+    // You can use the typed versions of `NotEqual` for more static typing.
+    // Note that Slice, map, and function values are not comparable.
+    // See also `NotDeepEqual`.
+    {{- end }}
+    func NotEqual{{ $T.N }}(t testing.T,
+            expected {{ $T.T }},
+            tval {{ $T.T }},
+            msg ...interface{}) bool {
+        {{- template "helper" "t" }}
+        failure := fail.Failure("NotEqual{{ $T.N }}")
+
+        if ok, err := cmp.Equal(expected, tval); err != nil {
+            failure = failure.Error(err)
+            if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
+                failure = failure.Error(cerr)
+                if reflect.TypeOf(expected) == nil {
+                    failure = failure.Hint("see NotNil for <nil> checks")
+                } else {
+                    failure = failure.Hint("take a look at NotDeepEqual")
+                }
+            }
+        } else if !ok {
+            return true
+        }
+
+        failure = failure.Reason(
+            `expected other value than "%+v" (%T), got "%+v" (%T)`,
+            expected, expected, tval, tval)
+        return failTest(t, failure.ExtraMsg(msg...))
+    }
+{{ end }}
+
+
+// EqualTypes tests if two values have the same types.
+// The expected type comes first, followed by the value to test against.
+{{ $msgfmtcomment }}
+// Example:
+//  var a int32 = 42;
+//  EqualType(t, int32(0), a)
+func EqualTypes(t testing.T,
+        expected interface{},
+        tval interface{},
+        msg ...interface{}) bool {
+    {{- template "helper" "t" }}
+    eType := reflect.TypeOf(expected)
+    tvalType := reflect.TypeOf(tval)
+    if tvalType == eType {
+        return true
+    }
+    return failTest(t, fail.Failure("EqualTypes").
+        Reason(`expected type "%v", got type "%v" instead`, eType, tvalType).
+        ExtraMsg(msg...))
+}
+
+// NotEqualTypes tests if two values have distinct types.
+// The expected type comes first, followed by the value to test against.
+{{ $msgfmtcomment }}
+// Example:
+//  var a int32 = 42;
+//  EqualType(t, int32(0), a)
+func NotEqualTypes(t testing.T,
+        expected interface{},
+        tval interface{},
+        msg ...interface{}) bool {
+    {{- template "helper" "t" }}
+    eType := reflect.TypeOf(expected)
+    tvalType := reflect.TypeOf(tval)
+    if tvalType != eType {
+        return true
+    }
+    return failTest(t, fail.Failure("NotEqualTypes").
+        Reason(`expected anything but type "%v", got type "%v"`,
+            eType, tvalType).
+        ExtraMsg(msg...))
+}
+
+{{ range $T := PrimitiveTypes | GenericType | ErrorType }}
+    // Contains{{ $T.N }} tests if `expectedElement` is contained within
+    // `container`. `container` can be a string, map (only keys are matched),
+    // array or slice.
+    {{ if eq $T.T "interface{}" -}}
+    // The type of elements within `container` must match the type of
+    // `expectedElement`.
+    {{- else -}}
+    // The `container` must have elements of type `{{ $T.T }}`.
+    {{- end }}
+    {{ $msgfmtcomment }}
+    // You can use the typed versions of `Contains` for more static typing.
+    // See also `NotContains`.
+    func Contains{{ $T.N }}(t testing.T,
+            expectedElement {{ $T.T }},
+            container interface{},
+            msg ...interface{}) bool {
+        {{- template "helper" "t" }}
+        ok, err := cmp.Contains(expectedElement, container)
+        failure := fail.Failure("Contains{{ $T.N }}")
+        if err != nil {
+            if ce, ok2 := err.(cmp.ContainsError); ok2 {
+                failure = failure.Hint(ce.Hint)
+            } else {
+                failure = failure.Error(err)
+            }
+        } else if ok {
+            return true;
+        }
+        failure = failure.Reason(`"%v" (%T) is not contained in "%v" (%T)`,
+                        expectedElement, expectedElement, container, container)
+        return failTest(t, failure.ExtraMsg(msg...))
+    }
+
+    // NotContains{{ $T.N }} tests if `expectedElement` is contained within
+    // `container`. `container` can be a string, map, array or slice.
+    {{ if eq $T.T "interface{}" -}}
+    // The type of elements within `container` must match the type of
+    // `expectedElement`.
+    {{- else -}}
+    // The `container` must have elements of type `{{ $T.T }}`.
+    {{- end }}
+    {{ $msgfmtcomment }}
+    // You can use the typed versions of `NotContains` for more static typing.
+    // See also `Contains`.
+    func NotContains{{ $T.N }}(t testing.T,
+            expectedElement {{ $T.T }},
+            container interface{},
+            msg ...interface{}) bool {
+        {{- template "helper" "t" }}
+        ok, err := cmp.Contains(expectedElement, container)
+        failure := fail.Failure("NotContains{{ $T.N }}")
+        if err != nil {
+            if ce, ok2 := err.(cmp.ContainsError); ok2 {
+                failure = failure.Hint(ce.Hint)
+            } else {
+                failure = failure.Error(err)
+            }
+        } else if !ok {
+            return true;
+        }
+        failure = failure.Reason(`"%v" (%T) is contained in "%v" (%T)`,
+                        expectedElement, expectedElement, container, container)
+        return failTest(t, failure.ExtraMsg(msg...))
+    }
+{{ end }}
+
+// Nil tests if the passed value is Nil. See also Empty.
+// Makes sense solely on chan, func, interface, map, pointer, slice value and
+// the zero value type (ie: the nil keyword).
+{{ $msgfmtcomment }}
+func Nil(t testing.T, tval interface{}, msg ...interface{}) bool {
+    {{- template "helper" "t" }}
+    isnil, err := cmp.Nil(tval)
+    failure := fail.Failure("Nil")
+    if err != nil {
+        failure = failure.Error(err)
+    } else if isnil {
+        return true
+    }
+    failure = failure. Reason(`"%#v" is not nil`, tval)
+    return failTest(t, failure.ExtraMsg(msg...))
+}
+
+// NotNil tests if the passed value is not Nil. See also NotEmpty.
+// Makes sense solely on chan, func, interface, map, pointer, slice value and
+// the zero value type (ie: the nil keyword).
+{{ $msgfmtcomment }}
+func NotNil(t testing.T, tval interface{}, msg ...interface{}) bool {
+    {{- template "helper" "t" }}
+    isnil, err := cmp.Nil(tval)
+    failure := fail.Failure("NotNil")
+    if err != nil {
+        failure = failure.Error(err)
+    } else if !isnil {
+        return true
+    }
+    failure = failure.Reason(`"%#v" is nil`, tval)
+    return failTest(t, failure.ExtraMsg(msg...))
+}
+
+// Empty tests if the passed value is Empty. A nil container or a container
+// with zero elements are both empty. Uses Go len().
+// Container can be any of Array, Chan, Map, Slice, or String.
+{{ $msgfmtcomment }}
+// See also `Nil`.
+func Empty(t testing.T, container interface{}, msg ...interface{}) bool {
+    {{- template "helper" "t" }}
+    empty, err := cmp.Empty(container)
+    failure := fail.Failure("Empty")
+    if err != nil {
+        failure = failure.Error(err)
+    } else if empty {
+        return true
+    }
+    failure = failure.Reason(`"%v" (%T) is not empty`, container, container)
+    return failTest(t, failure.ExtraMsg(msg...))
+}
+
+// NotEmpty tests if the passed value is not Empty. Only a non-nil container
+// with at least one element will pass the test. Uses Go len().
+// Container can be any of Array, Chan, Map, Slice, or String.
+// See also `NotNil`.
+{{ $msgfmtcomment }}
+func NotEmpty(t testing.T, container interface{}, msg ...interface{}) bool {
+    {{- template "helper" "t" }}
+    empty, err := cmp.Empty(container)
+    failure := fail.Failure("NotEmpty")
+    if err != nil {
+        failure = failure.Error(err)
+    } else if !empty {
+        return true
+    }
+    failure = failure.Reason(`"%v" (%T) is empty`, container, container)
+    return failTest(t, failure.ExtraMsg(msg...))
+}
+
+// DeepEqual tests if `tval` is deeply equal to `expected` using
+// `reflect.DeepEqual`. The expected value comes first, followed by the value
+// to compare.
+{{ $msgfmtcomment }}
+// This is a deep, recursive equality test. See also `Equal`.
+func DeepEqual(t testing.T,
+        expected interface{},
+        tval interface{},
+        msg ...interface{}) bool {
+    {{- template "helper" "t" }}
+    failure := fail.Failure("DeepEqual{")
+
+    if reflect.DeepEqual(expected, tval) {
+        return true
+    }
+
+    failure = failure.Reason(
+            `expected value "%+v" (%T), got "%+v" (%T) instead`,
+            expected, expected, tval, tval)
+    return failTest(t, failure.ExtraMsg(msg...))
+}
+
+// NotDeepEqual tests if `tval` is deeply non-equal to `expected` using
+// `reflect.DeepEqual`. The expected value comes first, followed by the value
+// to compare.
+{{ $msgfmtcomment }}
+// This is a deep, recursive non-equality test. See also `Equal`.
+func NotDeepEqual(t testing.T,
+        expected interface{},
+        tval interface{},
+        msg ...interface{}) bool {
+    {{- template "helper" "t" }}
+    failure := fail.Failure("NotDeepEqual")
+
+    if !reflect.DeepEqual(expected, tval) {
+        return true
+    }
+
+    failure = failure.Reason(
+        `expected other value than "%+v" (%T), got "%+v" (%T)`,
+        expected, expected, tval, tval)
+    return failTest(t, failure.ExtraMsg(msg...))
+}
+
+// Failed logs a message and fails the test.
+// fmtstr and args follows the `fmt.Printf()` format.
+func Failed(t testing.T, fmtstr string, args ...interface{}) {
+    {{- template "helper" "t" }}
+    failure := fail.Failure("Custom")
+    failure = failure.Reason(fmtstr, args...)
+    failTest(t, failure)
+}
+
+// Panics asserts that the code inside the specified function f panics.
+//   assert.Panics(t, func(){ GoCrazy() })
+func Panics(t testing.T, f func(), msg ...interface{}) bool {
+	{{- template "helper" "t" }}
+
+	if funcDidPanic, _ := cmp.Panics(f); !funcDidPanic {
+		failure := fail.Failure("Panic")
+		failure = failure.Reason("Expected function %#v to panic", f)
+		return failTest(t, failure.ExtraMsg(msg...))
+	}
+	return true
+}
+
+// PanicsWith asserts that the code inside the specified function f
+// panics, and that the recovered panic value equals the expected panic value
+//   assert.PanicsWithValue(t, "crazy error", func(){ GoCrazy() })
+func PanicsWith(t testing.T,
+        expected interface{},
+        f func(),
+        msg ...interface{}) bool {
+	{{- template "helper" "t" }}
+	funcDidPanic, panicValue := cmp.Panics(f)
+	failure := fail.Failure("PanicWithValue")
+
+	if !funcDidPanic {
+		failure = failure.Reason("Expected %#v to panic", f)
+	} else if !reflect.DeepEqual(expected, panicValue) {
+		failure = failure.Reason("func %#v should panic with value:\t%v\n\r"+
+			"\tPanic value:\t%v", f, expected, panicValue)
+	} else {
+		return true
+	}
+	return failTest(t, failure.ExtraMsg(msg...))
+}
