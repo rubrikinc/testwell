@@ -1,7 +1,10 @@
-[API Documentation here.](https://godoc.org/github.com/rubrikinc/testwell/assert)
+# testwell
 
-# testwel
-A small set of convenient testing functions for Go.
+[![License](https://img.shields.io/badge/license-BSD-blue.svg)](https://github.com/rubrikinc/testwell/blob/master/LICENSE)
+[![GoDoc](https://godoc.org/github.com/rubrikinc/testwell/assert?status.svg)](https://godoc.org/github.com/rubrikinc/testwell/assert)
+[![Go Report Card](https://goreportcard.com/badge/rubrikinc/testwell)](http://goreportcard.com/report/rubrikinc/testwell)
+
+A small set of type-safe convenient testing functions for Go.
 
 Two identical packages (same API) are provided: `expect` and `assert`.
 
@@ -36,7 +39,10 @@ Use `godoc`. For example:
 godoc -http :9090
 ```
 
-Then navigate to [http://localhost:9090/pkg/github.com/rubrikinc/testwell/assert/].
+Then navigate to
+[localhost](http://localhost:9090/pkg/github.com/rubrikinc/testwell/assert/).
+Alternatively, can view them online
+[here](https://godoc.org/github.com/rubrikinc/testwell/assert).
 
 ## Main design rules
 
@@ -68,6 +74,18 @@ The generated code expect to find available in the same package the function
 responsible for logging out the failed test, and taking the approach following
 action (fail now, mark test as failed or log it for unit testing).
 
+## Get involved
+
+We are happy to receive bug reports, fixes, documentation enhancements, and
+other improvements.
+
+Please report bugs via the
+[github issue tracker](https://github.com/rubrikinc/testwell/issues).
+
+## Licensing
+
+This library is MIT-licensed.
+
 ## Motivation
 
 This is our own version of set of helpers function for testing in Go. This
@@ -76,7 +94,7 @@ that.
 
 ### Testify is not the best choice
 
-Testify [https://github.com/stretchr/testify] has become more or less the
+[Testify](https://github.com/stretchr/testify) has become more or less the
 standard for convenient test functions. However it has many flaws.
 
 In Go, no two different types can be compared (with the notable exception of
