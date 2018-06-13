@@ -27,4 +27,8 @@ testbuild:
 
 .PHONY: clean
 clean:
-	rm -f ./internal/codegen/codegen ./internal/tests/tests.go ./assert/assert.go ./expect/expect.go
+	rm -f \
+		./internal/codegen/codegen \
+		./internal/tests/tests.go \
+		./assert/assert.go \
+		./expect/expect.go
