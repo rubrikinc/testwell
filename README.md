@@ -30,10 +30,6 @@ func TestEx1(t *testing.T) {
 }
 ```
 
-## Licensing
-
-This library is MIT-licensed.
-
 ## Documentation
 
 Use `godoc`. For example:
@@ -124,3 +120,11 @@ standard for convenient test functions. However it has a few flaws:
  - Go 1.9 improved the situations of test helper functions by adding a
    mechanism to mark them explicitly. We take advantage of this in this
    library.
+
+## Licensing
+
+This library is MIT-licensed.
+
+## Copyright
+
+Copyright © 2018 ([Rubrik Inc.](https://www.rubrik.com))
