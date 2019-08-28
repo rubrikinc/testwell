@@ -2813,7 +2813,7 @@ func Nil(t testing.T, tval interface{}, msg ...interface{}) bool {
 	} else if isnil {
 		return true
 	}
-	failure = failure.Reason("`%v` should be nil", tval)
+	failure = failure.Reason("`%v` (%T) should be nil", tval, tval)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -2833,7 +2833,7 @@ func NotNil(t testing.T, tval interface{}, msg ...interface{}) bool {
 	} else if !isnil {
 		return true
 	}
-	failure = failure.Reason("`%v` should not be nil", tval)
+	failure = failure.Reason("`%v (%T)` should not be nil", tval, tval)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
