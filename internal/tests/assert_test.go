@@ -98,6 +98,70 @@ func TestNotEqual(t *testing.T) {
 	}
 }
 
+func TestEqualTypes(t *testing.T) {
+	cases := []struct {
+		E interface{}
+		V interface{}
+		O bool
+	}{
+		{int(42), int(42), true},
+		{int(42), uint64(42), false},
+		{int(42), int(255), true},
+		{"foo", "foo", true},
+		{"foo", "bar", true},
+		{[]string{}, []string{}, true},
+		{nil, nil, true},
+		{nil, (*int)(nil), false},
+		{(*int)(nil), nil, false},
+		{(*int)(nil), (*int)(nil), true},
+	}
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("%v (%T) == %v (%T)",
+			tc.E, tc.E, tc.V, tc.V), func(t *testing.T) {
+
+			wt := wrap(t)
+
+			if EqualTypes(wt, tc.E, tc.V) != tc.O {
+				t.Errorf("%v (%T) == %v (%T) should be %v",
+					tc.E, tc.E, tc.V, tc.V, tc.O)
+			}
+
+		})
+	}
+}
+
+func TestNotEqualTypes(t *testing.T) {
+	cases := []struct {
+		E interface{}
+		V interface{}
+		O bool
+	}{
+		{int(42), int(42), false},
+		{int(42), uint64(42), true},
+		{int(42), int(255), false},
+		{"foo", "foo", false},
+		{"foo", "bar", false},
+		{[]string{}, []string{}, false},
+		{nil, nil, false},
+		{nil, (*int)(nil), true},
+		{(*int)(nil), nil, true},
+		{(*int)(nil), (*int)(nil), false},
+	}
+	for _, tc := range cases {
+		t.Run(fmt.Sprintf("%v (%T) == %v (%T)",
+			tc.E, tc.E, tc.V, tc.V), func(t *testing.T) {
+
+			wt := wrap(t)
+
+			if NotEqualTypes(wt, tc.E, tc.V) != tc.O {
+				t.Errorf("%v (%T) == %v (%T) should be %v",
+					tc.E, tc.E, tc.V, tc.V, tc.O)
+			}
+
+		})
+	}
+}
+
 func TestContains(t *testing.T) {
 	cases := []struct {
 		E interface{}

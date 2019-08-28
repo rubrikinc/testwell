@@ -46,30 +46,29 @@ func False(t testing.T, tval bool, msg ...interface{}) bool {
 }
 
 {{ range $T := PrimitiveTypes | GenericType | ErrorType }}
-    // Equal{{ $T.N }} tests if `tval` is equal to `expected` using the `==`
-    // operator. The expected value comes first, followed by the value to test
-    // against.
+    // Equal{{ $T.N }} tests if `left` is equal to `right` using the `==`
+    // operator.
     {{ $msgfmtcomment }}
     // This version takes takes two {{ $T.T }}.
     {{- if eq $T.T "interface{}" }}
-    // This is a strict equality test. It will fail if `expected` and `tval`
+    // This is a strict equality test. It will fail if `left` and `right`
     // have different types. For example, int32(42) is not equal to int64(42).
     // You can use the typed versions of `Equal` for more static typing.
     // Note that Slice, map, and function values are not comparable.
     // See also `DeepEqual`.
     {{- end }}
     func Equal{{ $T.N }}(t testing.T,
-            expected {{ $T.T }},
-            tval {{ $T.T }},
+            left {{ $T.T }},
+            right {{ $T.T }},
             msg ...interface{}) bool {
         {{- template "helper" "t" }}
         failure := fail.Failure("Equal{{ $T.N }}")
 
-        if ok, err := cmp.Equal(expected, tval); err != nil {
+        if ok, err := cmp.Equal(left, right); err != nil {
             failure = failure.Error(err)
             if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
                 failure = failure.Error(cerr)
-                if reflect.TypeOf(expected) == nil {
+                if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
                     failure = failure.Hint("see Nil for <nil> checks")
                 } else {
                     failure = failure.Hint("take a look at DeepEqual")
@@ -79,39 +78,38 @@ func False(t testing.T, tval bool, msg ...interface{}) bool {
             return true
         }
 
-        failure = failure.Reason(
-                `expected value "%+v" (%T), got "%+v" (%T) instead`,
-                expected, expected, tval, tval)
+        failure = failure.Reason("values should be equal").
+			LeftValue(left).RightValue(right)
         return failTest(t, failure.ExtraMsg(msg...))
     }
 
-    // NotEqual{{ $T.N }} tests if `tval` is not equal to `expected` using the
-    // `!=` operator. The expected value comes first, followed by the value to
+    // NotEqual{{ $T.N }} tests if `left` is not equal to `right` using the
+    // `!=` operator. The left value comes first, followed by the value to
     // test against.
     {{ $msgfmtcomment }}
     // This version takes takes two {{ $T.T }}
     {{- if eq $T.T "interface{}" }}
     // This is a strict non-equality test. It will pass only when
-    // `expected` and `tval` have identical type but non-equal values.
+    // `left` and `right` have identical type but non-equal values.
     // For example, given int32(42) and int64(42), the test will fail because
-    // the types are not comparables. Given int32(42) and int32(42), the test
+    // the types are not comparable. Given int32(42) and int32(42), the test
     // will fail because the two values are equal.
     // You can use the typed versions of `NotEqual` for more static typing.
     // Note that Slice, map, and function values are not comparable.
     // See also `NotDeepEqual`.
     {{- end }}
     func NotEqual{{ $T.N }}(t testing.T,
-            expected {{ $T.T }},
-            tval {{ $T.T }},
+            left {{ $T.T }},
+            right {{ $T.T }},
             msg ...interface{}) bool {
         {{- template "helper" "t" }}
         failure := fail.Failure("NotEqual{{ $T.N }}")
 
-        if ok, err := cmp.Equal(expected, tval); err != nil {
+        if ok, err := cmp.Equal(left, right); err != nil {
             failure = failure.Error(err)
             if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
                 failure = failure.Error(cerr)
-                if reflect.TypeOf(expected) == nil {
+                if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
                     failure = failure.Hint("see NotNil for <nil> checks")
                 } else {
                     failure = failure.Hint("take a look at NotDeepEqual")
@@ -121,54 +119,52 @@ func False(t testing.T, tval bool, msg ...interface{}) bool {
             return true
         }
 
-        failure = failure.Reason(
-            `expected other value than "%+v" (%T), got "%+v" (%T)`,
-            expected, expected, tval, tval)
+        failure = failure.Reason("values should not be equal").
+			LeftValue(left).RightValue(right)
         return failTest(t, failure.ExtraMsg(msg...))
     }
 {{ end }}
 
 
-// EqualTypes tests if two values have the same types.
-// The expected type comes first, followed by the value to test against.
+// EqualTypes tests if `left` and `right` have the same type.
 {{ $msgfmtcomment }}
 // Example:
 //  var a int32 = 42;
 //  EqualType(t, int32(0), a)
 func EqualTypes(t testing.T,
-        expected interface{},
-        tval interface{},
+        left interface{},
+        right interface{},
         msg ...interface{}) bool {
     {{- template "helper" "t" }}
-    eType := reflect.TypeOf(expected)
-    tvalType := reflect.TypeOf(tval)
-    if tvalType == eType {
+    leftType := reflect.TypeOf(left)
+    rightType := reflect.TypeOf(right)
+    if leftType == rightType {
         return true
     }
     return failTest(t, fail.Failure("EqualTypes").
-        Reason(`expected type "%v", got type "%v" instead`, eType, tvalType).
+        Reason("types should be equal").
+		LeftType(left).RightType(right).
         ExtraMsg(msg...))
 }
 
-// NotEqualTypes tests if two values have distinct types.
-// The expected type comes first, followed by the value to test against.
+// NotEqualTypes tests if `left` and `right` have different types.
 {{ $msgfmtcomment }}
 // Example:
 //  var a int32 = 42;
-//  EqualType(t, int32(0), a)
+//  NotEqualType(t, int64(0), a)
 func NotEqualTypes(t testing.T,
-        expected interface{},
-        tval interface{},
+        left interface{},
+        right interface{},
         msg ...interface{}) bool {
     {{- template "helper" "t" }}
-    eType := reflect.TypeOf(expected)
-    tvalType := reflect.TypeOf(tval)
-    if tvalType != eType {
+    leftType := reflect.TypeOf(left)
+    rightType := reflect.TypeOf(right)
+    if leftType != rightType {
         return true
     }
     return failTest(t, fail.Failure("NotEqualTypes").
-        Reason(`expected anything but type "%v", got type "%v"`,
-            eType, tvalType).
+        Reason("types should not be equal").
+		LeftType(left).RightType(right).
         ExtraMsg(msg...))
 }
 
@@ -201,7 +197,7 @@ func NotEqualTypes(t testing.T,
         } else if ok {
             return true;
         }
-        failure = failure.Reason(`"%v" (%T) is not contained in "%v" (%T)`,
+        failure = failure.Reason("`%v` (%T) is not contained in `%v` (%T)",
                         expectedElement, expectedElement, container, container)
         return failTest(t, failure.ExtraMsg(msg...))
     }
@@ -233,7 +229,7 @@ func NotEqualTypes(t testing.T,
         } else if !ok {
             return true;
         }
-        failure = failure.Reason(`"%v" (%T) is contained in "%v" (%T)`,
+        failure = failure.Reason("`%v` (%T) is contained in `%v` (%T)",
                         expectedElement, expectedElement, container, container)
         return failTest(t, failure.ExtraMsg(msg...))
     }
@@ -252,7 +248,7 @@ func Nil(t testing.T, tval interface{}, msg ...interface{}) bool {
     } else if isnil {
         return true
     }
-    failure = failure. Reason(`"%#v" is not nil`, tval)
+    failure = failure. Reason("`%v` should be nil", tval)
     return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -269,7 +265,7 @@ func NotNil(t testing.T, tval interface{}, msg ...interface{}) bool {
     } else if !isnil {
         return true
     }
-    failure = failure.Reason(`"%#v" is nil`, tval)
+    failure = failure.Reason("`%v` should not be nil", tval)
     return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -287,7 +283,7 @@ func Empty(t testing.T, container interface{}, msg ...interface{}) bool {
     } else if empty {
         return true
     }
-    failure = failure.Reason(`"%v" (%T) is not empty`, container, container)
+    failure = failure.Reason("`%v` (%T) should be empty", container, container)
     return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -305,51 +301,47 @@ func NotEmpty(t testing.T, container interface{}, msg ...interface{}) bool {
     } else if !empty {
         return true
     }
-    failure = failure.Reason(`"%v" (%T) is empty`, container, container)
+    failure = failure.Reason("`%v` (%T) should not be empty", container, container)
     return failTest(t, failure.ExtraMsg(msg...))
 }
 
-// DeepEqual tests if `tval` is deeply equal to `expected` using
-// `reflect.DeepEqual`. The expected value comes first, followed by the value
-// to compare.
+// DeepEqual tests if `left` == `right` using `reflect.DeepEqual`.
 {{ $msgfmtcomment }}
 // This is a deep, recursive equality test. See also `Equal`.
 func DeepEqual(t testing.T,
-        expected interface{},
-        tval interface{},
+        left interface{},
+        right interface{},
         msg ...interface{}) bool {
     {{- template "helper" "t" }}
     failure := fail.Failure("DeepEqual{")
 
-    if reflect.DeepEqual(expected, tval) {
+    if reflect.DeepEqual(left, right) {
         return true
     }
 
-    failure = failure.Reason(
-            `expected value "%+v" (%T), got "%+v" (%T) instead`,
-            expected, expected, tval, tval)
+    failure = failure.Reason("values should be deeply equal").
+			LeftValue(left).
+			RightValue(right)
     return failTest(t, failure.ExtraMsg(msg...))
 }
 
-// NotDeepEqual tests if `tval` is deeply non-equal to `expected` using
-// `reflect.DeepEqual`. The expected value comes first, followed by the value
-// to compare.
+// NotDeepEqual tests if `left` != `right` using `reflect.DeepEqual`.
 {{ $msgfmtcomment }}
-// This is a deep, recursive non-equality test. See also `Equal`.
+// This is a deep, recursive non-equality test. See also `NotEqual`.
 func NotDeepEqual(t testing.T,
-        expected interface{},
-        tval interface{},
+        left interface{},
+        right interface{},
         msg ...interface{}) bool {
     {{- template "helper" "t" }}
     failure := fail.Failure("NotDeepEqual")
 
-    if !reflect.DeepEqual(expected, tval) {
+    if !reflect.DeepEqual(left, right) {
         return true
     }
 
-    failure = failure.Reason(
-        `expected other value than "%+v" (%T), got "%+v" (%T)`,
-        expected, expected, tval, tval)
+    failure = failure.Reason("values should not be deeply equal").
+			LeftValue(left).
+			RightValue(right)
     return failTest(t, failure.ExtraMsg(msg...))
 }
 

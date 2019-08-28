@@ -11,6 +11,8 @@ import (
 type TestFailure struct {
 	Name        string
 	Stack       []uintptr
+	LeftStr     string
+	RightStr    string
 	ReasonStr   string
 	HintStr     string
 	ExtraMsgStr string
@@ -23,6 +25,30 @@ func Failure(assertion string) TestFailure {
 	stackSize := runtime.Callers(3, stack)
 	stack = stack[:stackSize]
 	return TestFailure{Name: assertion, Stack: stack}
+}
+
+// LeftValue used for the test.
+func (tf TestFailure) LeftValue(left interface{}) TestFailure {
+	tf.LeftStr = fmt.Sprintf("`%+v` (%T)", left, left)
+	return tf
+}
+
+// RightValue used for the test.
+func (tf TestFailure) RightValue(right interface{}) TestFailure {
+	tf.RightStr = fmt.Sprintf("`%+v` (%T)", right, right)
+	return tf
+}
+
+// LeftType used for the test.
+func (tf TestFailure) LeftType(left interface{}) TestFailure {
+	tf.LeftStr = fmt.Sprintf("(%T)", left)
+	return tf
+}
+
+// RightType used for the test.
+func (tf TestFailure) RightType(right interface{}) TestFailure {
+	tf.RightStr = fmt.Sprintf("(%T)", right)
+	return tf
 }
 
 // Reason returns a new TestFailure with a Reason msg attached to it. Any Error
@@ -97,11 +123,17 @@ func (tf TestFailure) Format(failType string) string {
 		tf.Name, failType, strings.Join(tf.formattedFrames(), "\n  "))
 
 	if tf.Err != nil {
+		if tf.LeftStr != "" && tf.RightStr != "" {
+			r = fmt.Sprintf("%s\n Left: %s\nRight: %s", r, tf.LeftStr, tf.RightStr)
+		}
 		r = fmt.Sprintf("%s\nError: %s", r, tf.Err.Error())
 		if tf.HintStr != "" {
 			r = fmt.Sprintf("%s\n Hint: %s", r, tf.HintStr)
 		}
 	} else {
+		if tf.LeftStr != "" && tf.RightStr != "" {
+			r = fmt.Sprintf("%s\n  Left: %s\n Right: %s", r, tf.LeftStr, tf.RightStr)
+		}
 		r = fmt.Sprintf("%s\nReason: %s", r, tf.ReasonStr)
 		if tf.HintStr != "" {
 			r = fmt.Sprintf("%s\n  Hint: %s", r, tf.HintStr)

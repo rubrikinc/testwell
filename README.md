@@ -58,8 +58,8 @@ Please report bugs via the
  - Naming is important, and good names should be used.
  - We must use type-checking when possible even though testing is a runtime
    failure.
- - We must have consistent order of parameters. `*testing.T` first, expected
-   value second. Value to test in third... etc.
+ - We must have consistent order of parameters. `*testing.T` first, left
+   value, right value, etc...
  - We must print out easy to read test failure message. Nobody has time to
    waste deciphering them.
 
@@ -79,15 +79,15 @@ The packages `assert`, `expect` and `internal/tests` all have a `lib.go` file
 with a `go generate` comment for running `internal/codegen/gen.sh`. This
 generates `assert.go` (`expect.go` for the package `expect`).
 
-The generated code expect to find available in the same package the function
-`func failTest(t testing.T, tf fail.TestFailure) bool`. This function is
-responsible for logging out the failed test, and taking the approach following
-action (fail now, mark test as failed or log it for unit testing).
+The generated code relies on finding the function
+`func failTest(t testing.T, tf fail.TestFailure) bool` in the same package.
+This function is responsible for logging out the failed test, and taking the
+appropriate action (fail now, mark test as failed or log it for unit testing).
 
 ## Motivation
 
 This is our own version of set of helpers function for testing in Go. This
-might requires some explanation as to why we need to invest some effort into
+might requires some explanation as to why we needed to invest some effort into
 that.
 
 ### Testify is not the best choice
@@ -101,7 +101,7 @@ standard for convenient test functions. However it has a few flaws:
    look at the mess of automatic widening coercion rules in C/C++.
  
    Testify however allows comparing of different types to make writing the code
-   more convinient. However, when the comparison fails due to mismatched types
+   more convenient. However, when the comparison fails due to mismatched types
    (but not values!), Testify usually doesn't provide enough contextual
    information on the type being compared, making it difficult to understand why
    `42 is not equal to 42`. One could be an `int32` and the other a `string`.

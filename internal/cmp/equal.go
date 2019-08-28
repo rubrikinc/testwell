@@ -23,32 +23,30 @@ func newNotComparableError(
 	}
 }
 
-// Equal returns ok=true if `tval` is equal to `expected` using the Go `==`
-// operator. Panics are recovered and returned as errors.
-func Equal(expected interface{}, tval interface{}) (ok bool, err error) {
+// Equal returns ok=true if `left` == `right` using the Go `==` operator.
+// Panics are recovered and returned as errors.
+func Equal(left interface{}, right interface{}) (ok bool, err error) {
 
-	expectedType := reflect.TypeOf(expected)
-	testType := reflect.TypeOf(tval)
+	leftType := reflect.TypeOf(left)
+	rightType := reflect.TypeOf(right)
 
-	if expectedType != nil && !expectedType.Comparable() {
+	if leftType != nil && !leftType.Comparable() {
 		return false, newNotComparableError(
-			"expected value type (%T) is not comparable",
-			expected,
+			"type (%T) is not comparable",
+			left,
 		)
 	}
 
-	if testType != nil && !testType.Comparable() {
+	if rightType != nil && !rightType.Comparable() {
 		return false, newNotComparableError(
-			"test value type (%T) is not comparable",
-			tval,
+			"type (%T) is not comparable",
+			right,
 		)
 	}
 
-	if expectedType != testType {
+	if leftType != rightType {
 		return false, newNotComparableError(
-			"expected value type (%T) and test value type (%T) differ",
-			expected,
-			tval,
+			"type (%T) != type (%T)", left, right,
 		)
 	}
 
@@ -62,5 +60,5 @@ func Equal(expected interface{}, tval interface{}) (ok bool, err error) {
 		}
 	}()
 
-	return tval == expected, nil
+	return left == right, nil
 }
