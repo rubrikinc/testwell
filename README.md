@@ -53,6 +53,24 @@ other improvements.
 Please report bugs via the
 [github issue tracker](https://github.com/rubrikinc/testwell/issues).
 
+#### Building and testing
+
+To build and test locally, you need the following dependencies:
+ - Go Language: [installation instructions](https://go.dev/doc/install)
+ - `goimports`
+   ```shell
+   # Install
+   go install golang.org/x/tools/cmd/goimports@latest
+
+   # You may need to add `goimports` to `PATH` after installation.
+   export PATH="$HOME/go/bin:$PATH"
+   ```
+
+Before you can use `make`, be sure to have initialized the Go module.
+```shell
+go mod init github.com/rubrikinc/testwell
+```
+
 ### Testwell design rules
 
  - Naming is important, and good names should be used.
@@ -127,4 +145,4 @@ This library is MIT-licensed.
 
 ## Copyright
 
-Copyright © 2018 ([Rubrik Inc.](https://www.rubrik.com))
+Copyright © 2022 ([Rubrik Inc.](https://www.rubrik.com))
