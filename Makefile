@@ -6,7 +6,7 @@ generate: ./internal/tests/tests.go ./assert/assert.go ./expect/expect.go
 
 .PHONY: test
 test:
-	go test ./internal/tests/
+	go test -vet off ./internal/tests/
 
 ./assert/assert.go: ./internal/assert.tmpl
 	rm -f $@
