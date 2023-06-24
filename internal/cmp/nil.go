@@ -22,7 +22,7 @@ func Nil(nullable interface{}) (ok bool, err error) {
 	case reflect.Slice:
 	case reflect.UnsafePointer:
 	default:
-		return false, fmt.Errorf("(%T) is not a nullable type", nullable)
+		return false, nil
 	}
 
 	defer func() {
