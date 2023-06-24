@@ -2798,8 +2798,6 @@ func NotContainsUintptr(t testing.T,
 }
 
 // Nil tests if the passed value is Nil. See also Empty.
-// Makes sense solely on chan, func, interface, map, pointer, slice value and
-// the zero value type (ie: the nil keyword).
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 func Nil(t testing.T, tval interface{}, msg ...interface{}) bool {
 	if h, ok := t.(testing.Helper); ok {
@@ -2818,8 +2816,6 @@ func Nil(t testing.T, tval interface{}, msg ...interface{}) bool {
 }
 
 // NotNil tests if the passed value is not Nil. See also NotEmpty.
-// Makes sense solely on chan, func, interface, map, pointer, slice value and
-// the zero value type (ie: the nil keyword).
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 func NotNil(t testing.T, tval interface{}, msg ...interface{}) bool {
 	if h, ok := t.(testing.Helper); ok {
