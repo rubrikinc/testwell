@@ -23,9 +23,7 @@ func (t *tWrapper) LastFailure() *fail.TestFailure {
 }
 
 func failTest(t testing.T, tf fail.TestFailure) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 	t.Log(tf.Format("test"))
 	wt := t.(*tWrapper)
 	wt.Failures = append(wt.Failures, tf)
