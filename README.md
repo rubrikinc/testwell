@@ -135,4 +135,4 @@ This library is MIT-licensed.
 
 ## Copyright
 
-Copyright © 2022 ([Rubrik Inc.](https://www.rubrik.com))
+Copyright © 2026 ([Rubrik Inc.](https://www.rubrik.com))
