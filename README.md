@@ -59,14 +59,6 @@ Please report bugs via the
 
 To build and test locally, you need the following dependencies:
  - Go 1.20 or later: [installation instructions](https://go.dev/doc/install)
- - `goimports`
-   ```shell
-   # Install
-   go install golang.org/x/tools/cmd/goimports@latest
-
-   # You may need to add `goimports` to `PATH` after installation.
-   export PATH="$HOME/go/bin:$PATH"
-   ```
 
 ### Testwell design rules
 

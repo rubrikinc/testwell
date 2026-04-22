@@ -24,8 +24,6 @@ make testbuild
 make clean
 ```
 
-`goimports` must be on `PATH` (`go install golang.org/x/tools/cmd/goimports@latest`).
-
 Tests always require `-vet off` because they intentionally pass mismatched types (e.g. `int8` vs `int32`) to exercise the library's type-safety checks, which triggers go vet warnings.
 
 ## Architecture
