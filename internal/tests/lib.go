@@ -24,6 +24,7 @@ func (t *tWrapper) LastFailure() *fail.TestFailure {
 
 func failTest(t testing.T, tf fail.TestFailure) bool {
 	t.Helper()
+	tf = tf.WithStack(2)
 	t.Log(tf.Format("test"))
 	wt := t.(*tWrapper)
 	wt.Failures = append(wt.Failures, tf)

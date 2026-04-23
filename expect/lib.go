@@ -9,6 +9,7 @@ import (
 
 func failTest(t testing.T, tf fail.TestFailure) bool {
 	t.Helper()
+	tf = tf.WithStack(2)
 	t.Log(tf.Format("check"))
 	t.Fail()
 	return false
