@@ -4,7 +4,10 @@ package tests
 
 import (
 	"errors"
+	"fmt"
+	"math"
 	"reflect"
+	"regexp"
 	"strings"
 
 	"github.com/rubrikinc/testwell/internal/cmp"
@@ -3901,6 +3904,52 @@ func Len(t testing.T, container interface{}, expected int, msg ...interface{}) b
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
+// ElementsMatch tests if `expected` and `actual` contain the same elements
+// regardless of order. Both must be slices or arrays.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+// See also Contains, DeepEqual.
+func ElementsMatch(t testing.T,
+	expected interface{},
+	actual interface{},
+	msg ...interface{}) bool {
+	t.Helper()
+
+	ok, err := cmp.ElementsMatch(expected, actual)
+	failure := fail.Failure("ElementsMatch")
+	if err != nil {
+		failure = failure.Error(err)
+	} else if ok {
+		return true
+	} else {
+		failure = failure.Reason("slices contain different elements").
+			LeftValue(expected).RightValue(actual)
+	}
+	return failTest(t, failure.ExtraMsg(msg...))
+}
+
+// NotElementsMatch tests if `expected` and `actual` do not contain the same
+// elements (regardless of order). Both must be slices or arrays.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+// See also NotContains, NotDeepEqual.
+func NotElementsMatch(t testing.T,
+	expected interface{},
+	actual interface{},
+	msg ...interface{}) bool {
+	t.Helper()
+
+	ok, err := cmp.ElementsMatch(expected, actual)
+	failure := fail.Failure("NotElementsMatch")
+	if err != nil {
+		failure = failure.Error(err)
+	} else if !ok {
+		return true
+	} else {
+		failure = failure.Reason("slices contain the same elements").
+			LeftValue(expected).RightValue(actual)
+	}
+	return failTest(t, failure.ExtraMsg(msg...))
+}
+
 // DeepEqual tests if `left` == `right` using `reflect.DeepEqual`.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // This is a deep, recursive equality test. See also `Equal`.
@@ -3983,6 +4032,103 @@ func NotSame(t testing.T, expected interface{}, actual interface{}, msg ...inter
 		Reason("expected different pointers, got the same").
 		LeftValue(expected).RightValue(actual).
 		ExtraMsg(msg...))
+}
+
+// Zero tests if val is the zero value for its type.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func Zero(t testing.T, val interface{}, msg ...interface{}) bool {
+	t.Helper()
+
+	if val == nil || reflect.DeepEqual(val, reflect.Zero(reflect.TypeOf(val)).Interface()) {
+		return true
+	}
+	return failTest(t, fail.Failure("Zero").
+		Reason("expected zero value, got `%v` (%T)", val, val).
+		ExtraMsg(msg...))
+}
+
+// NotZero tests if val is not the zero value for its type.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func NotZero(t testing.T, val interface{}, msg ...interface{}) bool {
+	t.Helper()
+
+	if val != nil && !reflect.DeepEqual(val, reflect.Zero(reflect.TypeOf(val)).Interface()) {
+		return true
+	}
+	return failTest(t, fail.Failure("NotZero").
+		Reason("expected non-zero value, got `%v` (%T)", val, val).
+		ExtraMsg(msg...))
+}
+
+// InDelta tests if the absolute difference between expected and actual is
+// less than or equal to delta. Useful for floating-point comparisons.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func InDelta(t testing.T,
+	expected float64,
+	actual float64,
+	delta float64,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	diff := math.Abs(actual - expected)
+	if diff <= delta {
+		return true
+	}
+	return failTest(t, fail.Failure("InDelta").
+		Reason("|actual - expected| = %v, which exceeds delta %v", diff, delta).
+		LeftValue(expected).RightValue(actual).
+		ExtraMsg(msg...))
+}
+
+// Regexp tests if str matches the given pattern. pattern can be a string or
+// a *regexp.Regexp.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+// See also NotRegexp.
+func Regexp(t testing.T, pattern interface{}, str string, msg ...interface{}) bool {
+	t.Helper()
+
+	rx, err := toRegexp(pattern)
+	if err != nil {
+		return failTest(t, fail.Failure("Regexp").Error(err).ExtraMsg(msg...))
+	}
+	if rx.MatchString(str) {
+		return true
+	}
+	return failTest(t, fail.Failure("Regexp").
+		Reason("expected %q to match pattern %q", str, rx.String()).
+		LeftValue(str).RightValue(rx.String()).
+		ExtraMsg(msg...))
+}
+
+// NotRegexp tests if str does not match the given pattern. pattern can be a
+// string or a *regexp.Regexp.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+// See also Regexp.
+func NotRegexp(t testing.T, pattern interface{}, str string, msg ...interface{}) bool {
+	t.Helper()
+
+	rx, err := toRegexp(pattern)
+	if err != nil {
+		return failTest(t, fail.Failure("NotRegexp").Error(err).ExtraMsg(msg...))
+	}
+	if !rx.MatchString(str) {
+		return true
+	}
+	return failTest(t, fail.Failure("NotRegexp").
+		Reason("expected %q not to match pattern %q", str, rx.String()).
+		LeftValue(str).RightValue(rx.String()).
+		ExtraMsg(msg...))
+}
+
+func toRegexp(pattern interface{}) (*regexp.Regexp, error) {
+	switch v := pattern.(type) {
+	case string:
+		return regexp.Compile(v)
+	case *regexp.Regexp:
+		return v, nil
+	default:
+		return nil, fmt.Errorf("pattern must be string or *regexp.Regexp, got %T", pattern)
+	}
 }
 
 // Failed logs a message and fails the test.
