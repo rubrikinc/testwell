@@ -54,6 +54,19 @@ func primitiveTypes(accs ...types) types {
 	return uniqAndOrdered(accs...)
 }
 
+func orderedTypes(accs ...types) types {
+	accs = append(accs, strings2types([]string{
+		"int", "uint",
+		"int8", "uint8",
+		"int16", "uint16",
+		"int32", "uint32",
+		"int64", "uint64",
+		"float32", "float64",
+		"byte", "uintptr", "rune", "string",
+	}))
+	return uniqAndOrdered(accs...)
+}
+
 type tmplData struct {
 	Package string
 }
@@ -92,10 +105,20 @@ func uniqAndOrdered(accs ...types) types {
 	return r
 }
 
+// capitalize uppercases the first ASCII byte of s. Suitable for the lowercase
+// Go type identifiers we feed it ("int", "uint8", "complex64", "error", ...);
+// not a general-purpose replacement for strings.Title.
+func capitalize(s string) string {
+	if s == "" {
+		return s
+	}
+	return strings.ToUpper(s[:1]) + s[1:]
+}
+
 func strings2types(ss []string) types {
 	r := make(types, 0, len(ss))
 	for _, s := range ss {
-		r = append(r, typeInfo{T: s, N: strings.Title(s)})
+		r = append(r, typeInfo{T: s, N: capitalize(s)})
 	}
 	return r
 }
@@ -114,7 +137,8 @@ func main() {
 			accs = append(accs, types{typeInfo{N: "", T: "interface{}"}})
 			return uniqAndOrdered(accs...)
 		},
-		"Capitalize": strings.Title,
+		"OrderedTypes": orderedTypes,
+		"Capitalize":   capitalize,
 	})
 
 	outputFilename := fmt.Sprintf("%s.go", *flagPkg)

@@ -1,7 +1,12 @@
 package {{ .Package }}
 
 import (
+    "errors"
+    "fmt"
+    "math"
     "reflect"
+    "regexp"
+    "strings"
 
     "github.com/rubrikinc/testwell/internal/cmp"
     "github.com/rubrikinc/testwell/internal/fail"
@@ -124,6 +129,72 @@ func False(t testing.T, tval bool, msg ...interface{}) bool {
     }
 {{ end }}
 
+{{ range $T := OrderedTypes }}
+    // Greater{{ $T.N }} tests if `left` is strictly greater than `right`.
+    {{ $msgfmtcomment }}
+    func Greater{{ $T.N }}(t testing.T,
+            left {{ $T.T }},
+            right {{ $T.T }},
+            msg ...interface{}) bool {
+        {{- template "helper" "t" }}
+        if left > right {
+            return true
+        }
+        return failTest(t, fail.Failure("Greater{{ $T.N }}").
+            Reason("expected left > right").
+            LeftValue(left).RightValue(right).
+            ExtraMsg(msg...))
+    }
+
+    // GreaterOrEqual{{ $T.N }} tests if `left` is greater than or equal to `right`.
+    {{ $msgfmtcomment }}
+    func GreaterOrEqual{{ $T.N }}(t testing.T,
+            left {{ $T.T }},
+            right {{ $T.T }},
+            msg ...interface{}) bool {
+        {{- template "helper" "t" }}
+        if left >= right {
+            return true
+        }
+        return failTest(t, fail.Failure("GreaterOrEqual{{ $T.N }}").
+            Reason("expected left >= right").
+            LeftValue(left).RightValue(right).
+            ExtraMsg(msg...))
+    }
+
+    // Less{{ $T.N }} tests if `left` is strictly less than `right`.
+    {{ $msgfmtcomment }}
+    func Less{{ $T.N }}(t testing.T,
+            left {{ $T.T }},
+            right {{ $T.T }},
+            msg ...interface{}) bool {
+        {{- template "helper" "t" }}
+        if left < right {
+            return true
+        }
+        return failTest(t, fail.Failure("Less{{ $T.N }}").
+            Reason("expected left < right").
+            LeftValue(left).RightValue(right).
+            ExtraMsg(msg...))
+    }
+
+    // LessOrEqual{{ $T.N }} tests if `left` is less than or equal to `right`.
+    {{ $msgfmtcomment }}
+    func LessOrEqual{{ $T.N }}(t testing.T,
+            left {{ $T.T }},
+            right {{ $T.T }},
+            msg ...interface{}) bool {
+        {{- template "helper" "t" }}
+        if left <= right {
+            return true
+        }
+        return failTest(t, fail.Failure("LessOrEqual{{ $T.N }}").
+            Reason("expected left <= right").
+            LeftValue(left).RightValue(right).
+            ExtraMsg(msg...))
+    }
+{{ end }}
+
 
 // EqualTypes tests if `left` and `right` have the same type.
 {{ $msgfmtcomment }}
@@ -194,7 +265,7 @@ func NotEqualTypes(t testing.T,
                 failure = failure.Error(err)
             }
         } else if ok {
-            return true;
+            return true
         }
         failure = failure.Reason("`%v` (%T) is not contained in `%v` (%T)",
                         expectedElement, expectedElement, container, container)
@@ -226,7 +297,7 @@ func NotEqualTypes(t testing.T,
                 failure = failure.Error(err)
             }
         } else if !ok {
-            return true;
+            return true
         }
         failure = failure.Reason("`%v` (%T) is contained in `%v` (%T)",
                         expectedElement, expectedElement, container, container)
@@ -261,6 +332,93 @@ func NotNil(t testing.T, tval interface{}, msg ...interface{}) bool {
         return true
     }
     failure = failure.Reason("`%v (%T)` should not be nil", tval, tval)
+    return failTest(t, failure.ExtraMsg(msg...))
+}
+
+// NoError tests if err is nil.
+{{ $msgfmtcomment }}
+// See also Error, ErrorIs, ErrorAs, ErrorContains.
+func NoError(t testing.T, err error, msg ...interface{}) bool {
+    {{- template "helper" "t" }}
+    if err == nil {
+        return true
+    }
+    return failTest(t, fail.Failure("NoError").
+        Reason("expected no error, got: %v", err).
+        ExtraMsg(msg...))
+}
+
+// Error tests if err is not nil.
+{{ $msgfmtcomment }}
+// See also NoError, ErrorIs, ErrorAs, ErrorContains.
+func Error(t testing.T, err error, msg ...interface{}) bool {
+    {{- template "helper" "t" }}
+    if err != nil {
+        return true
+    }
+    return failTest(t, fail.Failure("Error").
+        Reason("expected an error but got nil").
+        ExtraMsg(msg...))
+}
+
+// ErrorIs tests if errors.Is(err, target) is true.
+{{ $msgfmtcomment }}
+// See also NotErrorIs, NoError, Error.
+func ErrorIs(t testing.T, err error, target error, msg ...interface{}) bool {
+    {{- template "helper" "t" }}
+    if errors.Is(err, target) {
+        return true
+    }
+    return failTest(t, fail.Failure("ErrorIs").
+        Reason("errors.Is(err, target) returned false").
+        LeftValue(err).RightValue(target).
+        ExtraMsg(msg...))
+}
+
+// NotErrorIs tests if errors.Is(err, target) is false.
+{{ $msgfmtcomment }}
+// See also ErrorIs, NoError, Error.
+func NotErrorIs(t testing.T, err error, target error, msg ...interface{}) bool {
+    {{- template "helper" "t" }}
+    if !errors.Is(err, target) {
+        return true
+    }
+    return failTest(t, fail.Failure("NotErrorIs").
+        Reason("errors.Is(err, target) returned true").
+        LeftValue(err).RightValue(target).
+        ExtraMsg(msg...))
+}
+
+// ErrorAs tests if errors.As(err, target) is true.
+{{ $msgfmtcomment }}
+// target must be a non-nil pointer to either a type that implements error,
+// or to any interface type. See also NotErrorAs.
+func ErrorAs(t testing.T, err error, target interface{}, msg ...interface{}) bool {
+    {{- template "helper" "t" }}
+    if errors.As(err, target) {
+        return true
+    }
+    return failTest(t, fail.Failure("ErrorAs").
+        Reason("errors.As(err, target) returned false").
+        LeftValue(err).RightValue(target).
+        ExtraMsg(msg...))
+}
+
+// ErrorContains tests if err is not nil and err.Error() contains substr.
+{{ $msgfmtcomment }}
+// See also Error, ErrorIs.
+func ErrorContains(t testing.T, err error, substr string, msg ...interface{}) bool {
+    {{- template "helper" "t" }}
+    if err != nil && strings.Contains(err.Error(), substr) {
+        return true
+    }
+    failure := fail.Failure("ErrorContains")
+    if err == nil {
+        failure = failure.Reason("expected an error containing %q, got nil", substr)
+    } else {
+        failure = failure.Reason("expected error to contain %q", substr).
+            LeftValue(err.Error()).RightValue(substr)
+    }
     return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -300,6 +458,74 @@ func NotEmpty(t testing.T, container interface{}, msg ...interface{}) bool {
     return failTest(t, failure.ExtraMsg(msg...))
 }
 
+// Len tests if the length of container equals expected. Uses Go len().
+// Container can be any of Array, Chan, Map, Slice, or String.
+{{ $msgfmtcomment }}
+func Len(t testing.T, container interface{}, expected int, msg ...interface{}) bool {
+    {{- template "helper" "t" }}
+    v := reflect.ValueOf(container)
+    actual := -1
+    switch v.Kind() {
+    case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice, reflect.String:
+        actual = v.Len()
+    }
+    if actual == expected {
+        return true
+    }
+    failure := fail.Failure("Len")
+    if actual == -1 {
+        failure = failure.Reason("`%v` (%T) does not support Len", container, container)
+    } else {
+        failure = failure.Reason("expected length %d, got %d", expected, actual).
+            LeftValue(expected).RightValue(actual)
+    }
+    return failTest(t, failure.ExtraMsg(msg...))
+}
+
+// ElementsMatch tests if `expected` and `actual` contain the same elements
+// regardless of order. Both must be slices or arrays.
+{{ $msgfmtcomment }}
+// See also Contains, DeepEqual.
+func ElementsMatch(t testing.T,
+        expected interface{},
+        actual interface{},
+        msg ...interface{}) bool {
+    {{- template "helper" "t" }}
+    ok, err := cmp.ElementsMatch(expected, actual)
+    failure := fail.Failure("ElementsMatch")
+    if err != nil {
+        failure = failure.Error(err)
+    } else if ok {
+        return true
+    } else {
+        failure = failure.Reason("slices contain different elements").
+            LeftValue(expected).RightValue(actual)
+    }
+    return failTest(t, failure.ExtraMsg(msg...))
+}
+
+// NotElementsMatch tests if `expected` and `actual` do not contain the same
+// elements (regardless of order). Both must be slices or arrays.
+{{ $msgfmtcomment }}
+// See also NotContains, NotDeepEqual.
+func NotElementsMatch(t testing.T,
+        expected interface{},
+        actual interface{},
+        msg ...interface{}) bool {
+    {{- template "helper" "t" }}
+    ok, err := cmp.ElementsMatch(expected, actual)
+    failure := fail.Failure("NotElementsMatch")
+    if err != nil {
+        failure = failure.Error(err)
+    } else if !ok {
+        return true
+    } else {
+        failure = failure.Reason("slices contain the same elements").
+            LeftValue(expected).RightValue(actual)
+    }
+    return failTest(t, failure.ExtraMsg(msg...))
+}
+
 // DeepEqual tests if `left` == `right` using `reflect.DeepEqual`.
 {{ $msgfmtcomment }}
 // This is a deep, recursive equality test. See also `Equal`.
@@ -308,7 +534,7 @@ func DeepEqual(t testing.T,
         right interface{},
         msg ...interface{}) bool {
     {{- template "helper" "t" }}
-    failure := fail.Failure("DeepEqual{")
+    failure := fail.Failure("DeepEqual")
 
     if reflect.DeepEqual(left, right) {
         return true
@@ -340,11 +566,145 @@ func NotDeepEqual(t testing.T,
     return failTest(t, failure.ExtraMsg(msg...))
 }
 
+// Same tests if expected and actual point to the same object (pointer identity).
+// Both arguments must be pointers of the same type.
+{{ $msgfmtcomment }}
+func Same(t testing.T, expected interface{}, actual interface{}, msg ...interface{}) bool {
+    {{- template "helper" "t" }}
+    ev := reflect.ValueOf(expected)
+    av := reflect.ValueOf(actual)
+    if ev.Kind() != reflect.Ptr || av.Kind() != reflect.Ptr {
+        return failTest(t, fail.Failure("Same").
+            Reason("both arguments must be pointers").
+            ExtraMsg(msg...))
+    }
+    if reflect.TypeOf(expected) == reflect.TypeOf(actual) && ev.Pointer() == av.Pointer() {
+        return true
+    }
+    return failTest(t, fail.Failure("Same").
+        Reason("expected the same pointer").
+        LeftValue(expected).RightValue(actual).
+        ExtraMsg(msg...))
+}
+
+// NotSame tests if expected and actual do not point to the same object.
+// Both arguments must be pointers; pointers of different types are never the same.
+{{ $msgfmtcomment }}
+func NotSame(t testing.T, expected interface{}, actual interface{}, msg ...interface{}) bool {
+    {{- template "helper" "t" }}
+    ev := reflect.ValueOf(expected)
+    av := reflect.ValueOf(actual)
+    if ev.Kind() != reflect.Ptr || av.Kind() != reflect.Ptr {
+        return failTest(t, fail.Failure("NotSame").
+            Reason("both arguments must be pointers").
+            ExtraMsg(msg...))
+    }
+    if reflect.TypeOf(expected) != reflect.TypeOf(actual) || ev.Pointer() != av.Pointer() {
+        return true
+    }
+    return failTest(t, fail.Failure("NotSame").
+        Reason("expected different pointers, got the same").
+        LeftValue(expected).RightValue(actual).
+        ExtraMsg(msg...))
+}
+
+// Zero tests if val is the zero value for its type.
+{{ $msgfmtcomment }}
+func Zero(t testing.T, val interface{}, msg ...interface{}) bool {
+    {{- template "helper" "t" }}
+    if val == nil || reflect.ValueOf(val).IsZero() {
+        return true
+    }
+    return failTest(t, fail.Failure("Zero").
+        Reason("expected zero value, got `%v` (%T)", val, val).
+        ExtraMsg(msg...))
+}
+
+// NotZero tests if val is not the zero value for its type.
+{{ $msgfmtcomment }}
+func NotZero(t testing.T, val interface{}, msg ...interface{}) bool {
+    {{- template "helper" "t" }}
+    if val != nil && !reflect.ValueOf(val).IsZero() {
+        return true
+    }
+    return failTest(t, fail.Failure("NotZero").
+        Reason("expected non-zero value, got `%v` (%T)", val, val).
+        ExtraMsg(msg...))
+}
+
+// InDelta tests if the absolute difference between expected and actual is
+// less than or equal to delta. Useful for floating-point comparisons.
+{{ $msgfmtcomment }}
+func InDelta(t testing.T,
+        expected float64,
+        actual float64,
+        delta float64,
+        msg ...interface{}) bool {
+    {{- template "helper" "t" }}
+    diff := math.Abs(actual - expected)
+    if diff <= delta {
+        return true
+    }
+    return failTest(t, fail.Failure("InDelta").
+        Reason("|actual - expected| = %v, which exceeds delta %v", diff, delta).
+        LeftValue(expected).RightValue(actual).
+        ExtraMsg(msg...))
+}
+
+// Regexp tests if str matches the given pattern. pattern can be a string or
+// a *regexp.Regexp.
+{{ $msgfmtcomment }}
+// See also NotRegexp.
+func Regexp(t testing.T, pattern interface{}, str string, msg ...interface{}) bool {
+    {{- template "helper" "t" }}
+    rx, err := toRegexp(pattern)
+    if err != nil {
+        return failTest(t, fail.Failure("Regexp").Error(err).ExtraMsg(msg...))
+    }
+    if rx.MatchString(str) {
+        return true
+    }
+    return failTest(t, fail.Failure("Regexp").
+        Reason("expected %q to match pattern %q", str, rx.String()).
+        LeftValue(str).RightValue(rx.String()).
+        ExtraMsg(msg...))
+}
+
+// NotRegexp tests if str does not match the given pattern. pattern can be a
+// string or a *regexp.Regexp.
+{{ $msgfmtcomment }}
+// See also Regexp.
+func NotRegexp(t testing.T, pattern interface{}, str string, msg ...interface{}) bool {
+    {{- template "helper" "t" }}
+    rx, err := toRegexp(pattern)
+    if err != nil {
+        return failTest(t, fail.Failure("NotRegexp").Error(err).ExtraMsg(msg...))
+    }
+    if !rx.MatchString(str) {
+        return true
+    }
+    return failTest(t, fail.Failure("NotRegexp").
+        Reason("expected %q not to match pattern %q", str, rx.String()).
+        LeftValue(str).RightValue(rx.String()).
+        ExtraMsg(msg...))
+}
+
+func toRegexp(pattern interface{}) (*regexp.Regexp, error) {
+    switch v := pattern.(type) {
+    case string:
+        return regexp.Compile(v)
+    case *regexp.Regexp:
+        return v, nil
+    default:
+        return nil, fmt.Errorf("pattern must be string or *regexp.Regexp, got %T", pattern)
+    }
+}
+
 // Failed logs a message and fails the test.
 // fmtstr and args follows the `fmt.Printf()` format.
 func Failed(t testing.T, fmtstr string, args ...interface{}) {
     {{- template "helper" "t" }}
-    failure := fail.Failure("Custom")
+    failure := fail.Failure("Failed")
     failure = failure.Reason(fmtstr, args...)
     failTest(t, failure)
 }
@@ -355,7 +715,7 @@ func Panics(t testing.T, f func(), msg ...interface{}) bool {
 	{{- template "helper" "t" }}
 
 	if funcDidPanic, _ := cmp.Panics(f); !funcDidPanic {
-		failure := fail.Failure("Panic")
+		failure := fail.Failure("Panics")
 		failure = failure.Reason("Expected function %#v to panic", f)
 		return failTest(t, failure.ExtraMsg(msg...))
 	}
@@ -371,7 +731,7 @@ func PanicsWith(t testing.T,
         msg ...interface{}) bool {
 	{{- template "helper" "t" }}
 	funcDidPanic, panicValue := cmp.Panics(f)
-	failure := fail.Failure("PanicWithValue")
+	failure := fail.Failure("PanicsWith")
 
 	if !funcDidPanic {
 		failure = failure.Reason("Expected %#v to panic", f)
@@ -382,4 +742,16 @@ func PanicsWith(t testing.T,
 		return true
 	}
 	return failTest(t, failure.ExtraMsg(msg...))
+}
+
+// NotPanics asserts that the code inside the specified function f does not panic.
+//   assert.NotPanics(t, func(){ Sane() })
+func NotPanics(t testing.T, f func(), msg ...interface{}) bool {
+	{{- template "helper" "t" }}
+	if funcDidPanic, panicValue := cmp.Panics(f); funcDidPanic {
+		failure := fail.Failure("NotPanics")
+		failure = failure.Reason("Expected function not to panic\n\tPanic value:\t%v", panicValue)
+		return failTest(t, failure.ExtraMsg(msg...))
+	}
+	return true
 }

@@ -7,47 +7,86 @@ import (
 	"strings"
 )
 
-// TestFailure is a builder of test failure message with stacktrace.
+// valueFormat selects how a value attached to a TestFailure is rendered.
+type valueFormat int8
+
+const (
+	valueUnset valueFormat = iota
+	valueAsValue
+	valueAsType
+)
+
+// valueSlot defers rendering of a left/right value until Format runs.
+// Test assertions often deal with large structs/maps; building the
+// string only at Format time keeps the success path allocation-free
+// and isolates presentation from data capture.
+type valueSlot struct {
+	Format valueFormat
+	Value  interface{}
+}
+
+func (s valueSlot) String() string {
+	switch s.Format {
+	case valueAsValue:
+		return fmt.Sprintf("`%+v` (%T)", s.Value, s.Value)
+	case valueAsType:
+		return fmt.Sprintf("(%T)", s.Value)
+	}
+	return ""
+}
+
+// TestFailure is a builder of test failure messages with stacktrace.
+// Failure() returns a zero-cost builder; the stack is captured lazily
+// by WithStack at the failure path (see failTest in each package).
 type TestFailure struct {
 	Name        string
 	Stack       []uintptr
-	LeftStr     string
-	RightStr    string
+	Left        valueSlot
+	Right       valueSlot
 	ReasonStr   string
 	HintStr     string
 	ExtraMsgStr string
 	Err         error
 }
 
-// Failure instantiate a new msg builder with a snapshot of call stack.
+// Failure returns a new TestFailure for the given assertion name.
+// It allocates only the struct itself; stack capture is deferred to
+// WithStack so the success path of every assertion stays cheap.
 func Failure(assertion string) TestFailure {
+	return TestFailure{Name: assertion}
+}
+
+// WithStack records a stack trace into tf, skipping `skip` frames above
+// WithStack's caller. Pass skip=0 to start the trace at WithStack's
+// immediate caller.
+func (tf TestFailure) WithStack(skip int) TestFailure {
 	stack := make([]uintptr, 32)
-	stackSize := runtime.Callers(3, stack)
-	stack = stack[:stackSize]
-	return TestFailure{Name: assertion, Stack: stack}
+	n := runtime.Callers(2+skip, stack)
+	tf.Stack = stack[:n]
+	return tf
 }
 
 // LeftValue used for the test.
 func (tf TestFailure) LeftValue(left interface{}) TestFailure {
-	tf.LeftStr = fmt.Sprintf("`%+v` (%T)", left, left)
+	tf.Left = valueSlot{Format: valueAsValue, Value: left}
 	return tf
 }
 
 // RightValue used for the test.
 func (tf TestFailure) RightValue(right interface{}) TestFailure {
-	tf.RightStr = fmt.Sprintf("`%+v` (%T)", right, right)
+	tf.Right = valueSlot{Format: valueAsValue, Value: right}
 	return tf
 }
 
 // LeftType used for the test.
 func (tf TestFailure) LeftType(left interface{}) TestFailure {
-	tf.LeftStr = fmt.Sprintf("(%T)", left)
+	tf.Left = valueSlot{Format: valueAsType, Value: left}
 	return tf
 }
 
 // RightType used for the test.
 func (tf TestFailure) RightType(right interface{}) TestFailure {
-	tf.RightStr = fmt.Sprintf("(%T)", right)
+	tf.Right = valueSlot{Format: valueAsType, Value: right}
 	return tf
 }
 
@@ -100,6 +139,9 @@ func reverseSliceOfStrings(s []string) {
 }
 
 func (tf TestFailure) formattedFrames() []string {
+	if len(tf.Stack) == 0 {
+		return nil
+	}
 	r := make([]string, 0, len(tf.Stack))
 	frames := runtime.CallersFrames(tf.Stack)
 	for {
@@ -119,20 +161,23 @@ func (tf TestFailure) formattedFrames() []string {
 
 // Format returns a properly formatted test failure message with a stacktrace.
 func (tf TestFailure) Format(failType string) string {
+	leftStr := tf.Left.String()
+	rightStr := tf.Right.String()
+
 	r := fmt.Sprintf("%s %s failed:\nTrace (most recent last):\n  %s",
 		tf.Name, failType, strings.Join(tf.formattedFrames(), "\n  "))
 
 	if tf.Err != nil {
-		if tf.LeftStr != "" && tf.RightStr != "" {
-			r = fmt.Sprintf("%s\n Left: %s\nRight: %s", r, tf.LeftStr, tf.RightStr)
+		if leftStr != "" && rightStr != "" {
+			r = fmt.Sprintf("%s\n Left: %s\nRight: %s", r, leftStr, rightStr)
 		}
 		r = fmt.Sprintf("%s\nError: %s", r, tf.Err.Error())
 		if tf.HintStr != "" {
 			r = fmt.Sprintf("%s\n Hint: %s", r, tf.HintStr)
 		}
 	} else {
-		if tf.LeftStr != "" && tf.RightStr != "" {
-			r = fmt.Sprintf("%s\n  Left: %s\n Right: %s", r, tf.LeftStr, tf.RightStr)
+		if leftStr != "" && rightStr != "" {
+			r = fmt.Sprintf("%s\n  Left: %s\n Right: %s", r, leftStr, rightStr)
 		}
 		r = fmt.Sprintf("%s\nReason: %s", r, tf.ReasonStr)
 		if tf.HintStr != "" {

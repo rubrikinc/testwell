@@ -5,7 +5,7 @@ import (
 	"reflect"
 )
 
-// Nil returns ok=true if `nullable is a nullable type or the zero value type.
+// Nil returns ok=true if `nullable` is a nullable type or the zero value type.
 func Nil(nullable interface{}) (ok bool, err error) {
 	nullableVal := reflect.ValueOf(nullable)
 
@@ -14,13 +14,8 @@ func Nil(nullable interface{}) (ok bool, err error) {
 	}
 
 	switch nullableVal.Kind() {
-	case reflect.Chan:
-	case reflect.Func:
-	case reflect.Interface:
-	case reflect.Map:
-	case reflect.Ptr:
-	case reflect.Slice:
-	case reflect.UnsafePointer:
+	case reflect.Chan, reflect.Func, reflect.Interface, reflect.Map,
+		reflect.Ptr, reflect.Slice, reflect.UnsafePointer:
 	default:
 		return false, nil
 	}
