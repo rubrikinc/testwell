@@ -3993,6 +3993,7 @@ func NotDeepEqual(t testing.T,
 }
 
 // Same tests if expected and actual point to the same object (pointer identity).
+// Both arguments must be pointers of the same type.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 func Same(t testing.T, expected interface{}, actual interface{}, msg ...interface{}) bool {
 	t.Helper()
@@ -4004,7 +4005,7 @@ func Same(t testing.T, expected interface{}, actual interface{}, msg ...interfac
 			Reason("both arguments must be pointers").
 			ExtraMsg(msg...))
 	}
-	if ev.Pointer() == av.Pointer() {
+	if reflect.TypeOf(expected) == reflect.TypeOf(actual) && ev.Pointer() == av.Pointer() {
 		return true
 	}
 	return failTest(t, fail.Failure("Same").
@@ -4014,6 +4015,7 @@ func Same(t testing.T, expected interface{}, actual interface{}, msg ...interfac
 }
 
 // NotSame tests if expected and actual do not point to the same object.
+// Both arguments must be pointers; pointers of different types are never the same.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 func NotSame(t testing.T, expected interface{}, actual interface{}, msg ...interface{}) bool {
 	t.Helper()
@@ -4025,7 +4027,7 @@ func NotSame(t testing.T, expected interface{}, actual interface{}, msg ...inter
 			Reason("both arguments must be pointers").
 			ExtraMsg(msg...))
 	}
-	if ev.Pointer() != av.Pointer() {
+	if reflect.TypeOf(expected) != reflect.TypeOf(actual) || ev.Pointer() != av.Pointer() {
 		return true
 	}
 	return failTest(t, fail.Failure("NotSame").
