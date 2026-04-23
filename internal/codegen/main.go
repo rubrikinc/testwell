@@ -105,10 +105,20 @@ func uniqAndOrdered(accs ...types) types {
 	return r
 }
 
+// capitalize uppercases the first ASCII byte of s. Suitable for the lowercase
+// Go type identifiers we feed it ("int", "uint8", "complex64", "error", ...);
+// not a general-purpose replacement for strings.Title.
+func capitalize(s string) string {
+	if s == "" {
+		return s
+	}
+	return strings.ToUpper(s[:1]) + s[1:]
+}
+
 func strings2types(ss []string) types {
 	r := make(types, 0, len(ss))
 	for _, s := range ss {
-		r = append(r, typeInfo{T: s, N: strings.Title(s)})
+		r = append(r, typeInfo{T: s, N: capitalize(s)})
 	}
 	return r
 }
@@ -128,7 +138,7 @@ func main() {
 			return uniqAndOrdered(accs...)
 		},
 		"OrderedTypes": orderedTypes,
-		"Capitalize":   strings.Title,
+		"Capitalize":   capitalize,
 	})
 
 	outputFilename := fmt.Sprintf("%s.go", *flagPkg)
