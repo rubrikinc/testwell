@@ -3,10 +3,11 @@
 package assert
 
 import (
+	"reflect"
+
 	"github.com/rubrikinc/testwell/internal/cmp"
 	"github.com/rubrikinc/testwell/internal/fail"
 	"github.com/rubrikinc/testwell/testing"
-	"reflect"
 )
 
 // True tests if val is True.
