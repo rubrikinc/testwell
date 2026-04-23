@@ -2,6 +2,7 @@ package {{ .Package }}
 
 import (
     "reflect"
+
     "github.com/rubrikinc/testwell/internal/cmp"
     "github.com/rubrikinc/testwell/internal/fail"
     "github.com/rubrikinc/testwell/testing"
@@ -10,9 +11,7 @@ import (
 {{ $msgfmtcomment :=  "// msg is an optional list of arguments following the `fmt.Printf()` format." -}}
 
 {{ define "helper" }}
-if h, ok := {{ . }}.(testing.Helper); ok {
-    h.Helper() // Go 1.9 compatibility
-}
+{{ . }}.Helper()
 {{ end }}
 
 // True tests if val is True.

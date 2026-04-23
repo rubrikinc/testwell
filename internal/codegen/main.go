@@ -137,7 +137,7 @@ func main() {
 		}
 	}()
 
-	gofmtcmd := exec.Command("goimports")
+	gofmtcmd := exec.Command("gofmt")
 	gofmtcmd.Stdout = outputFile
 	gofmtcmd.Stderr = os.Stderr
 

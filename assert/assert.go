@@ -13,9 +13,7 @@ import (
 // True tests if val is True.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 func True(t testing.T, tval bool, msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	if tval {
 		return true
@@ -31,9 +29,7 @@ func True(t testing.T, tval bool, msg ...interface{}) bool {
 // False tests if val is False.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 func False(t testing.T, tval bool, msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	if !tval {
 		return true
@@ -59,9 +55,7 @@ func Equal(t testing.T,
 	left interface{},
 	right interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("Equal")
 
@@ -101,9 +95,7 @@ func NotEqual(t testing.T,
 	left interface{},
 	right interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("NotEqual")
 
@@ -134,9 +126,7 @@ func EqualBool(t testing.T,
 	left bool,
 	right bool,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("EqualBool")
 
@@ -168,9 +158,7 @@ func NotEqualBool(t testing.T,
 	left bool,
 	right bool,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("NotEqualBool")
 
@@ -201,9 +189,7 @@ func EqualByte(t testing.T,
 	left byte,
 	right byte,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("EqualByte")
 
@@ -235,9 +221,7 @@ func NotEqualByte(t testing.T,
 	left byte,
 	right byte,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("NotEqualByte")
 
@@ -268,9 +252,7 @@ func EqualComplex128(t testing.T,
 	left complex128,
 	right complex128,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("EqualComplex128")
 
@@ -302,9 +284,7 @@ func NotEqualComplex128(t testing.T,
 	left complex128,
 	right complex128,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("NotEqualComplex128")
 
@@ -335,9 +315,7 @@ func EqualComplex64(t testing.T,
 	left complex64,
 	right complex64,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("EqualComplex64")
 
@@ -369,9 +347,7 @@ func NotEqualComplex64(t testing.T,
 	left complex64,
 	right complex64,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("NotEqualComplex64")
 
@@ -402,9 +378,7 @@ func EqualError(t testing.T,
 	left error,
 	right error,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("EqualError")
 
@@ -436,9 +410,7 @@ func NotEqualError(t testing.T,
 	left error,
 	right error,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("NotEqualError")
 
@@ -469,9 +441,7 @@ func EqualFloat32(t testing.T,
 	left float32,
 	right float32,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("EqualFloat32")
 
@@ -503,9 +473,7 @@ func NotEqualFloat32(t testing.T,
 	left float32,
 	right float32,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("NotEqualFloat32")
 
@@ -536,9 +504,7 @@ func EqualFloat64(t testing.T,
 	left float64,
 	right float64,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("EqualFloat64")
 
@@ -570,9 +536,7 @@ func NotEqualFloat64(t testing.T,
 	left float64,
 	right float64,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("NotEqualFloat64")
 
@@ -603,9 +567,7 @@ func EqualInt(t testing.T,
 	left int,
 	right int,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("EqualInt")
 
@@ -637,9 +599,7 @@ func NotEqualInt(t testing.T,
 	left int,
 	right int,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("NotEqualInt")
 
@@ -670,9 +630,7 @@ func EqualInt16(t testing.T,
 	left int16,
 	right int16,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("EqualInt16")
 
@@ -704,9 +662,7 @@ func NotEqualInt16(t testing.T,
 	left int16,
 	right int16,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("NotEqualInt16")
 
@@ -737,9 +693,7 @@ func EqualInt32(t testing.T,
 	left int32,
 	right int32,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("EqualInt32")
 
@@ -771,9 +725,7 @@ func NotEqualInt32(t testing.T,
 	left int32,
 	right int32,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("NotEqualInt32")
 
@@ -804,9 +756,7 @@ func EqualInt64(t testing.T,
 	left int64,
 	right int64,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("EqualInt64")
 
@@ -838,9 +788,7 @@ func NotEqualInt64(t testing.T,
 	left int64,
 	right int64,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("NotEqualInt64")
 
@@ -871,9 +819,7 @@ func EqualInt8(t testing.T,
 	left int8,
 	right int8,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("EqualInt8")
 
@@ -905,9 +851,7 @@ func NotEqualInt8(t testing.T,
 	left int8,
 	right int8,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("NotEqualInt8")
 
@@ -938,9 +882,7 @@ func EqualRune(t testing.T,
 	left rune,
 	right rune,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("EqualRune")
 
@@ -972,9 +914,7 @@ func NotEqualRune(t testing.T,
 	left rune,
 	right rune,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("NotEqualRune")
 
@@ -1005,9 +945,7 @@ func EqualString(t testing.T,
 	left string,
 	right string,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("EqualString")
 
@@ -1039,9 +977,7 @@ func NotEqualString(t testing.T,
 	left string,
 	right string,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("NotEqualString")
 
@@ -1072,9 +1008,7 @@ func EqualUint(t testing.T,
 	left uint,
 	right uint,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("EqualUint")
 
@@ -1106,9 +1040,7 @@ func NotEqualUint(t testing.T,
 	left uint,
 	right uint,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("NotEqualUint")
 
@@ -1139,9 +1071,7 @@ func EqualUint16(t testing.T,
 	left uint16,
 	right uint16,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("EqualUint16")
 
@@ -1173,9 +1103,7 @@ func NotEqualUint16(t testing.T,
 	left uint16,
 	right uint16,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("NotEqualUint16")
 
@@ -1206,9 +1134,7 @@ func EqualUint32(t testing.T,
 	left uint32,
 	right uint32,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("EqualUint32")
 
@@ -1240,9 +1166,7 @@ func NotEqualUint32(t testing.T,
 	left uint32,
 	right uint32,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("NotEqualUint32")
 
@@ -1273,9 +1197,7 @@ func EqualUint64(t testing.T,
 	left uint64,
 	right uint64,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("EqualUint64")
 
@@ -1307,9 +1229,7 @@ func NotEqualUint64(t testing.T,
 	left uint64,
 	right uint64,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("NotEqualUint64")
 
@@ -1340,9 +1260,7 @@ func EqualUint8(t testing.T,
 	left uint8,
 	right uint8,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("EqualUint8")
 
@@ -1374,9 +1292,7 @@ func NotEqualUint8(t testing.T,
 	left uint8,
 	right uint8,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("NotEqualUint8")
 
@@ -1407,9 +1323,7 @@ func EqualUintptr(t testing.T,
 	left uintptr,
 	right uintptr,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("EqualUintptr")
 
@@ -1441,9 +1355,7 @@ func NotEqualUintptr(t testing.T,
 	left uintptr,
 	right uintptr,
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("NotEqualUintptr")
 
@@ -1469,15 +1381,14 @@ func NotEqualUintptr(t testing.T,
 // EqualTypes tests if `left` and `right` have the same type.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // Example:
-//  var a int32 = 42;
-//  EqualType(t, int32(0), a)
+//
+//	var a int32 = 42;
+//	EqualType(t, int32(0), a)
 func EqualTypes(t testing.T,
 	left interface{},
 	right interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	leftType := reflect.TypeOf(left)
 	rightType := reflect.TypeOf(right)
@@ -1493,15 +1404,14 @@ func EqualTypes(t testing.T,
 // NotEqualTypes tests if `left` and `right` have different types.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // Example:
-//  var a int32 = 42;
-//  NotEqualType(t, int64(0), a)
+//
+//	var a int32 = 42;
+//	NotEqualType(t, int64(0), a)
 func NotEqualTypes(t testing.T,
 	left interface{},
 	right interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	leftType := reflect.TypeOf(left)
 	rightType := reflect.TypeOf(right)
@@ -1526,9 +1436,7 @@ func Contains(t testing.T,
 	expectedElement interface{},
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("Contains")
@@ -1557,9 +1465,7 @@ func NotContains(t testing.T,
 	expectedElement interface{},
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("NotContains")
@@ -1588,9 +1494,7 @@ func ContainsBool(t testing.T,
 	expectedElement bool,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("ContainsBool")
@@ -1618,9 +1522,7 @@ func NotContainsBool(t testing.T,
 	expectedElement bool,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("NotContainsBool")
@@ -1649,9 +1551,7 @@ func ContainsByte(t testing.T,
 	expectedElement byte,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("ContainsByte")
@@ -1679,9 +1579,7 @@ func NotContainsByte(t testing.T,
 	expectedElement byte,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("NotContainsByte")
@@ -1710,9 +1608,7 @@ func ContainsComplex128(t testing.T,
 	expectedElement complex128,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("ContainsComplex128")
@@ -1740,9 +1636,7 @@ func NotContainsComplex128(t testing.T,
 	expectedElement complex128,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("NotContainsComplex128")
@@ -1771,9 +1665,7 @@ func ContainsComplex64(t testing.T,
 	expectedElement complex64,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("ContainsComplex64")
@@ -1801,9 +1693,7 @@ func NotContainsComplex64(t testing.T,
 	expectedElement complex64,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("NotContainsComplex64")
@@ -1832,9 +1722,7 @@ func ContainsError(t testing.T,
 	expectedElement error,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("ContainsError")
@@ -1862,9 +1750,7 @@ func NotContainsError(t testing.T,
 	expectedElement error,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("NotContainsError")
@@ -1893,9 +1779,7 @@ func ContainsFloat32(t testing.T,
 	expectedElement float32,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("ContainsFloat32")
@@ -1923,9 +1807,7 @@ func NotContainsFloat32(t testing.T,
 	expectedElement float32,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("NotContainsFloat32")
@@ -1954,9 +1836,7 @@ func ContainsFloat64(t testing.T,
 	expectedElement float64,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("ContainsFloat64")
@@ -1984,9 +1864,7 @@ func NotContainsFloat64(t testing.T,
 	expectedElement float64,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("NotContainsFloat64")
@@ -2015,9 +1893,7 @@ func ContainsInt(t testing.T,
 	expectedElement int,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("ContainsInt")
@@ -2045,9 +1921,7 @@ func NotContainsInt(t testing.T,
 	expectedElement int,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("NotContainsInt")
@@ -2076,9 +1950,7 @@ func ContainsInt16(t testing.T,
 	expectedElement int16,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("ContainsInt16")
@@ -2106,9 +1978,7 @@ func NotContainsInt16(t testing.T,
 	expectedElement int16,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("NotContainsInt16")
@@ -2137,9 +2007,7 @@ func ContainsInt32(t testing.T,
 	expectedElement int32,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("ContainsInt32")
@@ -2167,9 +2035,7 @@ func NotContainsInt32(t testing.T,
 	expectedElement int32,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("NotContainsInt32")
@@ -2198,9 +2064,7 @@ func ContainsInt64(t testing.T,
 	expectedElement int64,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("ContainsInt64")
@@ -2228,9 +2092,7 @@ func NotContainsInt64(t testing.T,
 	expectedElement int64,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("NotContainsInt64")
@@ -2259,9 +2121,7 @@ func ContainsInt8(t testing.T,
 	expectedElement int8,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("ContainsInt8")
@@ -2289,9 +2149,7 @@ func NotContainsInt8(t testing.T,
 	expectedElement int8,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("NotContainsInt8")
@@ -2320,9 +2178,7 @@ func ContainsRune(t testing.T,
 	expectedElement rune,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("ContainsRune")
@@ -2350,9 +2206,7 @@ func NotContainsRune(t testing.T,
 	expectedElement rune,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("NotContainsRune")
@@ -2381,9 +2235,7 @@ func ContainsString(t testing.T,
 	expectedElement string,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("ContainsString")
@@ -2411,9 +2263,7 @@ func NotContainsString(t testing.T,
 	expectedElement string,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("NotContainsString")
@@ -2442,9 +2292,7 @@ func ContainsUint(t testing.T,
 	expectedElement uint,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("ContainsUint")
@@ -2472,9 +2320,7 @@ func NotContainsUint(t testing.T,
 	expectedElement uint,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("NotContainsUint")
@@ -2503,9 +2349,7 @@ func ContainsUint16(t testing.T,
 	expectedElement uint16,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("ContainsUint16")
@@ -2533,9 +2377,7 @@ func NotContainsUint16(t testing.T,
 	expectedElement uint16,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("NotContainsUint16")
@@ -2564,9 +2406,7 @@ func ContainsUint32(t testing.T,
 	expectedElement uint32,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("ContainsUint32")
@@ -2594,9 +2434,7 @@ func NotContainsUint32(t testing.T,
 	expectedElement uint32,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("NotContainsUint32")
@@ -2625,9 +2463,7 @@ func ContainsUint64(t testing.T,
 	expectedElement uint64,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("ContainsUint64")
@@ -2655,9 +2491,7 @@ func NotContainsUint64(t testing.T,
 	expectedElement uint64,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("NotContainsUint64")
@@ -2686,9 +2520,7 @@ func ContainsUint8(t testing.T,
 	expectedElement uint8,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("ContainsUint8")
@@ -2716,9 +2548,7 @@ func NotContainsUint8(t testing.T,
 	expectedElement uint8,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("NotContainsUint8")
@@ -2747,9 +2577,7 @@ func ContainsUintptr(t testing.T,
 	expectedElement uintptr,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("ContainsUintptr")
@@ -2777,9 +2605,7 @@ func NotContainsUintptr(t testing.T,
 	expectedElement uintptr,
 	container interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
 	failure := fail.Failure("NotContainsUintptr")
@@ -2800,9 +2626,7 @@ func NotContainsUintptr(t testing.T,
 // Nil tests if the passed value is Nil. See also Empty.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 func Nil(t testing.T, tval interface{}, msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	isnil, err := cmp.Nil(tval)
 	failure := fail.Failure("Nil")
@@ -2818,9 +2642,7 @@ func Nil(t testing.T, tval interface{}, msg ...interface{}) bool {
 // NotNil tests if the passed value is not Nil. See also NotEmpty.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 func NotNil(t testing.T, tval interface{}, msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	isnil, err := cmp.Nil(tval)
 	failure := fail.Failure("NotNil")
@@ -2839,9 +2661,7 @@ func NotNil(t testing.T, tval interface{}, msg ...interface{}) bool {
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // See also `Nil`.
 func Empty(t testing.T, container interface{}, msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	empty, err := cmp.Empty(container)
 	failure := fail.Failure("Empty")
@@ -2860,9 +2680,7 @@ func Empty(t testing.T, container interface{}, msg ...interface{}) bool {
 // See also `NotNil`.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 func NotEmpty(t testing.T, container interface{}, msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	empty, err := cmp.Empty(container)
 	failure := fail.Failure("NotEmpty")
@@ -2882,9 +2700,7 @@ func DeepEqual(t testing.T,
 	left interface{},
 	right interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("DeepEqual{")
 
@@ -2905,9 +2721,7 @@ func NotDeepEqual(t testing.T,
 	left interface{},
 	right interface{},
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("NotDeepEqual")
 
@@ -2924,9 +2738,7 @@ func NotDeepEqual(t testing.T,
 // Failed logs a message and fails the test.
 // fmtstr and args follows the `fmt.Printf()` format.
 func Failed(t testing.T, fmtstr string, args ...interface{}) {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	failure := fail.Failure("Custom")
 	failure = failure.Reason(fmtstr, args...)
@@ -2934,11 +2746,10 @@ func Failed(t testing.T, fmtstr string, args ...interface{}) {
 }
 
 // Panics asserts that the code inside the specified function f panics.
-//   assert.Panics(t, func(){ GoCrazy() })
+//
+//	assert.Panics(t, func(){ GoCrazy() })
 func Panics(t testing.T, f func(), msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	if funcDidPanic, _ := cmp.Panics(f); !funcDidPanic {
 		failure := fail.Failure("Panic")
@@ -2950,14 +2761,13 @@ func Panics(t testing.T, f func(), msg ...interface{}) bool {
 
 // PanicsWith asserts that the code inside the specified function f
 // panics, and that the recovered panic value equals the expected panic value
-//   assert.PanicsWithValue(t, "crazy error", func(){ GoCrazy() })
+//
+//	assert.PanicsWithValue(t, "crazy error", func(){ GoCrazy() })
 func PanicsWith(t testing.T,
 	expected interface{},
 	f func(),
 	msg ...interface{}) bool {
-	if h, ok := t.(testing.Helper); ok {
-		h.Helper() // Go 1.9 compatibility
-	}
+	t.Helper()
 
 	funcDidPanic, panicValue := cmp.Panics(f)
 	failure := fail.Failure("PanicWithValue")

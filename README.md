@@ -1,7 +1,7 @@
 # testwell
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/rubrikinc/testwell/blob/master/LICENSE)
-[![GoDoc](https://godoc.org/github.com/rubrikinc/testwell/assert?status.svg)](https://godoc.org/github.com/rubrikinc/testwell/assert)
+[![Go Reference](https://pkg.go.dev/badge/github.com/rubrikinc/testwell/assert.svg)](https://pkg.go.dev/github.com/rubrikinc/testwell/assert)
 [![Go Report Card](https://goreportcard.com/badge/rubrikinc/testwell)](http://goreportcard.com/report/rubrikinc/testwell)
 
 A small set of type-safe convenient testing functions for Go.
@@ -32,16 +32,18 @@ func TestEx1(t *testing.T) {
 
 ## Documentation
 
-Use `godoc`. For example:
+Browse the API online at
+[pkg.go.dev](https://pkg.go.dev/github.com/rubrikinc/testwell/assert).
+
+To view docs locally, use `pkgsite`:
 
 ```shell
-godoc -http :9090
+go install golang.org/x/pkgsite/cmd/pkgsite@latest
+pkgsite
 ```
 
 Then navigate to
-[localhost](http://localhost:9090/pkg/github.com/rubrikinc/testwell/assert/).
-Alternatively, can view them online
-[here](https://godoc.org/github.com/rubrikinc/testwell/assert).
+[localhost:8080](http://localhost:8080/github.com/rubrikinc/testwell/assert).
 
 ## Code overview
 
@@ -56,20 +58,7 @@ Please report bugs via the
 #### Building and testing
 
 To build and test locally, you need the following dependencies:
- - Go Language: [installation instructions](https://go.dev/doc/install)
- - `goimports`
-   ```shell
-   # Install
-   go install golang.org/x/tools/cmd/goimports@latest
-
-   # You may need to add `goimports` to `PATH` after installation.
-   export PATH="$HOME/go/bin:$PATH"
-   ```
-
-Before you can use `make`, be sure to have initialized the Go module.
-```shell
-go mod init github.com/rubrikinc/testwell
-```
+ - Go 1.20 or later: [installation instructions](https://go.dev/doc/install)
 
 ### Testwell design rules
 
@@ -87,8 +76,9 @@ A small code generator can be found in `internal/codegen`. It takes a Go text
 template file, and run it with a list of types. The unique template is
 `internal/assert.tmpl`.
 
-The goal of the template is easily generate functions parameterized with
-different type. Go doesn't offer generics as of Go 1.9.
+The goal of the template is to generate functions parameterized by type.
+This approach predates Go generics; the codegen is retained rather than
+rewriting the library to use them.
 
 `internal/codegen/gen.sh` builds and run the code generator in a single pass.
 (We cannot use `go run` because it doesn't support multiple files package).
@@ -145,4 +135,4 @@ This library is MIT-licensed.
 
 ## Copyright
 
-Copyright © 2022 ([Rubrik Inc.](https://www.rubrik.com))
+Copyright © 2026 ([Rubrik Inc.](https://www.rubrik.com))
