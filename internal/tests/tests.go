@@ -3959,7 +3959,7 @@ func DeepEqual(t testing.T,
 	msg ...interface{}) bool {
 	t.Helper()
 
-	failure := fail.Failure("DeepEqual{")
+	failure := fail.Failure("DeepEqual")
 
 	if reflect.DeepEqual(left, right) {
 		return true
@@ -4041,7 +4041,7 @@ func NotSame(t testing.T, expected interface{}, actual interface{}, msg ...inter
 func Zero(t testing.T, val interface{}, msg ...interface{}) bool {
 	t.Helper()
 
-	if val == nil || reflect.DeepEqual(val, reflect.Zero(reflect.TypeOf(val)).Interface()) {
+	if val == nil || reflect.ValueOf(val).IsZero() {
 		return true
 	}
 	return failTest(t, fail.Failure("Zero").
@@ -4054,7 +4054,7 @@ func Zero(t testing.T, val interface{}, msg ...interface{}) bool {
 func NotZero(t testing.T, val interface{}, msg ...interface{}) bool {
 	t.Helper()
 
-	if val != nil && !reflect.DeepEqual(val, reflect.Zero(reflect.TypeOf(val)).Interface()) {
+	if val != nil && !reflect.ValueOf(val).IsZero() {
 		return true
 	}
 	return failTest(t, fail.Failure("NotZero").
@@ -4138,7 +4138,7 @@ func toRegexp(pattern interface{}) (*regexp.Regexp, error) {
 func Failed(t testing.T, fmtstr string, args ...interface{}) {
 	t.Helper()
 
-	failure := fail.Failure("Custom")
+	failure := fail.Failure("Failed")
 	failure = failure.Reason(fmtstr, args...)
 	failTest(t, failure)
 }
@@ -4150,7 +4150,7 @@ func Panics(t testing.T, f func(), msg ...interface{}) bool {
 	t.Helper()
 
 	if funcDidPanic, _ := cmp.Panics(f); !funcDidPanic {
-		failure := fail.Failure("Panic")
+		failure := fail.Failure("Panics")
 		failure = failure.Reason("Expected function %#v to panic", f)
 		return failTest(t, failure.ExtraMsg(msg...))
 	}
@@ -4168,7 +4168,7 @@ func PanicsWith(t testing.T,
 	t.Helper()
 
 	funcDidPanic, panicValue := cmp.Panics(f)
-	failure := fail.Failure("PanicWithValue")
+	failure := fail.Failure("PanicsWith")
 
 	if !funcDidPanic {
 		failure = failure.Reason("Expected %#v to panic", f)

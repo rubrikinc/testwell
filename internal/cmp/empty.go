@@ -5,17 +5,13 @@ import (
 	"reflect"
 )
 
-// Empty returns ok=true if `container is empty. A nil pointer to a container
+// Empty returns ok=true if `container` is empty. A nil pointer to a container
 // type is empty. A container with zero element is empty.
 func Empty(container interface{}) (ok bool, err error) {
 	containerVal := reflect.ValueOf(container)
 
 	switch containerVal.Kind() {
-	case reflect.Array:
-	case reflect.Chan:
-	case reflect.Map:
-	case reflect.Slice:
-	case reflect.String:
+	case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice, reflect.String:
 	default:
 		return false, fmt.Errorf("(%T) is not a container type", container)
 	}

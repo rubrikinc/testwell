@@ -265,7 +265,7 @@ func NotEqualTypes(t testing.T,
                 failure = failure.Error(err)
             }
         } else if ok {
-            return true;
+            return true
         }
         failure = failure.Reason("`%v` (%T) is not contained in `%v` (%T)",
                         expectedElement, expectedElement, container, container)
@@ -297,7 +297,7 @@ func NotEqualTypes(t testing.T,
                 failure = failure.Error(err)
             }
         } else if !ok {
-            return true;
+            return true
         }
         failure = failure.Reason("`%v` (%T) is contained in `%v` (%T)",
                         expectedElement, expectedElement, container, container)
@@ -534,7 +534,7 @@ func DeepEqual(t testing.T,
         right interface{},
         msg ...interface{}) bool {
     {{- template "helper" "t" }}
-    failure := fail.Failure("DeepEqual{")
+    failure := fail.Failure("DeepEqual")
 
     if reflect.DeepEqual(left, right) {
         return true
@@ -612,7 +612,7 @@ func NotSame(t testing.T, expected interface{}, actual interface{}, msg ...inter
 {{ $msgfmtcomment }}
 func Zero(t testing.T, val interface{}, msg ...interface{}) bool {
     {{- template "helper" "t" }}
-    if val == nil || reflect.DeepEqual(val, reflect.Zero(reflect.TypeOf(val)).Interface()) {
+    if val == nil || reflect.ValueOf(val).IsZero() {
         return true
     }
     return failTest(t, fail.Failure("Zero").
@@ -624,7 +624,7 @@ func Zero(t testing.T, val interface{}, msg ...interface{}) bool {
 {{ $msgfmtcomment }}
 func NotZero(t testing.T, val interface{}, msg ...interface{}) bool {
     {{- template "helper" "t" }}
-    if val != nil && !reflect.DeepEqual(val, reflect.Zero(reflect.TypeOf(val)).Interface()) {
+    if val != nil && !reflect.ValueOf(val).IsZero() {
         return true
     }
     return failTest(t, fail.Failure("NotZero").
@@ -704,7 +704,7 @@ func toRegexp(pattern interface{}) (*regexp.Regexp, error) {
 // fmtstr and args follows the `fmt.Printf()` format.
 func Failed(t testing.T, fmtstr string, args ...interface{}) {
     {{- template "helper" "t" }}
-    failure := fail.Failure("Custom")
+    failure := fail.Failure("Failed")
     failure = failure.Reason(fmtstr, args...)
     failTest(t, failure)
 }
@@ -715,7 +715,7 @@ func Panics(t testing.T, f func(), msg ...interface{}) bool {
 	{{- template "helper" "t" }}
 
 	if funcDidPanic, _ := cmp.Panics(f); !funcDidPanic {
-		failure := fail.Failure("Panic")
+		failure := fail.Failure("Panics")
 		failure = failure.Reason("Expected function %#v to panic", f)
 		return failTest(t, failure.ExtraMsg(msg...))
 	}
@@ -731,7 +731,7 @@ func PanicsWith(t testing.T,
         msg ...interface{}) bool {
 	{{- template "helper" "t" }}
 	funcDidPanic, panicValue := cmp.Panics(f)
-	failure := fail.Failure("PanicWithValue")
+	failure := fail.Failure("PanicsWith")
 
 	if !funcDidPanic {
 		failure = failure.Reason("Expected %#v to panic", f)
