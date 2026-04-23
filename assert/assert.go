@@ -3,7 +3,9 @@
 package assert
 
 import (
+	"errors"
 	"reflect"
+	"strings"
 
 	"github.com/rubrikinc/testwell/internal/cmp"
 	"github.com/rubrikinc/testwell/internal/fail"
@@ -1378,6 +1380,1094 @@ func NotEqualUintptr(t testing.T,
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
+// GreaterByte tests if `left` is strictly greater than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterByte(t testing.T,
+	left byte,
+	right byte,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left > right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterByte").
+		Reason("expected left > right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterOrEqualByte tests if `left` is greater than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterOrEqualByte(t testing.T,
+	left byte,
+	right byte,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left >= right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterOrEqualByte").
+		Reason("expected left >= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessByte tests if `left` is strictly less than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessByte(t testing.T,
+	left byte,
+	right byte,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left < right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessByte").
+		Reason("expected left < right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessOrEqualByte tests if `left` is less than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessOrEqualByte(t testing.T,
+	left byte,
+	right byte,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left <= right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessOrEqualByte").
+		Reason("expected left <= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterFloat32 tests if `left` is strictly greater than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterFloat32(t testing.T,
+	left float32,
+	right float32,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left > right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterFloat32").
+		Reason("expected left > right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterOrEqualFloat32 tests if `left` is greater than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterOrEqualFloat32(t testing.T,
+	left float32,
+	right float32,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left >= right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterOrEqualFloat32").
+		Reason("expected left >= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessFloat32 tests if `left` is strictly less than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessFloat32(t testing.T,
+	left float32,
+	right float32,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left < right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessFloat32").
+		Reason("expected left < right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessOrEqualFloat32 tests if `left` is less than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessOrEqualFloat32(t testing.T,
+	left float32,
+	right float32,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left <= right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessOrEqualFloat32").
+		Reason("expected left <= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterFloat64 tests if `left` is strictly greater than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterFloat64(t testing.T,
+	left float64,
+	right float64,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left > right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterFloat64").
+		Reason("expected left > right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterOrEqualFloat64 tests if `left` is greater than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterOrEqualFloat64(t testing.T,
+	left float64,
+	right float64,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left >= right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterOrEqualFloat64").
+		Reason("expected left >= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessFloat64 tests if `left` is strictly less than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessFloat64(t testing.T,
+	left float64,
+	right float64,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left < right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessFloat64").
+		Reason("expected left < right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessOrEqualFloat64 tests if `left` is less than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessOrEqualFloat64(t testing.T,
+	left float64,
+	right float64,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left <= right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessOrEqualFloat64").
+		Reason("expected left <= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterInt tests if `left` is strictly greater than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterInt(t testing.T,
+	left int,
+	right int,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left > right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterInt").
+		Reason("expected left > right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterOrEqualInt tests if `left` is greater than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterOrEqualInt(t testing.T,
+	left int,
+	right int,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left >= right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterOrEqualInt").
+		Reason("expected left >= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessInt tests if `left` is strictly less than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessInt(t testing.T,
+	left int,
+	right int,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left < right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessInt").
+		Reason("expected left < right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessOrEqualInt tests if `left` is less than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessOrEqualInt(t testing.T,
+	left int,
+	right int,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left <= right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessOrEqualInt").
+		Reason("expected left <= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterInt16 tests if `left` is strictly greater than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterInt16(t testing.T,
+	left int16,
+	right int16,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left > right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterInt16").
+		Reason("expected left > right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterOrEqualInt16 tests if `left` is greater than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterOrEqualInt16(t testing.T,
+	left int16,
+	right int16,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left >= right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterOrEqualInt16").
+		Reason("expected left >= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessInt16 tests if `left` is strictly less than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessInt16(t testing.T,
+	left int16,
+	right int16,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left < right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessInt16").
+		Reason("expected left < right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessOrEqualInt16 tests if `left` is less than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessOrEqualInt16(t testing.T,
+	left int16,
+	right int16,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left <= right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessOrEqualInt16").
+		Reason("expected left <= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterInt32 tests if `left` is strictly greater than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterInt32(t testing.T,
+	left int32,
+	right int32,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left > right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterInt32").
+		Reason("expected left > right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterOrEqualInt32 tests if `left` is greater than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterOrEqualInt32(t testing.T,
+	left int32,
+	right int32,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left >= right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterOrEqualInt32").
+		Reason("expected left >= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessInt32 tests if `left` is strictly less than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessInt32(t testing.T,
+	left int32,
+	right int32,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left < right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessInt32").
+		Reason("expected left < right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessOrEqualInt32 tests if `left` is less than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessOrEqualInt32(t testing.T,
+	left int32,
+	right int32,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left <= right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessOrEqualInt32").
+		Reason("expected left <= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterInt64 tests if `left` is strictly greater than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterInt64(t testing.T,
+	left int64,
+	right int64,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left > right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterInt64").
+		Reason("expected left > right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterOrEqualInt64 tests if `left` is greater than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterOrEqualInt64(t testing.T,
+	left int64,
+	right int64,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left >= right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterOrEqualInt64").
+		Reason("expected left >= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessInt64 tests if `left` is strictly less than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessInt64(t testing.T,
+	left int64,
+	right int64,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left < right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessInt64").
+		Reason("expected left < right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessOrEqualInt64 tests if `left` is less than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessOrEqualInt64(t testing.T,
+	left int64,
+	right int64,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left <= right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessOrEqualInt64").
+		Reason("expected left <= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterInt8 tests if `left` is strictly greater than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterInt8(t testing.T,
+	left int8,
+	right int8,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left > right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterInt8").
+		Reason("expected left > right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterOrEqualInt8 tests if `left` is greater than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterOrEqualInt8(t testing.T,
+	left int8,
+	right int8,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left >= right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterOrEqualInt8").
+		Reason("expected left >= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessInt8 tests if `left` is strictly less than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessInt8(t testing.T,
+	left int8,
+	right int8,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left < right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessInt8").
+		Reason("expected left < right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessOrEqualInt8 tests if `left` is less than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessOrEqualInt8(t testing.T,
+	left int8,
+	right int8,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left <= right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessOrEqualInt8").
+		Reason("expected left <= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterRune tests if `left` is strictly greater than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterRune(t testing.T,
+	left rune,
+	right rune,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left > right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterRune").
+		Reason("expected left > right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterOrEqualRune tests if `left` is greater than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterOrEqualRune(t testing.T,
+	left rune,
+	right rune,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left >= right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterOrEqualRune").
+		Reason("expected left >= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessRune tests if `left` is strictly less than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessRune(t testing.T,
+	left rune,
+	right rune,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left < right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessRune").
+		Reason("expected left < right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessOrEqualRune tests if `left` is less than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessOrEqualRune(t testing.T,
+	left rune,
+	right rune,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left <= right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessOrEqualRune").
+		Reason("expected left <= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterString tests if `left` is strictly greater than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterString(t testing.T,
+	left string,
+	right string,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left > right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterString").
+		Reason("expected left > right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterOrEqualString tests if `left` is greater than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterOrEqualString(t testing.T,
+	left string,
+	right string,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left >= right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterOrEqualString").
+		Reason("expected left >= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessString tests if `left` is strictly less than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessString(t testing.T,
+	left string,
+	right string,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left < right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessString").
+		Reason("expected left < right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessOrEqualString tests if `left` is less than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessOrEqualString(t testing.T,
+	left string,
+	right string,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left <= right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessOrEqualString").
+		Reason("expected left <= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterUint tests if `left` is strictly greater than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterUint(t testing.T,
+	left uint,
+	right uint,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left > right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterUint").
+		Reason("expected left > right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterOrEqualUint tests if `left` is greater than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterOrEqualUint(t testing.T,
+	left uint,
+	right uint,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left >= right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterOrEqualUint").
+		Reason("expected left >= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessUint tests if `left` is strictly less than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessUint(t testing.T,
+	left uint,
+	right uint,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left < right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessUint").
+		Reason("expected left < right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessOrEqualUint tests if `left` is less than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessOrEqualUint(t testing.T,
+	left uint,
+	right uint,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left <= right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessOrEqualUint").
+		Reason("expected left <= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterUint16 tests if `left` is strictly greater than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterUint16(t testing.T,
+	left uint16,
+	right uint16,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left > right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterUint16").
+		Reason("expected left > right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterOrEqualUint16 tests if `left` is greater than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterOrEqualUint16(t testing.T,
+	left uint16,
+	right uint16,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left >= right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterOrEqualUint16").
+		Reason("expected left >= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessUint16 tests if `left` is strictly less than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessUint16(t testing.T,
+	left uint16,
+	right uint16,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left < right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessUint16").
+		Reason("expected left < right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessOrEqualUint16 tests if `left` is less than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessOrEqualUint16(t testing.T,
+	left uint16,
+	right uint16,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left <= right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessOrEqualUint16").
+		Reason("expected left <= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterUint32 tests if `left` is strictly greater than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterUint32(t testing.T,
+	left uint32,
+	right uint32,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left > right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterUint32").
+		Reason("expected left > right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterOrEqualUint32 tests if `left` is greater than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterOrEqualUint32(t testing.T,
+	left uint32,
+	right uint32,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left >= right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterOrEqualUint32").
+		Reason("expected left >= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessUint32 tests if `left` is strictly less than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessUint32(t testing.T,
+	left uint32,
+	right uint32,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left < right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessUint32").
+		Reason("expected left < right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessOrEqualUint32 tests if `left` is less than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessOrEqualUint32(t testing.T,
+	left uint32,
+	right uint32,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left <= right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessOrEqualUint32").
+		Reason("expected left <= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterUint64 tests if `left` is strictly greater than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterUint64(t testing.T,
+	left uint64,
+	right uint64,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left > right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterUint64").
+		Reason("expected left > right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterOrEqualUint64 tests if `left` is greater than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterOrEqualUint64(t testing.T,
+	left uint64,
+	right uint64,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left >= right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterOrEqualUint64").
+		Reason("expected left >= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessUint64 tests if `left` is strictly less than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessUint64(t testing.T,
+	left uint64,
+	right uint64,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left < right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessUint64").
+		Reason("expected left < right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessOrEqualUint64 tests if `left` is less than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessOrEqualUint64(t testing.T,
+	left uint64,
+	right uint64,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left <= right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessOrEqualUint64").
+		Reason("expected left <= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterUint8 tests if `left` is strictly greater than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterUint8(t testing.T,
+	left uint8,
+	right uint8,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left > right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterUint8").
+		Reason("expected left > right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterOrEqualUint8 tests if `left` is greater than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterOrEqualUint8(t testing.T,
+	left uint8,
+	right uint8,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left >= right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterOrEqualUint8").
+		Reason("expected left >= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessUint8 tests if `left` is strictly less than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessUint8(t testing.T,
+	left uint8,
+	right uint8,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left < right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessUint8").
+		Reason("expected left < right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessOrEqualUint8 tests if `left` is less than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessOrEqualUint8(t testing.T,
+	left uint8,
+	right uint8,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left <= right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessOrEqualUint8").
+		Reason("expected left <= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterUintptr tests if `left` is strictly greater than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterUintptr(t testing.T,
+	left uintptr,
+	right uintptr,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left > right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterUintptr").
+		Reason("expected left > right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// GreaterOrEqualUintptr tests if `left` is greater than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func GreaterOrEqualUintptr(t testing.T,
+	left uintptr,
+	right uintptr,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left >= right {
+		return true
+	}
+	return failTest(t, fail.Failure("GreaterOrEqualUintptr").
+		Reason("expected left >= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessUintptr tests if `left` is strictly less than `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessUintptr(t testing.T,
+	left uintptr,
+	right uintptr,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left < right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessUintptr").
+		Reason("expected left < right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
+// LessOrEqualUintptr tests if `left` is less than or equal to `right`.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func LessOrEqualUintptr(t testing.T,
+	left uintptr,
+	right uintptr,
+	msg ...interface{}) bool {
+	t.Helper()
+
+	if left <= right {
+		return true
+	}
+	return failTest(t, fail.Failure("LessOrEqualUintptr").
+		Reason("expected left <= right").
+		LeftValue(left).RightValue(right).
+		ExtraMsg(msg...))
+}
+
 // EqualTypes tests if `left` and `right` have the same type.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // Example:
@@ -2655,6 +3745,99 @@ func NotNil(t testing.T, tval interface{}, msg ...interface{}) bool {
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
+// NoError tests if err is nil.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+// See also Error, ErrorIs, ErrorAs, ErrorContains.
+func NoError(t testing.T, err error, msg ...interface{}) bool {
+	t.Helper()
+
+	if err == nil {
+		return true
+	}
+	return failTest(t, fail.Failure("NoError").
+		Reason("expected no error, got: %v", err).
+		ExtraMsg(msg...))
+}
+
+// Error tests if err is not nil.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+// See also NoError, ErrorIs, ErrorAs, ErrorContains.
+func Error(t testing.T, err error, msg ...interface{}) bool {
+	t.Helper()
+
+	if err != nil {
+		return true
+	}
+	return failTest(t, fail.Failure("Error").
+		Reason("expected an error but got nil").
+		ExtraMsg(msg...))
+}
+
+// ErrorIs tests if errors.Is(err, target) is true.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+// See also NotErrorIs, NoError, Error.
+func ErrorIs(t testing.T, err error, target error, msg ...interface{}) bool {
+	t.Helper()
+
+	if errors.Is(err, target) {
+		return true
+	}
+	return failTest(t, fail.Failure("ErrorIs").
+		Reason("errors.Is(err, target) returned false").
+		LeftValue(err).RightValue(target).
+		ExtraMsg(msg...))
+}
+
+// NotErrorIs tests if errors.Is(err, target) is false.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+// See also ErrorIs, NoError, Error.
+func NotErrorIs(t testing.T, err error, target error, msg ...interface{}) bool {
+	t.Helper()
+
+	if !errors.Is(err, target) {
+		return true
+	}
+	return failTest(t, fail.Failure("NotErrorIs").
+		Reason("errors.Is(err, target) returned true").
+		LeftValue(err).RightValue(target).
+		ExtraMsg(msg...))
+}
+
+// ErrorAs tests if errors.As(err, target) is true.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+// target must be a non-nil pointer to either a type that implements error,
+// or to any interface type. See also NotErrorAs.
+func ErrorAs(t testing.T, err error, target interface{}, msg ...interface{}) bool {
+	t.Helper()
+
+	if errors.As(err, target) {
+		return true
+	}
+	return failTest(t, fail.Failure("ErrorAs").
+		Reason("errors.As(err, target) returned false").
+		LeftValue(err).RightValue(target).
+		ExtraMsg(msg...))
+}
+
+// ErrorContains tests if err is not nil and err.Error() contains substr.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+// See also Error, ErrorIs.
+func ErrorContains(t testing.T, err error, substr string, msg ...interface{}) bool {
+	t.Helper()
+
+	if err != nil && strings.Contains(err.Error(), substr) {
+		return true
+	}
+	failure := fail.Failure("ErrorContains")
+	if err == nil {
+		failure = failure.Reason("expected an error containing %q, got nil", substr)
+	} else {
+		failure = failure.Reason("expected error to contain %q", substr).
+			LeftValue(err.Error()).RightValue(substr)
+	}
+	return failTest(t, failure.ExtraMsg(msg...))
+}
+
 // Empty tests if the passed value is Empty. A nil container or a container
 // with zero elements are both empty. Uses Go len().
 // Container can be any of Array, Chan, Map, Slice, or String.
@@ -2690,6 +3873,31 @@ func NotEmpty(t testing.T, container interface{}, msg ...interface{}) bool {
 		return true
 	}
 	failure = failure.Reason("`%v` (%T) should not be empty", container, container)
+	return failTest(t, failure.ExtraMsg(msg...))
+}
+
+// Len tests if the length of container equals expected. Uses Go len().
+// Container can be any of Array, Chan, Map, Slice, or String.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func Len(t testing.T, container interface{}, expected int, msg ...interface{}) bool {
+	t.Helper()
+
+	v := reflect.ValueOf(container)
+	actual := -1
+	switch v.Kind() {
+	case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice, reflect.String:
+		actual = v.Len()
+	}
+	if actual == expected {
+		return true
+	}
+	failure := fail.Failure("Len")
+	if actual == -1 {
+		failure = failure.Reason("`%v` (%T) does not support Len", container, container)
+	} else {
+		failure = failure.Reason("expected length %d, got %d", expected, actual).
+			LeftValue(expected).RightValue(actual)
+	}
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -2733,6 +3941,48 @@ func NotDeepEqual(t testing.T,
 		LeftValue(left).
 		RightValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
+}
+
+// Same tests if expected and actual point to the same object (pointer identity).
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func Same(t testing.T, expected interface{}, actual interface{}, msg ...interface{}) bool {
+	t.Helper()
+
+	ev := reflect.ValueOf(expected)
+	av := reflect.ValueOf(actual)
+	if ev.Kind() != reflect.Ptr || av.Kind() != reflect.Ptr {
+		return failTest(t, fail.Failure("Same").
+			Reason("both arguments must be pointers").
+			ExtraMsg(msg...))
+	}
+	if ev.Pointer() == av.Pointer() {
+		return true
+	}
+	return failTest(t, fail.Failure("Same").
+		Reason("expected the same pointer").
+		LeftValue(expected).RightValue(actual).
+		ExtraMsg(msg...))
+}
+
+// NotSame tests if expected and actual do not point to the same object.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+func NotSame(t testing.T, expected interface{}, actual interface{}, msg ...interface{}) bool {
+	t.Helper()
+
+	ev := reflect.ValueOf(expected)
+	av := reflect.ValueOf(actual)
+	if ev.Kind() != reflect.Ptr || av.Kind() != reflect.Ptr {
+		return failTest(t, fail.Failure("NotSame").
+			Reason("both arguments must be pointers").
+			ExtraMsg(msg...))
+	}
+	if ev.Pointer() != av.Pointer() {
+		return true
+	}
+	return failTest(t, fail.Failure("NotSame").
+		Reason("expected different pointers, got the same").
+		LeftValue(expected).RightValue(actual).
+		ExtraMsg(msg...))
 }
 
 // Failed logs a message and fails the test.
@@ -2781,4 +4031,18 @@ func PanicsWith(t testing.T,
 		return true
 	}
 	return failTest(t, failure.ExtraMsg(msg...))
+}
+
+// NotPanics asserts that the code inside the specified function f does not panic.
+//
+//	assert.NotPanics(t, func(){ Sane() })
+func NotPanics(t testing.T, f func(), msg ...interface{}) bool {
+	t.Helper()
+
+	if funcDidPanic, panicValue := cmp.Panics(f); funcDidPanic {
+		failure := fail.Failure("NotPanics")
+		failure = failure.Reason("Expected function not to panic\n\tPanic value:\t%v", panicValue)
+		return failTest(t, failure.ExtraMsg(msg...))
+	}
+	return true
 }

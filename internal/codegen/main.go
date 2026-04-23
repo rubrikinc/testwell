@@ -54,6 +54,19 @@ func primitiveTypes(accs ...types) types {
 	return uniqAndOrdered(accs...)
 }
 
+func orderedTypes(accs ...types) types {
+	accs = append(accs, strings2types([]string{
+		"int", "uint",
+		"int8", "uint8",
+		"int16", "uint16",
+		"int32", "uint32",
+		"int64", "uint64",
+		"float32", "float64",
+		"byte", "uintptr", "rune", "string",
+	}))
+	return uniqAndOrdered(accs...)
+}
+
 type tmplData struct {
 	Package string
 }
@@ -114,7 +127,8 @@ func main() {
 			accs = append(accs, types{typeInfo{N: "", T: "interface{}"}})
 			return uniqAndOrdered(accs...)
 		},
-		"Capitalize": strings.Title,
+		"OrderedTypes": orderedTypes,
+		"Capitalize":   strings.Title,
 	})
 
 	outputFilename := fmt.Sprintf("%s.go", *flagPkg)
