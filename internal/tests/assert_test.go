@@ -236,6 +236,29 @@ func TestEqualErrorTypes(t *testing.T) {
 	}
 }
 
+// boxStruct is comparable at the type level (reflect.Type.Comparable reports
+// true for a struct with an interface field) but panics on == when the field
+// holds a non-comparable dynamic value. This exercises cmp.Equal's recover().
+type boxStruct struct{ V any }
+
+func TestEqualRecoversUncomparablePanic(t *testing.T) {
+	wt := wrap(t)
+	left := boxStruct{V: []int{1}}
+	right := boxStruct{V: []int{1}}
+
+	// Must not crash the test binary; must report a failure with an error.
+	if Equal(wt, left, right) {
+		t.Errorf("Equal should not report equality for panic-on-compare values")
+	}
+	lf := wt.LastFailure()
+	if lf == nil {
+		t.Fatal("expected a failure to be recorded")
+	}
+	if lf.Err == nil {
+		t.Errorf("expected recovered panic to be attached as an error, got nil")
+	}
+}
+
 func TestContains(t *testing.T) {
 	cases := []struct {
 		E any
