@@ -3827,9 +3827,25 @@ func ErrorAs(t testing.T, err error, target any, msg ...any) bool {
 		ExtraMsg(msg...))
 }
 
+// NotErrorAs tests if errors.As(err, target) is false.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+// target must be a non-nil pointer to either a type that implements error,
+// or to any interface type. See also ErrorAs.
+func NotErrorAs(t testing.T, err error, target any, msg ...any) bool {
+	t.Helper()
+
+	if !errors.As(err, target) {
+		return true
+	}
+	return failTest(t, fail.Failure("NotErrorAs").
+		Reason("errors.As(err, target) returned true").
+		LeftValue(err).RightValue(target).
+		ExtraMsg(msg...))
+}
+
 // ErrorContains tests if err is not nil and err.Error() contains substr.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
-// See also Error, ErrorIs.
+// See also Error, ErrorIs, NotErrorContains.
 func ErrorContains(t testing.T, err error, substr string, msg ...any) bool {
 	t.Helper()
 
@@ -3844,6 +3860,21 @@ func ErrorContains(t testing.T, err error, substr string, msg ...any) bool {
 			LeftValue(err.Error()).RightValue(substr)
 	}
 	return failTest(t, failure.ExtraMsg(msg...))
+}
+
+// NotErrorContains tests if err is nil or err.Error() does not contain substr.
+// msg is an optional list of arguments following the `fmt.Printf()` format.
+// See also Error, ErrorIs, ErrorContains.
+func NotErrorContains(t testing.T, err error, substr string, msg ...any) bool {
+	t.Helper()
+
+	if err == nil || !strings.Contains(err.Error(), substr) {
+		return true
+	}
+	return failTest(t, fail.Failure("NotErrorContains").
+		Reason("expected error not to contain %q", substr).
+		LeftValue(err.Error()).RightValue(substr).
+		ExtraMsg(msg...))
 }
 
 // Empty tests if the passed value is Empty. A nil container or a container

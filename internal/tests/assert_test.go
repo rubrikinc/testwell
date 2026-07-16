@@ -671,6 +671,35 @@ func TestErrorAs(t *testing.T) {
 	})
 }
 
+func TestNotErrorAs(t *testing.T) {
+	base := &myErr{msg: "boom"}
+	wrapped := fmt.Errorf("context: %w", base)
+
+	t.Run("type in chain", func(t *testing.T) {
+		wt := wrap(t)
+		var target *myErr
+		if NotErrorAs(wt, wrapped, &target) {
+			t.Errorf("NotErrorAs should fail when type is in chain")
+		}
+	})
+
+	t.Run("type not in chain", func(t *testing.T) {
+		wt := wrap(t)
+		var target *myErr
+		if !NotErrorAs(wt, errors.New("plain"), &target) {
+			t.Errorf("NotErrorAs should pass when type is not in chain")
+		}
+	})
+
+	t.Run("nil err", func(t *testing.T) {
+		wt := wrap(t)
+		var target *myErr
+		if !NotErrorAs(wt, nil, &target) {
+			t.Errorf("NotErrorAs should pass on nil err")
+		}
+	})
+}
+
 func TestErrorContains(t *testing.T) {
 	cases := []struct {
 		Name   string
@@ -688,6 +717,28 @@ func TestErrorContains(t *testing.T) {
 			wt := wrap(t)
 			if ErrorContains(wt, tc.Err, tc.Substr) != tc.O {
 				t.Errorf("ErrorContains(%v, %q) should be %v", tc.Err, tc.Substr, tc.O)
+			}
+		})
+	}
+}
+
+func TestNotErrorContains(t *testing.T) {
+	cases := []struct {
+		Name   string
+		Err    error
+		Substr string
+		O      bool
+	}{
+		{"contains substring", errors.New("disk full: out of space"), "out of space", false},
+		{"no match", errors.New("anything"), "missing", true},
+		{"nil err passes", nil, "anything", true},
+		{"empty substring", errors.New("anything"), "", false},
+	}
+	for _, tc := range cases {
+		t.Run(tc.Name, func(t *testing.T) {
+			wt := wrap(t)
+			if NotErrorContains(wt, tc.Err, tc.Substr) != tc.O {
+				t.Errorf("NotErrorContains(%v, %q) should be %v", tc.Err, tc.Substr, tc.O)
 			}
 		})
 	}
