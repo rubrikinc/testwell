@@ -255,6 +255,9 @@ func TestContains(t *testing.T) {
 		{42, nil, false},
 		{42, 42, false},
 		{42, "42", false},
+		{nil, []string{"a"}, false},
+		{nil, "foo", false},
+		{nil, map[string]int{"a": 1}, false},
 	}
 	for _, tc := range cases {
 		t.Run(fmt.Sprintf("%v (%T) in %v (%T)",
@@ -267,6 +270,32 @@ func TestContains(t *testing.T) {
 					tc.E, tc.E, tc.C, tc.C, tc.O)
 			}
 
+		})
+	}
+}
+
+func TestContainsNilElement(t *testing.T) {
+	containers := []struct {
+		name string
+		c    interface{}
+	}{
+		{"slice", []string{"a"}},
+		{"string", "foo"},
+		{"map", map[string]int{"a": 1}},
+	}
+	for _, tc := range containers {
+		t.Run(tc.name, func(t *testing.T) {
+			wt := wrap(t)
+			Contains(wt, nil, tc.c)
+			lf := wt.LastFailure()
+			if lf == nil {
+				t.Fatal("expected a failure for nil element")
+			}
+			// Nil element must be reported as a ContainsError hint, not a
+			// generic panic-recovered error.
+			if !strings.Contains(lf.HintStr, "nil") {
+				t.Errorf("expected hint to mention nil, got: %q", lf.HintStr)
+			}
 		})
 	}
 }
@@ -290,6 +319,9 @@ func TestNotContains(t *testing.T) {
 		{42, nil, false},
 		{42, 42, false},
 		{42, "42", false},
+		{nil, []string{"a"}, false},
+		{nil, "foo", false},
+		{nil, map[string]int{"a": 1}, false},
 	}
 	for _, tc := range cases {
 		t.Run(fmt.Sprintf("%v (%T) in %v (%T)",

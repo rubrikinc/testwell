@@ -27,22 +27,16 @@ func newContainsError(fmtstr string, args ...interface{}) ContainsError {
 // container type is introspected at runtime. The type of elem must match the
 // type of elements in the container.
 // Supported container types: string, map (keys), array, slice.
-func Contains(elem interface{}, container interface{}) (ok bool, err error) {
+func Contains(elem interface{}, container interface{}) (bool, error) {
 	containerVal := reflect.ValueOf(container)
 	elemVal := reflect.ValueOf(elem)
 
-	defer func() {
-		if r := recover(); r != nil {
-			if recErr, recOK := r.(error); !recOK {
-				err = fmt.Errorf("%v", r)
-			} else {
-				err = recErr
-			}
-		}
-	}()
-
 	if container == nil {
 		return false, newContainsError("container is nil")
+	}
+
+	if !elemVal.IsValid() {
+		return false, newContainsError("element is nil")
 	}
 
 	switch reflect.TypeOf(container).Kind() {
