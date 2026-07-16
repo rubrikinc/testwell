@@ -24,7 +24,7 @@ func Nil(nullable interface{}) (ok bool, err error) {
 
 	switch nullableVal.Kind() {
 	case reflect.Chan, reflect.Func, reflect.Interface, reflect.Map,
-		reflect.Ptr, reflect.Slice, reflect.UnsafePointer:
+		reflect.Pointer, reflect.Slice, reflect.UnsafePointer:
 	default:
 		return false, NonNilableError{
 			Msg: fmt.Sprintf("type %T cannot be nil", nullable),
