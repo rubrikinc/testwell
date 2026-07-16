@@ -148,27 +148,61 @@ func (tf TestFailure) formattedFrames() []string {
 	return r
 }
 
+// valueDiff returns a unified line diff of the left/right values when a diff
+// would be more readable than printing both blobs: both must be multi-line
+// strings that actually differ, and the assertion must be an equality check
+// (where left and right are expected to match). Contains/Regexp-style checks
+// also carry two string values but a diff would misrepresent them, so they are
+// excluded by name.
+func (tf TestFailure) valueDiff() (string, bool) {
+	if tf.Left.Format != valueAsValue || tf.Right.Format != valueAsValue {
+		return "", false
+	}
+	switch {
+	case strings.HasPrefix(tf.Name, "Equal"),
+		strings.HasPrefix(tf.Name, "NotEqual"),
+		strings.HasPrefix(tf.Name, "DeepEqual"),
+		strings.HasPrefix(tf.Name, "NotDeepEqual"):
+	default:
+		return "", false
+	}
+	l, lok := tf.Left.Value.(string)
+	r, rok := tf.Right.Value.(string)
+	if !lok || !rok || l == r {
+		return "", false
+	}
+	if !strings.Contains(l, "\n") && !strings.Contains(r, "\n") {
+		return "", false
+	}
+	return unifiedDiff(l, r), true
+}
+
 // Format returns a properly formatted test failure message with a stacktrace.
 func (tf TestFailure) Format(failType string) string {
 	leftStr := tf.Left.String()
 	rightStr := tf.Right.String()
+	diff, hasDiff := tf.valueDiff()
 
 	var b strings.Builder
 	fmt.Fprintf(&b, "%s %s failed:\nTrace (most recent last):\n  %s",
 		tf.Name, failType, strings.Join(tf.formattedFrames(), "\n  "))
 
-	if tf.Err != nil {
-		if leftStr != "" && rightStr != "" {
+	writeValues := func() {
+		if hasDiff {
+			fmt.Fprintf(&b, "\nDiff (-Left +Right):\n%s", diff)
+		} else if leftStr != "" && rightStr != "" {
 			fmt.Fprintf(&b, "\n Left: %s\nRight: %s", leftStr, rightStr)
 		}
+	}
+
+	if tf.Err != nil {
+		writeValues()
 		fmt.Fprintf(&b, "\nError: %s", tf.Err.Error())
 		if tf.HintStr != "" {
 			fmt.Fprintf(&b, "\n Hint: %s", tf.HintStr)
 		}
 	} else {
-		if leftStr != "" && rightStr != "" {
-			fmt.Fprintf(&b, "\n  Left: %s\n Right: %s", leftStr, rightStr)
-		}
+		writeValues()
 		fmt.Fprintf(&b, "\nReason: %s", tf.ReasonStr)
 		if tf.HintStr != "" {
 			fmt.Fprintf(&b, "\n  Hint: %s", tf.HintStr)
