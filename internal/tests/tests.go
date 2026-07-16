@@ -2522,6 +2522,11 @@ func NotEqualTypes(t testing.T,
 // array or slice.
 // The type of elements within `container` must match the type of
 // `expectedElement`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use Same for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `Contains` for more static typing.
 // See also `NotContains`.
@@ -2551,6 +2556,11 @@ func Contains(t testing.T,
 // `container`. `container` can be a string, map, array or slice.
 // The type of elements within `container` must match the type of
 // `expectedElement`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use NotSame for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `NotContains` for more static typing.
 // See also `Contains`.
@@ -2580,6 +2590,11 @@ func NotContains(t testing.T,
 // `container`. `container` can be a string, map (only keys are matched),
 // array or slice.
 // The `container` must have elements of type `bool`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use Same for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `Contains` for more static typing.
 // See also `NotContains`.
@@ -2608,6 +2623,11 @@ func ContainsBool(t testing.T,
 // NotContainsBool tests if `expectedElement` is contained within
 // `container`. `container` can be a string, map, array or slice.
 // The `container` must have elements of type `bool`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use NotSame for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `NotContains` for more static typing.
 // See also `Contains`.
@@ -2637,6 +2657,11 @@ func NotContainsBool(t testing.T,
 // `container`. `container` can be a string, map (only keys are matched),
 // array or slice.
 // The `container` must have elements of type `byte`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use Same for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `Contains` for more static typing.
 // See also `NotContains`.
@@ -2665,6 +2690,11 @@ func ContainsByte(t testing.T,
 // NotContainsByte tests if `expectedElement` is contained within
 // `container`. `container` can be a string, map, array or slice.
 // The `container` must have elements of type `byte`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use NotSame for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `NotContains` for more static typing.
 // See also `Contains`.
@@ -2694,6 +2724,11 @@ func NotContainsByte(t testing.T,
 // `container`. `container` can be a string, map (only keys are matched),
 // array or slice.
 // The `container` must have elements of type `complex128`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use Same for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `Contains` for more static typing.
 // See also `NotContains`.
@@ -2722,6 +2757,11 @@ func ContainsComplex128(t testing.T,
 // NotContainsComplex128 tests if `expectedElement` is contained within
 // `container`. `container` can be a string, map, array or slice.
 // The `container` must have elements of type `complex128`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use NotSame for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `NotContains` for more static typing.
 // See also `Contains`.
@@ -2751,6 +2791,11 @@ func NotContainsComplex128(t testing.T,
 // `container`. `container` can be a string, map (only keys are matched),
 // array or slice.
 // The `container` must have elements of type `complex64`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use Same for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `Contains` for more static typing.
 // See also `NotContains`.
@@ -2779,6 +2824,11 @@ func ContainsComplex64(t testing.T,
 // NotContainsComplex64 tests if `expectedElement` is contained within
 // `container`. `container` can be a string, map, array or slice.
 // The `container` must have elements of type `complex64`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use NotSame for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `NotContains` for more static typing.
 // See also `Contains`.
@@ -2808,6 +2858,11 @@ func NotContainsComplex64(t testing.T,
 // `container`. `container` can be a string, map (only keys are matched),
 // array or slice.
 // The `container` must have elements of type `error`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use Same for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `Contains` for more static typing.
 // See also `NotContains`.
@@ -2836,6 +2891,11 @@ func ContainsError(t testing.T,
 // NotContainsError tests if `expectedElement` is contained within
 // `container`. `container` can be a string, map, array or slice.
 // The `container` must have elements of type `error`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use NotSame for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `NotContains` for more static typing.
 // See also `Contains`.
@@ -2865,6 +2925,11 @@ func NotContainsError(t testing.T,
 // `container`. `container` can be a string, map (only keys are matched),
 // array or slice.
 // The `container` must have elements of type `float32`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use Same for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `Contains` for more static typing.
 // See also `NotContains`.
@@ -2893,6 +2958,11 @@ func ContainsFloat32(t testing.T,
 // NotContainsFloat32 tests if `expectedElement` is contained within
 // `container`. `container` can be a string, map, array or slice.
 // The `container` must have elements of type `float32`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use NotSame for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `NotContains` for more static typing.
 // See also `Contains`.
@@ -2922,6 +2992,11 @@ func NotContainsFloat32(t testing.T,
 // `container`. `container` can be a string, map (only keys are matched),
 // array or slice.
 // The `container` must have elements of type `float64`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use Same for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `Contains` for more static typing.
 // See also `NotContains`.
@@ -2950,6 +3025,11 @@ func ContainsFloat64(t testing.T,
 // NotContainsFloat64 tests if `expectedElement` is contained within
 // `container`. `container` can be a string, map, array or slice.
 // The `container` must have elements of type `float64`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use NotSame for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `NotContains` for more static typing.
 // See also `Contains`.
@@ -2979,6 +3059,11 @@ func NotContainsFloat64(t testing.T,
 // `container`. `container` can be a string, map (only keys are matched),
 // array or slice.
 // The `container` must have elements of type `int`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use Same for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `Contains` for more static typing.
 // See also `NotContains`.
@@ -3007,6 +3092,11 @@ func ContainsInt(t testing.T,
 // NotContainsInt tests if `expectedElement` is contained within
 // `container`. `container` can be a string, map, array or slice.
 // The `container` must have elements of type `int`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use NotSame for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `NotContains` for more static typing.
 // See also `Contains`.
@@ -3036,6 +3126,11 @@ func NotContainsInt(t testing.T,
 // `container`. `container` can be a string, map (only keys are matched),
 // array or slice.
 // The `container` must have elements of type `int16`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use Same for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `Contains` for more static typing.
 // See also `NotContains`.
@@ -3064,6 +3159,11 @@ func ContainsInt16(t testing.T,
 // NotContainsInt16 tests if `expectedElement` is contained within
 // `container`. `container` can be a string, map, array or slice.
 // The `container` must have elements of type `int16`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use NotSame for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `NotContains` for more static typing.
 // See also `Contains`.
@@ -3093,6 +3193,11 @@ func NotContainsInt16(t testing.T,
 // `container`. `container` can be a string, map (only keys are matched),
 // array or slice.
 // The `container` must have elements of type `int32`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use Same for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `Contains` for more static typing.
 // See also `NotContains`.
@@ -3121,6 +3226,11 @@ func ContainsInt32(t testing.T,
 // NotContainsInt32 tests if `expectedElement` is contained within
 // `container`. `container` can be a string, map, array or slice.
 // The `container` must have elements of type `int32`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use NotSame for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `NotContains` for more static typing.
 // See also `Contains`.
@@ -3150,6 +3260,11 @@ func NotContainsInt32(t testing.T,
 // `container`. `container` can be a string, map (only keys are matched),
 // array or slice.
 // The `container` must have elements of type `int64`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use Same for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `Contains` for more static typing.
 // See also `NotContains`.
@@ -3178,6 +3293,11 @@ func ContainsInt64(t testing.T,
 // NotContainsInt64 tests if `expectedElement` is contained within
 // `container`. `container` can be a string, map, array or slice.
 // The `container` must have elements of type `int64`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use NotSame for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `NotContains` for more static typing.
 // See also `Contains`.
@@ -3207,6 +3327,11 @@ func NotContainsInt64(t testing.T,
 // `container`. `container` can be a string, map (only keys are matched),
 // array or slice.
 // The `container` must have elements of type `int8`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use Same for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `Contains` for more static typing.
 // See also `NotContains`.
@@ -3235,6 +3360,11 @@ func ContainsInt8(t testing.T,
 // NotContainsInt8 tests if `expectedElement` is contained within
 // `container`. `container` can be a string, map, array or slice.
 // The `container` must have elements of type `int8`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use NotSame for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `NotContains` for more static typing.
 // See also `Contains`.
@@ -3264,6 +3394,11 @@ func NotContainsInt8(t testing.T,
 // `container`. `container` can be a string, map (only keys are matched),
 // array or slice.
 // The `container` must have elements of type `rune`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use Same for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `Contains` for more static typing.
 // See also `NotContains`.
@@ -3292,6 +3427,11 @@ func ContainsRune(t testing.T,
 // NotContainsRune tests if `expectedElement` is contained within
 // `container`. `container` can be a string, map, array or slice.
 // The `container` must have elements of type `rune`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use NotSame for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `NotContains` for more static typing.
 // See also `Contains`.
@@ -3321,6 +3461,11 @@ func NotContainsRune(t testing.T,
 // `container`. `container` can be a string, map (only keys are matched),
 // array or slice.
 // The `container` must have elements of type `string`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use Same for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `Contains` for more static typing.
 // See also `NotContains`.
@@ -3349,6 +3494,11 @@ func ContainsString(t testing.T,
 // NotContainsString tests if `expectedElement` is contained within
 // `container`. `container` can be a string, map, array or slice.
 // The `container` must have elements of type `string`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use NotSame for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `NotContains` for more static typing.
 // See also `Contains`.
@@ -3378,6 +3528,11 @@ func NotContainsString(t testing.T,
 // `container`. `container` can be a string, map (only keys are matched),
 // array or slice.
 // The `container` must have elements of type `uint`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use Same for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `Contains` for more static typing.
 // See also `NotContains`.
@@ -3406,6 +3561,11 @@ func ContainsUint(t testing.T,
 // NotContainsUint tests if `expectedElement` is contained within
 // `container`. `container` can be a string, map, array or slice.
 // The `container` must have elements of type `uint`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use NotSame for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `NotContains` for more static typing.
 // See also `Contains`.
@@ -3435,6 +3595,11 @@ func NotContainsUint(t testing.T,
 // `container`. `container` can be a string, map (only keys are matched),
 // array or slice.
 // The `container` must have elements of type `uint16`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use Same for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `Contains` for more static typing.
 // See also `NotContains`.
@@ -3463,6 +3628,11 @@ func ContainsUint16(t testing.T,
 // NotContainsUint16 tests if `expectedElement` is contained within
 // `container`. `container` can be a string, map, array or slice.
 // The `container` must have elements of type `uint16`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use NotSame for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `NotContains` for more static typing.
 // See also `Contains`.
@@ -3492,6 +3662,11 @@ func NotContainsUint16(t testing.T,
 // `container`. `container` can be a string, map (only keys are matched),
 // array or slice.
 // The `container` must have elements of type `uint32`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use Same for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `Contains` for more static typing.
 // See also `NotContains`.
@@ -3520,6 +3695,11 @@ func ContainsUint32(t testing.T,
 // NotContainsUint32 tests if `expectedElement` is contained within
 // `container`. `container` can be a string, map, array or slice.
 // The `container` must have elements of type `uint32`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use NotSame for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `NotContains` for more static typing.
 // See also `Contains`.
@@ -3549,6 +3729,11 @@ func NotContainsUint32(t testing.T,
 // `container`. `container` can be a string, map (only keys are matched),
 // array or slice.
 // The `container` must have elements of type `uint64`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use Same for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `Contains` for more static typing.
 // See also `NotContains`.
@@ -3577,6 +3762,11 @@ func ContainsUint64(t testing.T,
 // NotContainsUint64 tests if `expectedElement` is contained within
 // `container`. `container` can be a string, map, array or slice.
 // The `container` must have elements of type `uint64`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use NotSame for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `NotContains` for more static typing.
 // See also `Contains`.
@@ -3606,6 +3796,11 @@ func NotContainsUint64(t testing.T,
 // `container`. `container` can be a string, map (only keys are matched),
 // array or slice.
 // The `container` must have elements of type `uint8`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use Same for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `Contains` for more static typing.
 // See also `NotContains`.
@@ -3634,6 +3829,11 @@ func ContainsUint8(t testing.T,
 // NotContainsUint8 tests if `expectedElement` is contained within
 // `container`. `container` can be a string, map, array or slice.
 // The `container` must have elements of type `uint8`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use NotSame for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `NotContains` for more static typing.
 // See also `Contains`.
@@ -3663,6 +3863,11 @@ func NotContainsUint8(t testing.T,
 // `container`. `container` can be a string, map (only keys are matched),
 // array or slice.
 // The `container` must have elements of type `uintptr`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use Same for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `Contains` for more static typing.
 // See also `NotContains`.
@@ -3691,6 +3896,11 @@ func ContainsUintptr(t testing.T,
 // NotContainsUintptr tests if `expectedElement` is contained within
 // `container`. `container` can be a string, map, array or slice.
 // The `container` must have elements of type `uintptr`.
+//
+// For array and slice containers, elements are compared using
+// reflect.DeepEqual. This means containment is by value, not pointer
+// identity: a *T element matches when it points to a deeply-equal value,
+// even if it is a different pointer. Use NotSame for pointer-identity checks.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // You can use the typed versions of `NotContains` for more static typing.
 // See also `Contains`.

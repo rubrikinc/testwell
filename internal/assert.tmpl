@@ -248,6 +248,11 @@ func NotEqualTypes(t testing.T,
     {{- else -}}
     // The `container` must have elements of type `{{ $T.T }}`.
     {{- end }}
+    //
+    // For array and slice containers, elements are compared using
+    // reflect.DeepEqual. This means containment is by value, not pointer
+    // identity: a *T element matches when it points to a deeply-equal value,
+    // even if it is a different pointer. Use Same for pointer-identity checks.
     {{ $msgfmtcomment }}
     // You can use the typed versions of `Contains` for more static typing.
     // See also `NotContains`.
@@ -280,6 +285,11 @@ func NotEqualTypes(t testing.T,
     {{- else -}}
     // The `container` must have elements of type `{{ $T.T }}`.
     {{- end }}
+    //
+    // For array and slice containers, elements are compared using
+    // reflect.DeepEqual. This means containment is by value, not pointer
+    // identity: a *T element matches when it points to a deeply-equal value,
+    // even if it is a different pointer. Use NotSame for pointer-identity checks.
     {{ $msgfmtcomment }}
     // You can use the typed versions of `NotContains` for more static typing.
     // See also `Contains`.

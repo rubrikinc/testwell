@@ -327,6 +327,29 @@ func TestContainsNilElement(t *testing.T) {
 	}
 }
 
+// Contains matches slice elements by value (reflect.DeepEqual), not pointer
+// identity: a *T element matches a deeply-equal pointee even at a different
+// address. Pointer-identity checks are the job of Same/NotSame.
+func TestContainsPointerSemantics(t *testing.T) {
+	a := 42
+	b := 42 // distinct address, equal value
+
+	t.Run("deeply-equal different pointer is contained", func(t *testing.T) {
+		wt := wrap(t)
+		if !Contains(wt, &a, []*int{&b}) {
+			t.Errorf("Contains should match &b (deeply equal to &a) by value")
+		}
+	})
+
+	t.Run("different value is not contained", func(t *testing.T) {
+		c := 99
+		wt := wrap(t)
+		if Contains(wt, &a, []*int{&c}) {
+			t.Errorf("Contains should not match a pointer to a different value")
+		}
+	})
+}
+
 func TestNotContains(t *testing.T) {
 	cases := []struct {
 		E any
