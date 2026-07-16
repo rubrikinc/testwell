@@ -1053,6 +1053,14 @@ func TestPanics(t *testing.T) {
 			t.Errorf("Panics should fail for non-panicking func")
 		}
 	})
+	t.Run("panic(nil)", func(t *testing.T) {
+		// Go 1.21+ recovers panic(nil) as *runtime.PanicNilError (non-nil),
+		// so Panics correctly detects it.
+		wt := wrap(t)
+		if !Panics(wt, func() { panic(nil) }) {
+			t.Errorf("Panics should detect panic(nil)")
+		}
+	})
 }
 
 func TestPanicsWith(t *testing.T) {
