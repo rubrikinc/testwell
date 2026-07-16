@@ -153,28 +153,29 @@ func (tf TestFailure) Format(failType string) string {
 	leftStr := tf.Left.String()
 	rightStr := tf.Right.String()
 
-	r := fmt.Sprintf("%s %s failed:\nTrace (most recent last):\n  %s",
+	var b strings.Builder
+	fmt.Fprintf(&b, "%s %s failed:\nTrace (most recent last):\n  %s",
 		tf.Name, failType, strings.Join(tf.formattedFrames(), "\n  "))
 
 	if tf.Err != nil {
 		if leftStr != "" && rightStr != "" {
-			r = fmt.Sprintf("%s\n Left: %s\nRight: %s", r, leftStr, rightStr)
+			fmt.Fprintf(&b, "\n Left: %s\nRight: %s", leftStr, rightStr)
 		}
-		r = fmt.Sprintf("%s\nError: %s", r, tf.Err.Error())
+		fmt.Fprintf(&b, "\nError: %s", tf.Err.Error())
 		if tf.HintStr != "" {
-			r = fmt.Sprintf("%s\n Hint: %s", r, tf.HintStr)
+			fmt.Fprintf(&b, "\n Hint: %s", tf.HintStr)
 		}
 	} else {
 		if leftStr != "" && rightStr != "" {
-			r = fmt.Sprintf("%s\n  Left: %s\n Right: %s", r, leftStr, rightStr)
+			fmt.Fprintf(&b, "\n  Left: %s\n Right: %s", leftStr, rightStr)
 		}
-		r = fmt.Sprintf("%s\nReason: %s", r, tf.ReasonStr)
+		fmt.Fprintf(&b, "\nReason: %s", tf.ReasonStr)
 		if tf.HintStr != "" {
-			r = fmt.Sprintf("%s\n  Hint: %s", r, tf.HintStr)
+			fmt.Fprintf(&b, "\n  Hint: %s", tf.HintStr)
 		}
 	}
 	if tf.ExtraMsgStr != "" {
-		r = fmt.Sprintf("%s\n%s", r, tf.ExtraMsgStr)
+		fmt.Fprintf(&b, "\n%s", tf.ExtraMsgStr)
 	}
-	return r
+	return b.String()
 }
