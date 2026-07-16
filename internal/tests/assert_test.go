@@ -7,6 +7,7 @@ import (
 	"regexp"
 	"strings"
 	"testing"
+	"unsafe"
 
 	"github.com/rubrikinc/testwell/internal/cmp"
 )
@@ -383,6 +384,13 @@ func TestNil(t *testing.T) {
 		{SomeStruct{42}, false},
 		{&SomeStruct{42}, false},
 		{(*SomeStruct)(nil), true},
+		// other nilable kinds: IsNil must not panic
+		{(chan int)(nil), true},
+		{make(chan int), false},
+		{(func())(nil), true},
+		{func() {}, false},
+		{unsafe.Pointer(nil), true},
+		{unsafe.Pointer(&struct{}{}), false},
 	}
 	for _, tc := range cases {
 		t.Run(fmt.Sprintf("%v (%T)", tc.V, tc.V), func(t *testing.T) {
@@ -413,6 +421,13 @@ func TestNotNil(t *testing.T) {
 		{SomeStruct{42}, true},
 		{&SomeStruct{42}, true},
 		{(*SomeStruct)(nil), false},
+		// other nilable kinds: IsNil must not panic
+		{(chan int)(nil), false},
+		{make(chan int), true},
+		{(func())(nil), false},
+		{func() {}, true},
+		{unsafe.Pointer(nil), false},
+		{unsafe.Pointer(&struct{}{}), true},
 	}
 	for _, tc := range cases {
 		t.Run(fmt.Sprintf("%v (%T)", tc.V, tc.V), func(t *testing.T) {
