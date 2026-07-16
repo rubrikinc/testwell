@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"path"
 	"runtime"
+	"slices"
 	"strings"
 )
 
@@ -126,15 +127,6 @@ func (tf TestFailure) Error(err error) TestFailure {
 	return tf
 }
 
-func reverseSliceOfStrings(s []string) {
-	first, last := 0, len(s)-1
-	for first < last {
-		s[first], s[last] = s[last], s[first]
-		first++
-		last--
-	}
-}
-
 func (tf TestFailure) formattedFrames() []string {
 	if len(tf.Stack) == 0 {
 		return nil
@@ -152,7 +144,7 @@ func (tf TestFailure) formattedFrames() []string {
 			break
 		}
 	}
-	reverseSliceOfStrings(r)
+	slices.Reverse(r)
 	return r
 }
 
