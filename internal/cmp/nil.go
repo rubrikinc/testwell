@@ -1,7 +1,6 @@
 package cmp
 
 import (
-	"fmt"
 	"reflect"
 )
 
@@ -19,16 +18,6 @@ func Nil(nullable interface{}) (ok bool, err error) {
 	default:
 		return false, nil
 	}
-
-	defer func() {
-		if r := recover(); r != nil {
-			if recErr, recOK := r.(error); !recOK {
-				err = fmt.Errorf("%v", r)
-			} else {
-				err = recErr
-			}
-		}
-	}()
 
 	return nullableVal.IsNil(), nil
 }

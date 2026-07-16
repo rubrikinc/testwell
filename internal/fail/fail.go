@@ -108,9 +108,13 @@ func (tf TestFailure) Hint(msg string, args ...interface{}) TestFailure {
 // Extra messages are expected to come from the user.
 func (tf TestFailure) ExtraMsg(args ...interface{}) TestFailure {
 	if len(args) == 1 {
-		tf.ExtraMsgStr = args[0].(string)
+		tf.ExtraMsgStr = fmt.Sprint(args[0])
 	} else if len(args) > 1 {
-		tf.ExtraMsgStr = fmt.Sprintf(args[0].(string), args[1:]...)
+		if fmtStr, ok := args[0].(string); ok {
+			tf.ExtraMsgStr = fmt.Sprintf(fmtStr, args[1:]...)
+		} else {
+			tf.ExtraMsgStr = fmt.Sprint(args...)
+		}
 	}
 	return tf
 }
