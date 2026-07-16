@@ -66,12 +66,12 @@ func Equal(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at DeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see Nil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at DeepEqual")
 			}
 		}
 	} else if ok {
@@ -106,12 +106,12 @@ func NotEqual(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at NotDeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see NotNil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at NotDeepEqual")
 			}
 		}
 	} else if !ok {
@@ -137,12 +137,12 @@ func EqualBool(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at DeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see Nil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at DeepEqual")
 			}
 		}
 	} else if ok {
@@ -169,12 +169,12 @@ func NotEqualBool(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at NotDeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see NotNil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at NotDeepEqual")
 			}
 		}
 	} else if !ok {
@@ -200,12 +200,12 @@ func EqualByte(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at DeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see Nil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at DeepEqual")
 			}
 		}
 	} else if ok {
@@ -232,12 +232,12 @@ func NotEqualByte(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at NotDeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see NotNil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at NotDeepEqual")
 			}
 		}
 	} else if !ok {
@@ -263,12 +263,12 @@ func EqualComplex128(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at DeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see Nil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at DeepEqual")
 			}
 		}
 	} else if ok {
@@ -295,12 +295,12 @@ func NotEqualComplex128(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at NotDeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see NotNil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at NotDeepEqual")
 			}
 		}
 	} else if !ok {
@@ -326,12 +326,12 @@ func EqualComplex64(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at DeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see Nil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at DeepEqual")
 			}
 		}
 	} else if ok {
@@ -358,12 +358,12 @@ func NotEqualComplex64(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at NotDeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see NotNil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at NotDeepEqual")
 			}
 		}
 	} else if !ok {
@@ -389,12 +389,12 @@ func EqualError(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at DeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see Nil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at DeepEqual")
 			}
 		}
 	} else if ok {
@@ -421,12 +421,12 @@ func NotEqualError(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at NotDeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see NotNil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at NotDeepEqual")
 			}
 		}
 	} else if !ok {
@@ -452,12 +452,12 @@ func EqualFloat32(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at DeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see Nil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at DeepEqual")
 			}
 		}
 	} else if ok {
@@ -484,12 +484,12 @@ func NotEqualFloat32(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at NotDeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see NotNil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at NotDeepEqual")
 			}
 		}
 	} else if !ok {
@@ -515,12 +515,12 @@ func EqualFloat64(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at DeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see Nil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at DeepEqual")
 			}
 		}
 	} else if ok {
@@ -547,12 +547,12 @@ func NotEqualFloat64(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at NotDeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see NotNil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at NotDeepEqual")
 			}
 		}
 	} else if !ok {
@@ -578,12 +578,12 @@ func EqualInt(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at DeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see Nil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at DeepEqual")
 			}
 		}
 	} else if ok {
@@ -610,12 +610,12 @@ func NotEqualInt(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at NotDeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see NotNil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at NotDeepEqual")
 			}
 		}
 	} else if !ok {
@@ -641,12 +641,12 @@ func EqualInt16(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at DeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see Nil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at DeepEqual")
 			}
 		}
 	} else if ok {
@@ -673,12 +673,12 @@ func NotEqualInt16(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at NotDeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see NotNil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at NotDeepEqual")
 			}
 		}
 	} else if !ok {
@@ -704,12 +704,12 @@ func EqualInt32(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at DeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see Nil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at DeepEqual")
 			}
 		}
 	} else if ok {
@@ -736,12 +736,12 @@ func NotEqualInt32(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at NotDeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see NotNil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at NotDeepEqual")
 			}
 		}
 	} else if !ok {
@@ -767,12 +767,12 @@ func EqualInt64(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at DeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see Nil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at DeepEqual")
 			}
 		}
 	} else if ok {
@@ -799,12 +799,12 @@ func NotEqualInt64(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at NotDeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see NotNil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at NotDeepEqual")
 			}
 		}
 	} else if !ok {
@@ -830,12 +830,12 @@ func EqualInt8(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at DeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see Nil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at DeepEqual")
 			}
 		}
 	} else if ok {
@@ -862,12 +862,12 @@ func NotEqualInt8(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at NotDeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see NotNil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at NotDeepEqual")
 			}
 		}
 	} else if !ok {
@@ -893,12 +893,12 @@ func EqualRune(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at DeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see Nil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at DeepEqual")
 			}
 		}
 	} else if ok {
@@ -925,12 +925,12 @@ func NotEqualRune(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at NotDeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see NotNil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at NotDeepEqual")
 			}
 		}
 	} else if !ok {
@@ -956,12 +956,12 @@ func EqualString(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at DeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see Nil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at DeepEqual")
 			}
 		}
 	} else if ok {
@@ -988,12 +988,12 @@ func NotEqualString(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at NotDeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see NotNil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at NotDeepEqual")
 			}
 		}
 	} else if !ok {
@@ -1019,12 +1019,12 @@ func EqualUint(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at DeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see Nil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at DeepEqual")
 			}
 		}
 	} else if ok {
@@ -1051,12 +1051,12 @@ func NotEqualUint(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at NotDeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see NotNil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at NotDeepEqual")
 			}
 		}
 	} else if !ok {
@@ -1082,12 +1082,12 @@ func EqualUint16(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at DeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see Nil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at DeepEqual")
 			}
 		}
 	} else if ok {
@@ -1114,12 +1114,12 @@ func NotEqualUint16(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at NotDeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see NotNil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at NotDeepEqual")
 			}
 		}
 	} else if !ok {
@@ -1145,12 +1145,12 @@ func EqualUint32(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at DeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see Nil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at DeepEqual")
 			}
 		}
 	} else if ok {
@@ -1177,12 +1177,12 @@ func NotEqualUint32(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at NotDeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see NotNil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at NotDeepEqual")
 			}
 		}
 	} else if !ok {
@@ -1208,12 +1208,12 @@ func EqualUint64(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at DeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see Nil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at DeepEqual")
 			}
 		}
 	} else if ok {
@@ -1240,12 +1240,12 @@ func NotEqualUint64(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at NotDeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see NotNil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at NotDeepEqual")
 			}
 		}
 	} else if !ok {
@@ -1271,12 +1271,12 @@ func EqualUint8(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at DeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see Nil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at DeepEqual")
 			}
 		}
 	} else if ok {
@@ -1303,12 +1303,12 @@ func NotEqualUint8(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at NotDeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see NotNil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at NotDeepEqual")
 			}
 		}
 	} else if !ok {
@@ -1334,12 +1334,12 @@ func EqualUintptr(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at DeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see Nil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at DeepEqual")
 			}
 		}
 	} else if ok {
@@ -1366,12 +1366,12 @@ func NotEqualUintptr(t testing.T,
 
 	if ok, err := cmp.Equal(left, right); err != nil {
 		failure = failure.Error(err)
-		if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-			failure = failure.Error(cerr)
+		switch err.(type) {
+		case cmp.NotComparableError:
+			failure = failure.Hint("take a look at NotDeepEqual")
+		case cmp.TypeMismatchError:
 			if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
 				failure = failure.Hint("see NotNil for <nil> checks")
-			} else {
-				failure = failure.Hint("take a look at NotDeepEqual")
 			}
 		}
 	} else if !ok {
@@ -3723,7 +3723,10 @@ func Nil(t testing.T, tval interface{}, msg ...interface{}) bool {
 
 	isnil, err := cmp.Nil(tval)
 	failure := fail.Failure("Nil")
-	if err != nil {
+	if _, ok := err.(cmp.NonNilableError); ok {
+		failure = failure.Error(err)
+		return failTest(t, failure.ExtraMsg(msg...))
+	} else if err != nil {
 		failure = failure.Error(err)
 	} else if isnil {
 		return true
@@ -3739,7 +3742,9 @@ func NotNil(t testing.T, tval interface{}, msg ...interface{}) bool {
 
 	isnil, err := cmp.Nil(tval)
 	failure := fail.Failure("NotNil")
-	if err != nil {
+	if _, ok := err.(cmp.NonNilableError); ok {
+		return true
+	} else if err != nil {
 		failure = failure.Error(err)
 	} else if !isnil {
 		return true

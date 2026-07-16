@@ -5,12 +5,21 @@ import (
 	"reflect"
 )
 
-// NotComparableError is specific to Equal.
+// NotComparableError is returned by Equal when a value's type is not comparable.
 type NotComparableError struct {
 	Msg string
 }
 
 func (e NotComparableError) Error() string {
+	return e.Msg
+}
+
+// TypeMismatchError is returned by Equal when the two values have different types.
+type TypeMismatchError struct {
+	Msg string
+}
+
+func (e TypeMismatchError) Error() string {
 	return e.Msg
 }
 
@@ -45,9 +54,9 @@ func Equal(left interface{}, right interface{}) (ok bool, err error) {
 	}
 
 	if leftType != rightType {
-		return false, newNotComparableError(
-			"type (%T) != type (%T)", left, right,
-		)
+		return false, TypeMismatchError{
+			Msg: fmt.Sprintf("type (%T) != type (%T)", left, right),
+		}
 	}
 
 	defer func() {

@@ -1,8 +1,18 @@
 package cmp
 
 import (
+	"fmt"
 	"reflect"
 )
+
+// NonNilableError is returned by Nil when the value's type can never be nil.
+type NonNilableError struct {
+	Msg string
+}
+
+func (e NonNilableError) Error() string {
+	return e.Msg
+}
 
 // Nil returns ok=true if `nullable` is a nullable type or the zero value type.
 func Nil(nullable interface{}) (ok bool, err error) {
@@ -16,7 +26,9 @@ func Nil(nullable interface{}) (ok bool, err error) {
 	case reflect.Chan, reflect.Func, reflect.Interface, reflect.Map,
 		reflect.Ptr, reflect.Slice, reflect.UnsafePointer:
 	default:
-		return false, nil
+		return false, NonNilableError{
+			Msg: fmt.Sprintf("type %T cannot be nil", nullable),
+		}
 	}
 
 	return nullableVal.IsNil(), nil

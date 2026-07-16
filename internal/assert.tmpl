@@ -70,12 +70,12 @@ func False(t testing.T, tval bool, msg ...interface{}) bool {
 
         if ok, err := cmp.Equal(left, right); err != nil {
             failure = failure.Error(err)
-            if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-                failure = failure.Error(cerr)
+            switch err.(type) {
+            case cmp.NotComparableError:
+                failure = failure.Hint("take a look at DeepEqual")
+            case cmp.TypeMismatchError:
                 if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
                     failure = failure.Hint("see Nil for <nil> checks")
-                } else {
-                    failure = failure.Hint("take a look at DeepEqual")
                 }
             }
         } else if ok {
@@ -111,12 +111,12 @@ func False(t testing.T, tval bool, msg ...interface{}) bool {
 
         if ok, err := cmp.Equal(left, right); err != nil {
             failure = failure.Error(err)
-            if cerr, ok2 := err.(cmp.NotComparableError); ok2 {
-                failure = failure.Error(cerr)
+            switch err.(type) {
+            case cmp.NotComparableError:
+                failure = failure.Hint("take a look at NotDeepEqual")
+            case cmp.TypeMismatchError:
                 if reflect.TypeOf(left) == nil || reflect.TypeOf(right) == nil {
                     failure = failure.Hint("see NotNil for <nil> checks")
-                } else {
-                    failure = failure.Hint("take a look at NotDeepEqual")
                 }
             }
         } else if !ok {
@@ -311,12 +311,15 @@ func Nil(t testing.T, tval interface{}, msg ...interface{}) bool {
     {{- template "helper" "t" }}
     isnil, err := cmp.Nil(tval)
     failure := fail.Failure("Nil")
-    if err != nil {
+    if _, ok := err.(cmp.NonNilableError); ok {
+        failure = failure.Error(err)
+        return failTest(t, failure.ExtraMsg(msg...))
+    } else if err != nil {
         failure = failure.Error(err)
     } else if isnil {
         return true
     }
-    failure = failure. Reason("`%v` (%T) should be nil", tval, tval)
+    failure = failure.Reason("`%v` (%T) should be nil", tval, tval)
     return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -326,7 +329,9 @@ func NotNil(t testing.T, tval interface{}, msg ...interface{}) bool {
     {{- template "helper" "t" }}
     isnil, err := cmp.Nil(tval)
     failure := fail.Failure("NotNil")
-    if err != nil {
+    if _, ok := err.(cmp.NonNilableError); ok {
+        return true
+    } else if err != nil {
         failure = failure.Error(err)
     } else if !isnil {
         return true
