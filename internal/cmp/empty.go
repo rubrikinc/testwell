@@ -16,5 +16,7 @@ func Empty(container interface{}) (bool, error) {
 		return false, fmt.Errorf("(%T) is not a container type", container)
 	}
 
+	// Len is safe: the switch above only falls through for Array/Chan/Map/Slice/String,
+	// all of which support Len; nil Chan/Map/Slice return 0 rather than panicking.
 	return containerVal.Len() == 0, nil
 }
