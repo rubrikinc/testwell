@@ -126,13 +126,6 @@ func (tf TestFailure) Error(err error) TestFailure {
 	return tf
 }
 
-// Errorf returns a new TestFailure with a newly formatted error attached to
-// it. It overrides the reason msg.
-func (tf TestFailure) Errorf(msg string, args ...interface{}) TestFailure {
-	tf.Err = fmt.Errorf(msg, args...)
-	return tf
-}
-
 func reverseSliceOfStrings(s []string) {
 	first, last := 0, len(s)-1
 	for first < last {
