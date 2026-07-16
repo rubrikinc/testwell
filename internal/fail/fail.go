@@ -190,10 +190,11 @@ func (tf TestFailure) Format(failType string) string {
 	writeValues := func() {
 		if hasDiff {
 			// The diff only fires for equality assertions, where the
-			// documented convention is left=expected, right=actual — so
-			// Expected/Actual labels are accurate here (unlike the neutral
-			// Left/Right used for the raw display shared by all assertions).
-			fmt.Fprintf(&b, "\nDiff (-Expected +Actual):\n%s", diff)
+			// documented convention is left=expected (want), right=actual
+			// (got) — so -want/+got is accurate here and matches Go's own
+			// cmp.Diff idiom, unlike the neutral Left/Right used for the raw
+			// display shared by all assertions.
+			fmt.Fprintf(&b, "\nDiff (-want +got):\n%s", diff)
 		} else if leftStr != "" && rightStr != "" {
 			fmt.Fprintf(&b, "\n Left: %s\nRight: %s", leftStr, rightStr)
 		}
