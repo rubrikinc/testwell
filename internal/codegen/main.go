@@ -134,7 +134,7 @@ func main() {
 			return uniqAndOrdered(accs...)
 		},
 		"GenericType": func(accs ...types) types {
-			accs = append(accs, types{typeInfo{N: "", T: "interface{}"}})
+			accs = append(accs, types{typeInfo{N: "", T: "any"}})
 			return uniqAndOrdered(accs...)
 		},
 		"OrderedTypes": orderedTypes,

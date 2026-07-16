@@ -20,7 +20,7 @@
 // Equality and contains functions are type-safe: comparing values of different
 // types (e.g. int32 and int64) is a failure, not a silent coercion. Each
 // function is available in a generic form (e.g. [Equal]) that accepts
-// interface{} and in type-specific forms (e.g. [EqualInt32]) for additional
+// any and in type-specific forms (e.g. [EqualInt32]) for additional
 // compile-time checking.
 //
 // # Parameter order

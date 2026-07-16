@@ -61,8 +61,8 @@ func TestExtraMsg(t *testing.T) {
 
 func TestEqual(t *testing.T) {
 	cases := []struct {
-		E interface{}
-		V interface{}
+		E any
+		V any
 		O bool
 	}{
 		{int(42), int(42), true},
@@ -93,8 +93,8 @@ func TestEqual(t *testing.T) {
 
 func TestNotEqual(t *testing.T) {
 	cases := []struct {
-		E interface{}
-		V interface{}
+		E any
+		V any
 		O bool
 	}{
 		{int(42), int(42), false},
@@ -125,8 +125,8 @@ func TestNotEqual(t *testing.T) {
 
 func TestEqualTypes(t *testing.T) {
 	cases := []struct {
-		E interface{}
-		V interface{}
+		E any
+		V any
 		O bool
 	}{
 		{int(42), int(42), true},
@@ -157,8 +157,8 @@ func TestEqualTypes(t *testing.T) {
 
 func TestNotEqualTypes(t *testing.T) {
 	cases := []struct {
-		E interface{}
-		V interface{}
+		E any
+		V any
 		O bool
 	}{
 		{int(42), int(42), false},
@@ -238,8 +238,8 @@ func TestEqualErrorTypes(t *testing.T) {
 
 func TestContains(t *testing.T) {
 	cases := []struct {
-		E interface{}
-		C interface{}
+		E any
+		C any
 		O bool
 	}{
 		{int(42), []int{1, 3, 7, 42, 105}, true},
@@ -277,7 +277,7 @@ func TestContains(t *testing.T) {
 func TestContainsNilElement(t *testing.T) {
 	containers := []struct {
 		name string
-		c    interface{}
+		c    any
 	}{
 		{"slice", []string{"a"}},
 		{"string", "foo"},
@@ -302,8 +302,8 @@ func TestContainsNilElement(t *testing.T) {
 
 func TestNotContains(t *testing.T) {
 	cases := []struct {
-		E interface{}
-		C interface{}
+		E any
+		C any
 		O bool
 	}{
 		{int(42), []int{1, 3, 7, 42, 105}, false},
@@ -340,11 +340,11 @@ func TestNotContains(t *testing.T) {
 
 func TestNil(t *testing.T) {
 	cases := []struct {
-		V interface{}
+		V any
 		O bool
 	}{
 		{nil, true},
-		{interface{}(nil), true},
+		{any(nil), true},
 		{42, false},
 		{"test", false},
 		{"", false},
@@ -370,11 +370,11 @@ func TestNil(t *testing.T) {
 
 func TestNotNil(t *testing.T) {
 	cases := []struct {
-		V interface{}
+		V any
 		O bool
 	}{
 		{nil, false},
-		{interface{}(nil), false},
+		{any(nil), false},
 		{42, true},
 		{"test", true},
 		{"", true},
@@ -422,11 +422,11 @@ func TestNilNonNilable(t *testing.T) {
 
 func TestEmpty(t *testing.T) {
 	cases := []struct {
-		V interface{}
+		V any
 		O bool
 	}{
 		{nil, false},
-		{interface{}(nil), false},
+		{any(nil), false},
 		{42, false},
 		{"test", false},
 		{"", true},
@@ -452,11 +452,11 @@ func TestEmpty(t *testing.T) {
 
 func TestNotEmpty(t *testing.T) {
 	cases := []struct {
-		V interface{}
+		V any
 		O bool
 	}{
 		{nil, false},
-		{interface{}(nil), false},
+		{any(nil), false},
 		{42, false},
 		{"test", true},
 		{"", false},
@@ -482,8 +482,8 @@ func TestNotEmpty(t *testing.T) {
 
 func TestDeepEqual(t *testing.T) {
 	cases := []struct {
-		E interface{}
-		V interface{}
+		E any
+		V any
 		O bool
 	}{
 		{int(42), int(42), true},
@@ -509,8 +509,8 @@ func TestDeepEqual(t *testing.T) {
 
 func TestNotDeepEqual(t *testing.T) {
 	cases := []struct {
-		E interface{}
-		V interface{}
+		E any
+		V any
 		O bool
 	}{
 		{int(42), int(42), false},
@@ -782,7 +782,7 @@ func TestLen(t *testing.T) {
 	ch <- 2
 	cases := []struct {
 		Name      string
-		Container interface{}
+		Container any
 		Expected  int
 		O         bool
 	}{
@@ -810,7 +810,7 @@ func TestLen(t *testing.T) {
 func TestElementsMatch(t *testing.T) {
 	cases := []struct {
 		Name string
-		A, B interface{}
+		A, B any
 		O    bool
 	}{
 		{"identical order", []int{1, 2, 3}, []int{1, 2, 3}, true},
@@ -837,7 +837,7 @@ func TestElementsMatch(t *testing.T) {
 func TestNotElementsMatch(t *testing.T) {
 	cases := []struct {
 		Name string
-		A, B interface{}
+		A, B any
 		O    bool
 	}{
 		{"different order match", []int{1, 2, 3}, []int{3, 1, 2}, false},
@@ -865,7 +865,7 @@ func TestSame(t *testing.T) {
 
 	cases := []struct {
 		Name string
-		E, A interface{}
+		E, A any
 		O    bool
 	}{
 		{"same pointer", &x, &x, true},
@@ -894,7 +894,7 @@ func TestNotSame(t *testing.T) {
 
 	cases := []struct {
 		Name string
-		E, A interface{}
+		E, A any
 		O    bool
 	}{
 		{"same pointer", &x, &x, false},
@@ -919,7 +919,7 @@ func TestZero(t *testing.T) {
 	var nilP *int
 	cases := []struct {
 		Name string
-		V    interface{}
+		V    any
 		O    bool
 	}{
 		{"nil interface", nil, true},
@@ -945,7 +945,7 @@ func TestNotZero(t *testing.T) {
 	var nilP *int
 	cases := []struct {
 		Name string
-		V    interface{}
+		V    any
 		O    bool
 	}{
 		{"nil interface", nil, false},
@@ -996,7 +996,7 @@ func TestRegexp(t *testing.T) {
 	rx := regexp.MustCompile(`\d+`)
 	cases := []struct {
 		Name    string
-		Pattern interface{}
+		Pattern any
 		Str     string
 		O       bool
 	}{
@@ -1020,7 +1020,7 @@ func TestRegexp(t *testing.T) {
 func TestNotRegexp(t *testing.T) {
 	cases := []struct {
 		Name    string
-		Pattern interface{}
+		Pattern any
 		Str     string
 		O       bool
 	}{

@@ -21,7 +21,7 @@ import (
 
 // True tests if val is True.
 {{ $msgfmtcomment }}
-func True(t testing.T, tval bool, msg ...interface{}) bool {
+func True(t testing.T, tval bool, msg ...any) bool {
     {{- template "helper" "t" }}
     if tval {
         return true
@@ -36,7 +36,7 @@ func True(t testing.T, tval bool, msg ...interface{}) bool {
 
 // False tests if val is False.
 {{ $msgfmtcomment }}
-func False(t testing.T, tval bool, msg ...interface{}) bool {
+func False(t testing.T, tval bool, msg ...any) bool {
     {{- template "helper" "t" }}
     if !tval {
         return true
@@ -54,7 +54,7 @@ func False(t testing.T, tval bool, msg ...interface{}) bool {
     // operator.
     {{ $msgfmtcomment }}
     // This version takes takes two {{ $T.T }}.
-    {{- if eq $T.T "interface{}" }}
+    {{- if eq $T.T "any" }}
     // This is a strict equality test. It will fail if `left` and `right`
     // have different types. For example, int32(42) is not equal to int64(42).
     // You can use the typed versions of `Equal` for more static typing.
@@ -64,7 +64,7 @@ func False(t testing.T, tval bool, msg ...interface{}) bool {
     func Equal{{ $T.N }}(t testing.T,
             left {{ $T.T }},
             right {{ $T.T }},
-            msg ...interface{}) bool {
+            msg ...any) bool {
         {{- template "helper" "t" }}
         failure := fail.Failure("Equal{{ $T.N }}")
 
@@ -92,7 +92,7 @@ func False(t testing.T, tval bool, msg ...interface{}) bool {
     // test against.
     {{ $msgfmtcomment }}
     // This version takes takes two {{ $T.T }}
-    {{- if eq $T.T "interface{}" }}
+    {{- if eq $T.T "any" }}
     // This is a strict non-equality test. It will pass only when
     // `left` and `right` have identical type but non-equal values.
     // For example, given int32(42) and int64(42), the test will fail because
@@ -105,7 +105,7 @@ func False(t testing.T, tval bool, msg ...interface{}) bool {
     func NotEqual{{ $T.N }}(t testing.T,
             left {{ $T.T }},
             right {{ $T.T }},
-            msg ...interface{}) bool {
+            msg ...any) bool {
         {{- template "helper" "t" }}
         failure := fail.Failure("NotEqual{{ $T.N }}")
 
@@ -135,7 +135,7 @@ func False(t testing.T, tval bool, msg ...interface{}) bool {
     func Greater{{ $T.N }}(t testing.T,
             left {{ $T.T }},
             right {{ $T.T }},
-            msg ...interface{}) bool {
+            msg ...any) bool {
         {{- template "helper" "t" }}
         if left > right {
             return true
@@ -151,7 +151,7 @@ func False(t testing.T, tval bool, msg ...interface{}) bool {
     func GreaterOrEqual{{ $T.N }}(t testing.T,
             left {{ $T.T }},
             right {{ $T.T }},
-            msg ...interface{}) bool {
+            msg ...any) bool {
         {{- template "helper" "t" }}
         if left >= right {
             return true
@@ -167,7 +167,7 @@ func False(t testing.T, tval bool, msg ...interface{}) bool {
     func Less{{ $T.N }}(t testing.T,
             left {{ $T.T }},
             right {{ $T.T }},
-            msg ...interface{}) bool {
+            msg ...any) bool {
         {{- template "helper" "t" }}
         if left < right {
             return true
@@ -183,7 +183,7 @@ func False(t testing.T, tval bool, msg ...interface{}) bool {
     func LessOrEqual{{ $T.N }}(t testing.T,
             left {{ $T.T }},
             right {{ $T.T }},
-            msg ...interface{}) bool {
+            msg ...any) bool {
         {{- template "helper" "t" }}
         if left <= right {
             return true
@@ -202,9 +202,9 @@ func False(t testing.T, tval bool, msg ...interface{}) bool {
 //  var a int32 = 42;
 //  EqualType(t, int32(0), a)
 func EqualTypes(t testing.T,
-        left interface{},
-        right interface{},
-        msg ...interface{}) bool {
+        left any,
+        right any,
+        msg ...any) bool {
     {{- template "helper" "t" }}
     leftType := reflect.TypeOf(left)
     rightType := reflect.TypeOf(right)
@@ -223,9 +223,9 @@ func EqualTypes(t testing.T,
 //  var a int32 = 42;
 //  NotEqualType(t, int64(0), a)
 func NotEqualTypes(t testing.T,
-        left interface{},
-        right interface{},
-        msg ...interface{}) bool {
+        left any,
+        right any,
+        msg ...any) bool {
     {{- template "helper" "t" }}
     leftType := reflect.TypeOf(left)
     rightType := reflect.TypeOf(right)
@@ -242,7 +242,7 @@ func NotEqualTypes(t testing.T,
     // Contains{{ $T.N }} tests if `expectedElement` is contained within
     // `container`. `container` can be a string, map (only keys are matched),
     // array or slice.
-    {{ if eq $T.T "interface{}" -}}
+    {{ if eq $T.T "any" -}}
     // The type of elements within `container` must match the type of
     // `expectedElement`.
     {{- else -}}
@@ -253,8 +253,8 @@ func NotEqualTypes(t testing.T,
     // See also `NotContains`.
     func Contains{{ $T.N }}(t testing.T,
             expectedElement {{ $T.T }},
-            container interface{},
-            msg ...interface{}) bool {
+            container any,
+            msg ...any) bool {
         {{- template "helper" "t" }}
         ok, err := cmp.Contains(expectedElement, container)
         failure := fail.Failure("Contains{{ $T.N }}")
@@ -274,7 +274,7 @@ func NotEqualTypes(t testing.T,
 
     // NotContains{{ $T.N }} tests if `expectedElement` is contained within
     // `container`. `container` can be a string, map, array or slice.
-    {{ if eq $T.T "interface{}" -}}
+    {{ if eq $T.T "any" -}}
     // The type of elements within `container` must match the type of
     // `expectedElement`.
     {{- else -}}
@@ -285,8 +285,8 @@ func NotEqualTypes(t testing.T,
     // See also `Contains`.
     func NotContains{{ $T.N }}(t testing.T,
             expectedElement {{ $T.T }},
-            container interface{},
-            msg ...interface{}) bool {
+            container any,
+            msg ...any) bool {
         {{- template "helper" "t" }}
         ok, err := cmp.Contains(expectedElement, container)
         failure := fail.Failure("NotContains{{ $T.N }}")
@@ -307,7 +307,7 @@ func NotEqualTypes(t testing.T,
 
 // Nil tests if the passed value is Nil. See also Empty.
 {{ $msgfmtcomment }}
-func Nil(t testing.T, tval interface{}, msg ...interface{}) bool {
+func Nil(t testing.T, tval any, msg ...any) bool {
     {{- template "helper" "t" }}
     isnil, err := cmp.Nil(tval)
     failure := fail.Failure("Nil")
@@ -325,7 +325,7 @@ func Nil(t testing.T, tval interface{}, msg ...interface{}) bool {
 
 // NotNil tests if the passed value is not Nil. See also NotEmpty.
 {{ $msgfmtcomment }}
-func NotNil(t testing.T, tval interface{}, msg ...interface{}) bool {
+func NotNil(t testing.T, tval any, msg ...any) bool {
     {{- template "helper" "t" }}
     isnil, err := cmp.Nil(tval)
     failure := fail.Failure("NotNil")
@@ -343,7 +343,7 @@ func NotNil(t testing.T, tval interface{}, msg ...interface{}) bool {
 // NoError tests if err is nil.
 {{ $msgfmtcomment }}
 // See also Error, ErrorIs, ErrorAs, ErrorContains.
-func NoError(t testing.T, err error, msg ...interface{}) bool {
+func NoError(t testing.T, err error, msg ...any) bool {
     {{- template "helper" "t" }}
     if err == nil {
         return true
@@ -356,7 +356,7 @@ func NoError(t testing.T, err error, msg ...interface{}) bool {
 // Error tests if err is not nil.
 {{ $msgfmtcomment }}
 // See also NoError, ErrorIs, ErrorAs, ErrorContains.
-func Error(t testing.T, err error, msg ...interface{}) bool {
+func Error(t testing.T, err error, msg ...any) bool {
     {{- template "helper" "t" }}
     if err != nil {
         return true
@@ -369,7 +369,7 @@ func Error(t testing.T, err error, msg ...interface{}) bool {
 // ErrorIs tests if errors.Is(err, target) is true.
 {{ $msgfmtcomment }}
 // See also NotErrorIs, NoError, Error.
-func ErrorIs(t testing.T, err error, target error, msg ...interface{}) bool {
+func ErrorIs(t testing.T, err error, target error, msg ...any) bool {
     {{- template "helper" "t" }}
     if errors.Is(err, target) {
         return true
@@ -383,7 +383,7 @@ func ErrorIs(t testing.T, err error, target error, msg ...interface{}) bool {
 // NotErrorIs tests if errors.Is(err, target) is false.
 {{ $msgfmtcomment }}
 // See also ErrorIs, NoError, Error.
-func NotErrorIs(t testing.T, err error, target error, msg ...interface{}) bool {
+func NotErrorIs(t testing.T, err error, target error, msg ...any) bool {
     {{- template "helper" "t" }}
     if !errors.Is(err, target) {
         return true
@@ -398,7 +398,7 @@ func NotErrorIs(t testing.T, err error, target error, msg ...interface{}) bool {
 {{ $msgfmtcomment }}
 // target must be a non-nil pointer to either a type that implements error,
 // or to any interface type. See also NotErrorAs.
-func ErrorAs(t testing.T, err error, target interface{}, msg ...interface{}) bool {
+func ErrorAs(t testing.T, err error, target any, msg ...any) bool {
     {{- template "helper" "t" }}
     if errors.As(err, target) {
         return true
@@ -412,7 +412,7 @@ func ErrorAs(t testing.T, err error, target interface{}, msg ...interface{}) boo
 // ErrorContains tests if err is not nil and err.Error() contains substr.
 {{ $msgfmtcomment }}
 // See also Error, ErrorIs.
-func ErrorContains(t testing.T, err error, substr string, msg ...interface{}) bool {
+func ErrorContains(t testing.T, err error, substr string, msg ...any) bool {
     {{- template "helper" "t" }}
     if err != nil && strings.Contains(err.Error(), substr) {
         return true
@@ -432,7 +432,7 @@ func ErrorContains(t testing.T, err error, substr string, msg ...interface{}) bo
 // Container can be any of Array, Chan, Map, Slice, or String.
 {{ $msgfmtcomment }}
 // See also `Nil`.
-func Empty(t testing.T, container interface{}, msg ...interface{}) bool {
+func Empty(t testing.T, container any, msg ...any) bool {
     {{- template "helper" "t" }}
     empty, err := cmp.Empty(container)
     failure := fail.Failure("Empty")
@@ -450,7 +450,7 @@ func Empty(t testing.T, container interface{}, msg ...interface{}) bool {
 // Container can be any of Array, Chan, Map, Slice, or String.
 // See also `NotNil`.
 {{ $msgfmtcomment }}
-func NotEmpty(t testing.T, container interface{}, msg ...interface{}) bool {
+func NotEmpty(t testing.T, container any, msg ...any) bool {
     {{- template "helper" "t" }}
     empty, err := cmp.Empty(container)
     failure := fail.Failure("NotEmpty")
@@ -466,7 +466,7 @@ func NotEmpty(t testing.T, container interface{}, msg ...interface{}) bool {
 // Len tests if the length of container equals expected. Uses Go len().
 // Container can be any of Array, Chan, Map, Slice, or String.
 {{ $msgfmtcomment }}
-func Len(t testing.T, container interface{}, expected int, msg ...interface{}) bool {
+func Len(t testing.T, container any, expected int, msg ...any) bool {
     {{- template "helper" "t" }}
     v := reflect.ValueOf(container)
     actual := -1
@@ -492,9 +492,9 @@ func Len(t testing.T, container interface{}, expected int, msg ...interface{}) b
 {{ $msgfmtcomment }}
 // See also Contains, DeepEqual.
 func ElementsMatch(t testing.T,
-        expected interface{},
-        actual interface{},
-        msg ...interface{}) bool {
+        expected any,
+        actual any,
+        msg ...any) bool {
     {{- template "helper" "t" }}
     ok, err := cmp.ElementsMatch(expected, actual)
     failure := fail.Failure("ElementsMatch")
@@ -514,9 +514,9 @@ func ElementsMatch(t testing.T,
 {{ $msgfmtcomment }}
 // See also NotContains, NotDeepEqual.
 func NotElementsMatch(t testing.T,
-        expected interface{},
-        actual interface{},
-        msg ...interface{}) bool {
+        expected any,
+        actual any,
+        msg ...any) bool {
     {{- template "helper" "t" }}
     ok, err := cmp.ElementsMatch(expected, actual)
     failure := fail.Failure("NotElementsMatch")
@@ -535,9 +535,9 @@ func NotElementsMatch(t testing.T,
 {{ $msgfmtcomment }}
 // This is a deep, recursive equality test. See also `Equal`.
 func DeepEqual(t testing.T,
-        left interface{},
-        right interface{},
-        msg ...interface{}) bool {
+        left any,
+        right any,
+        msg ...any) bool {
     {{- template "helper" "t" }}
     failure := fail.Failure("DeepEqual")
 
@@ -555,9 +555,9 @@ func DeepEqual(t testing.T,
 {{ $msgfmtcomment }}
 // This is a deep, recursive non-equality test. See also `NotEqual`.
 func NotDeepEqual(t testing.T,
-        left interface{},
-        right interface{},
-        msg ...interface{}) bool {
+        left any,
+        right any,
+        msg ...any) bool {
     {{- template "helper" "t" }}
     failure := fail.Failure("NotDeepEqual")
 
@@ -574,7 +574,7 @@ func NotDeepEqual(t testing.T,
 // Same tests if expected and actual point to the same object (pointer identity).
 // Both arguments must be pointers of the same type.
 {{ $msgfmtcomment }}
-func Same(t testing.T, expected interface{}, actual interface{}, msg ...interface{}) bool {
+func Same(t testing.T, expected any, actual any, msg ...any) bool {
     {{- template "helper" "t" }}
     ev := reflect.ValueOf(expected)
     av := reflect.ValueOf(actual)
@@ -595,7 +595,7 @@ func Same(t testing.T, expected interface{}, actual interface{}, msg ...interfac
 // NotSame tests if expected and actual do not point to the same object.
 // Both arguments must be pointers; pointers of different types are never the same.
 {{ $msgfmtcomment }}
-func NotSame(t testing.T, expected interface{}, actual interface{}, msg ...interface{}) bool {
+func NotSame(t testing.T, expected any, actual any, msg ...any) bool {
     {{- template "helper" "t" }}
     ev := reflect.ValueOf(expected)
     av := reflect.ValueOf(actual)
@@ -615,7 +615,7 @@ func NotSame(t testing.T, expected interface{}, actual interface{}, msg ...inter
 
 // Zero tests if val is the zero value for its type.
 {{ $msgfmtcomment }}
-func Zero(t testing.T, val interface{}, msg ...interface{}) bool {
+func Zero(t testing.T, val any, msg ...any) bool {
     {{- template "helper" "t" }}
     if val == nil || reflect.ValueOf(val).IsZero() {
         return true
@@ -627,7 +627,7 @@ func Zero(t testing.T, val interface{}, msg ...interface{}) bool {
 
 // NotZero tests if val is not the zero value for its type.
 {{ $msgfmtcomment }}
-func NotZero(t testing.T, val interface{}, msg ...interface{}) bool {
+func NotZero(t testing.T, val any, msg ...any) bool {
     {{- template "helper" "t" }}
     if val != nil && !reflect.ValueOf(val).IsZero() {
         return true
@@ -644,7 +644,7 @@ func InDelta(t testing.T,
         expected float64,
         actual float64,
         delta float64,
-        msg ...interface{}) bool {
+        msg ...any) bool {
     {{- template "helper" "t" }}
     diff := math.Abs(actual - expected)
     if diff <= delta {
@@ -660,7 +660,7 @@ func InDelta(t testing.T,
 // a *regexp.Regexp.
 {{ $msgfmtcomment }}
 // See also NotRegexp.
-func Regexp(t testing.T, pattern interface{}, str string, msg ...interface{}) bool {
+func Regexp(t testing.T, pattern any, str string, msg ...any) bool {
     {{- template "helper" "t" }}
     rx, err := toRegexp(pattern)
     if err != nil {
@@ -679,7 +679,7 @@ func Regexp(t testing.T, pattern interface{}, str string, msg ...interface{}) bo
 // string or a *regexp.Regexp.
 {{ $msgfmtcomment }}
 // See also Regexp.
-func NotRegexp(t testing.T, pattern interface{}, str string, msg ...interface{}) bool {
+func NotRegexp(t testing.T, pattern any, str string, msg ...any) bool {
     {{- template "helper" "t" }}
     rx, err := toRegexp(pattern)
     if err != nil {
@@ -694,7 +694,7 @@ func NotRegexp(t testing.T, pattern interface{}, str string, msg ...interface{})
         ExtraMsg(msg...))
 }
 
-func toRegexp(pattern interface{}) (*regexp.Regexp, error) {
+func toRegexp(pattern any) (*regexp.Regexp, error) {
     switch v := pattern.(type) {
     case string:
         return regexp.Compile(v)
@@ -707,7 +707,7 @@ func toRegexp(pattern interface{}) (*regexp.Regexp, error) {
 
 // Failed logs a message and fails the test.
 // fmtstr and args follows the `fmt.Printf()` format.
-func Failed(t testing.T, fmtstr string, args ...interface{}) {
+func Failed(t testing.T, fmtstr string, args ...any) {
     {{- template "helper" "t" }}
     failure := fail.Failure("Failed")
     failure = failure.Reason(fmtstr, args...)
@@ -716,7 +716,7 @@ func Failed(t testing.T, fmtstr string, args ...interface{}) {
 
 // Panics asserts that the code inside the specified function f panics.
 //   assert.Panics(t, func(){ GoCrazy() })
-func Panics(t testing.T, f func(), msg ...interface{}) bool {
+func Panics(t testing.T, f func(), msg ...any) bool {
 	{{- template "helper" "t" }}
 
 	if funcDidPanic, _ := cmp.Panics(f); !funcDidPanic {
@@ -731,9 +731,9 @@ func Panics(t testing.T, f func(), msg ...interface{}) bool {
 // panics, and that the recovered panic value equals the expected panic value
 //   assert.PanicsWithValue(t, "crazy error", func(){ GoCrazy() })
 func PanicsWith(t testing.T,
-        expected interface{},
+        expected any,
         f func(),
-        msg ...interface{}) bool {
+        msg ...any) bool {
 	{{- template "helper" "t" }}
 	funcDidPanic, panicValue := cmp.Panics(f)
 	failure := fail.Failure("PanicsWith")
@@ -750,7 +750,7 @@ func PanicsWith(t testing.T,
 
 // NotPanics asserts that the code inside the specified function f does not panic.
 //   assert.NotPanics(t, func(){ Sane() })
-func NotPanics(t testing.T, f func(), msg ...interface{}) bool {
+func NotPanics(t testing.T, f func(), msg ...any) bool {
 	{{- template "helper" "t" }}
 	if funcDidPanic, panicValue := cmp.Panics(f); funcDidPanic {
 		failure := fail.Failure("NotPanics")

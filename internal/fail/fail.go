@@ -22,7 +22,7 @@ const (
 // and isolates presentation from data capture.
 type valueSlot struct {
 	Format valueFormat
-	Value  interface{}
+	Value  any
 }
 
 func (s valueSlot) String() string {
@@ -67,46 +67,46 @@ func (tf TestFailure) WithStack(skip int) TestFailure {
 }
 
 // LeftValue used for the test.
-func (tf TestFailure) LeftValue(left interface{}) TestFailure {
+func (tf TestFailure) LeftValue(left any) TestFailure {
 	tf.Left = valueSlot{Format: valueAsValue, Value: left}
 	return tf
 }
 
 // RightValue used for the test.
-func (tf TestFailure) RightValue(right interface{}) TestFailure {
+func (tf TestFailure) RightValue(right any) TestFailure {
 	tf.Right = valueSlot{Format: valueAsValue, Value: right}
 	return tf
 }
 
 // LeftType used for the test.
-func (tf TestFailure) LeftType(left interface{}) TestFailure {
+func (tf TestFailure) LeftType(left any) TestFailure {
 	tf.Left = valueSlot{Format: valueAsType, Value: left}
 	return tf
 }
 
 // RightType used for the test.
-func (tf TestFailure) RightType(right interface{}) TestFailure {
+func (tf TestFailure) RightType(right any) TestFailure {
 	tf.Right = valueSlot{Format: valueAsType, Value: right}
 	return tf
 }
 
 // Reason returns a new TestFailure with a Reason msg attached to it. Any Error
 // attached will override the reason.
-func (tf TestFailure) Reason(msg string, args ...interface{}) TestFailure {
+func (tf TestFailure) Reason(msg string, args ...any) TestFailure {
 	tf.ReasonStr = fmt.Sprintf(msg, args...)
 	return tf
 }
 
 // Hint returns a new TestFailure with a Hint msg attached to it. Any Error
 // attached will override the hint.
-func (tf TestFailure) Hint(msg string, args ...interface{}) TestFailure {
+func (tf TestFailure) Hint(msg string, args ...any) TestFailure {
 	tf.HintStr = fmt.Sprintf(msg, args...)
 	return tf
 }
 
 // ExtraMsg returns a new TestFailure with an extra message attached to it.
 // Extra messages are expected to come from the user.
-func (tf TestFailure) ExtraMsg(args ...interface{}) TestFailure {
+func (tf TestFailure) ExtraMsg(args ...any) TestFailure {
 	if len(args) == 1 {
 		tf.ExtraMsgStr = fmt.Sprint(args[0])
 	} else if len(args) > 1 {

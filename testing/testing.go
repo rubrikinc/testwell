@@ -9,7 +9,7 @@ package testing
 // Helper() so the testing framework omits assertion stack frames from failure
 // output and points directly at the caller's line instead.
 type T interface {
-	Log(args ...interface{})
+	Log(args ...any)
 	Fail()
 	FailNow()
 	Helper()

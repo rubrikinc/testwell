@@ -25,7 +25,7 @@ func (e TypeMismatchError) Error() string {
 
 func newNotComparableError(
 	fmtstr string,
-	args ...interface{},
+	args ...any,
 ) NotComparableError {
 	return NotComparableError{
 		Msg: fmt.Sprintf(fmtstr, args...),
@@ -34,7 +34,7 @@ func newNotComparableError(
 
 // Equal returns ok=true if `left` == `right` using the Go `==` operator.
 // Panics are recovered and returned as errors.
-func Equal(left interface{}, right interface{}) (ok bool, err error) {
+func Equal(left any, right any) (ok bool, err error) {
 
 	leftType := reflect.TypeOf(left)
 	rightType := reflect.TypeOf(right)

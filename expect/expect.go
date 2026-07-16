@@ -17,7 +17,7 @@ import (
 
 // True tests if val is True.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
-func True(t testing.T, tval bool, msg ...interface{}) bool {
+func True(t testing.T, tval bool, msg ...any) bool {
 	t.Helper()
 
 	if tval {
@@ -33,7 +33,7 @@ func True(t testing.T, tval bool, msg ...interface{}) bool {
 
 // False tests if val is False.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
-func False(t testing.T, tval bool, msg ...interface{}) bool {
+func False(t testing.T, tval bool, msg ...any) bool {
 	t.Helper()
 
 	if !tval {
@@ -50,16 +50,16 @@ func False(t testing.T, tval bool, msg ...interface{}) bool {
 // Equal tests if `left` is equal to `right` using the `==`
 // operator.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
-// This version takes takes two interface{}.
+// This version takes takes two any.
 // This is a strict equality test. It will fail if `left` and `right`
 // have different types. For example, int32(42) is not equal to int64(42).
 // You can use the typed versions of `Equal` for more static typing.
 // Note that Slice, map, and function values are not comparable.
 // See also `DeepEqual`.
 func Equal(t testing.T,
-	left interface{},
-	right interface{},
-	msg ...interface{}) bool {
+	left any,
+	right any,
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("Equal")
@@ -87,7 +87,7 @@ func Equal(t testing.T,
 // `!=` operator. The left value comes first, followed by the value to
 // test against.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
-// This version takes takes two interface{}
+// This version takes takes two any
 // This is a strict non-equality test. It will pass only when
 // `left` and `right` have identical type but non-equal values.
 // For example, given int32(42) and int64(42), the test will fail because
@@ -97,9 +97,9 @@ func Equal(t testing.T,
 // Note that Slice, map, and function values are not comparable.
 // See also `NotDeepEqual`.
 func NotEqual(t testing.T,
-	left interface{},
-	right interface{},
-	msg ...interface{}) bool {
+	left any,
+	right any,
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("NotEqual")
@@ -130,7 +130,7 @@ func NotEqual(t testing.T,
 func EqualBool(t testing.T,
 	left bool,
 	right bool,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("EqualBool")
@@ -162,7 +162,7 @@ func EqualBool(t testing.T,
 func NotEqualBool(t testing.T,
 	left bool,
 	right bool,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("NotEqualBool")
@@ -193,7 +193,7 @@ func NotEqualBool(t testing.T,
 func EqualByte(t testing.T,
 	left byte,
 	right byte,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("EqualByte")
@@ -225,7 +225,7 @@ func EqualByte(t testing.T,
 func NotEqualByte(t testing.T,
 	left byte,
 	right byte,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("NotEqualByte")
@@ -256,7 +256,7 @@ func NotEqualByte(t testing.T,
 func EqualComplex128(t testing.T,
 	left complex128,
 	right complex128,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("EqualComplex128")
@@ -288,7 +288,7 @@ func EqualComplex128(t testing.T,
 func NotEqualComplex128(t testing.T,
 	left complex128,
 	right complex128,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("NotEqualComplex128")
@@ -319,7 +319,7 @@ func NotEqualComplex128(t testing.T,
 func EqualComplex64(t testing.T,
 	left complex64,
 	right complex64,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("EqualComplex64")
@@ -351,7 +351,7 @@ func EqualComplex64(t testing.T,
 func NotEqualComplex64(t testing.T,
 	left complex64,
 	right complex64,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("NotEqualComplex64")
@@ -382,7 +382,7 @@ func NotEqualComplex64(t testing.T,
 func EqualError(t testing.T,
 	left error,
 	right error,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("EqualError")
@@ -414,7 +414,7 @@ func EqualError(t testing.T,
 func NotEqualError(t testing.T,
 	left error,
 	right error,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("NotEqualError")
@@ -445,7 +445,7 @@ func NotEqualError(t testing.T,
 func EqualFloat32(t testing.T,
 	left float32,
 	right float32,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("EqualFloat32")
@@ -477,7 +477,7 @@ func EqualFloat32(t testing.T,
 func NotEqualFloat32(t testing.T,
 	left float32,
 	right float32,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("NotEqualFloat32")
@@ -508,7 +508,7 @@ func NotEqualFloat32(t testing.T,
 func EqualFloat64(t testing.T,
 	left float64,
 	right float64,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("EqualFloat64")
@@ -540,7 +540,7 @@ func EqualFloat64(t testing.T,
 func NotEqualFloat64(t testing.T,
 	left float64,
 	right float64,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("NotEqualFloat64")
@@ -571,7 +571,7 @@ func NotEqualFloat64(t testing.T,
 func EqualInt(t testing.T,
 	left int,
 	right int,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("EqualInt")
@@ -603,7 +603,7 @@ func EqualInt(t testing.T,
 func NotEqualInt(t testing.T,
 	left int,
 	right int,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("NotEqualInt")
@@ -634,7 +634,7 @@ func NotEqualInt(t testing.T,
 func EqualInt16(t testing.T,
 	left int16,
 	right int16,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("EqualInt16")
@@ -666,7 +666,7 @@ func EqualInt16(t testing.T,
 func NotEqualInt16(t testing.T,
 	left int16,
 	right int16,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("NotEqualInt16")
@@ -697,7 +697,7 @@ func NotEqualInt16(t testing.T,
 func EqualInt32(t testing.T,
 	left int32,
 	right int32,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("EqualInt32")
@@ -729,7 +729,7 @@ func EqualInt32(t testing.T,
 func NotEqualInt32(t testing.T,
 	left int32,
 	right int32,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("NotEqualInt32")
@@ -760,7 +760,7 @@ func NotEqualInt32(t testing.T,
 func EqualInt64(t testing.T,
 	left int64,
 	right int64,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("EqualInt64")
@@ -792,7 +792,7 @@ func EqualInt64(t testing.T,
 func NotEqualInt64(t testing.T,
 	left int64,
 	right int64,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("NotEqualInt64")
@@ -823,7 +823,7 @@ func NotEqualInt64(t testing.T,
 func EqualInt8(t testing.T,
 	left int8,
 	right int8,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("EqualInt8")
@@ -855,7 +855,7 @@ func EqualInt8(t testing.T,
 func NotEqualInt8(t testing.T,
 	left int8,
 	right int8,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("NotEqualInt8")
@@ -886,7 +886,7 @@ func NotEqualInt8(t testing.T,
 func EqualRune(t testing.T,
 	left rune,
 	right rune,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("EqualRune")
@@ -918,7 +918,7 @@ func EqualRune(t testing.T,
 func NotEqualRune(t testing.T,
 	left rune,
 	right rune,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("NotEqualRune")
@@ -949,7 +949,7 @@ func NotEqualRune(t testing.T,
 func EqualString(t testing.T,
 	left string,
 	right string,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("EqualString")
@@ -981,7 +981,7 @@ func EqualString(t testing.T,
 func NotEqualString(t testing.T,
 	left string,
 	right string,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("NotEqualString")
@@ -1012,7 +1012,7 @@ func NotEqualString(t testing.T,
 func EqualUint(t testing.T,
 	left uint,
 	right uint,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("EqualUint")
@@ -1044,7 +1044,7 @@ func EqualUint(t testing.T,
 func NotEqualUint(t testing.T,
 	left uint,
 	right uint,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("NotEqualUint")
@@ -1075,7 +1075,7 @@ func NotEqualUint(t testing.T,
 func EqualUint16(t testing.T,
 	left uint16,
 	right uint16,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("EqualUint16")
@@ -1107,7 +1107,7 @@ func EqualUint16(t testing.T,
 func NotEqualUint16(t testing.T,
 	left uint16,
 	right uint16,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("NotEqualUint16")
@@ -1138,7 +1138,7 @@ func NotEqualUint16(t testing.T,
 func EqualUint32(t testing.T,
 	left uint32,
 	right uint32,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("EqualUint32")
@@ -1170,7 +1170,7 @@ func EqualUint32(t testing.T,
 func NotEqualUint32(t testing.T,
 	left uint32,
 	right uint32,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("NotEqualUint32")
@@ -1201,7 +1201,7 @@ func NotEqualUint32(t testing.T,
 func EqualUint64(t testing.T,
 	left uint64,
 	right uint64,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("EqualUint64")
@@ -1233,7 +1233,7 @@ func EqualUint64(t testing.T,
 func NotEqualUint64(t testing.T,
 	left uint64,
 	right uint64,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("NotEqualUint64")
@@ -1264,7 +1264,7 @@ func NotEqualUint64(t testing.T,
 func EqualUint8(t testing.T,
 	left uint8,
 	right uint8,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("EqualUint8")
@@ -1296,7 +1296,7 @@ func EqualUint8(t testing.T,
 func NotEqualUint8(t testing.T,
 	left uint8,
 	right uint8,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("NotEqualUint8")
@@ -1327,7 +1327,7 @@ func NotEqualUint8(t testing.T,
 func EqualUintptr(t testing.T,
 	left uintptr,
 	right uintptr,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("EqualUintptr")
@@ -1359,7 +1359,7 @@ func EqualUintptr(t testing.T,
 func NotEqualUintptr(t testing.T,
 	left uintptr,
 	right uintptr,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("NotEqualUintptr")
@@ -1388,7 +1388,7 @@ func NotEqualUintptr(t testing.T,
 func GreaterByte(t testing.T,
 	left byte,
 	right byte,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left > right {
@@ -1405,7 +1405,7 @@ func GreaterByte(t testing.T,
 func GreaterOrEqualByte(t testing.T,
 	left byte,
 	right byte,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left >= right {
@@ -1422,7 +1422,7 @@ func GreaterOrEqualByte(t testing.T,
 func LessByte(t testing.T,
 	left byte,
 	right byte,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left < right {
@@ -1439,7 +1439,7 @@ func LessByte(t testing.T,
 func LessOrEqualByte(t testing.T,
 	left byte,
 	right byte,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left <= right {
@@ -1456,7 +1456,7 @@ func LessOrEqualByte(t testing.T,
 func GreaterFloat32(t testing.T,
 	left float32,
 	right float32,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left > right {
@@ -1473,7 +1473,7 @@ func GreaterFloat32(t testing.T,
 func GreaterOrEqualFloat32(t testing.T,
 	left float32,
 	right float32,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left >= right {
@@ -1490,7 +1490,7 @@ func GreaterOrEqualFloat32(t testing.T,
 func LessFloat32(t testing.T,
 	left float32,
 	right float32,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left < right {
@@ -1507,7 +1507,7 @@ func LessFloat32(t testing.T,
 func LessOrEqualFloat32(t testing.T,
 	left float32,
 	right float32,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left <= right {
@@ -1524,7 +1524,7 @@ func LessOrEqualFloat32(t testing.T,
 func GreaterFloat64(t testing.T,
 	left float64,
 	right float64,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left > right {
@@ -1541,7 +1541,7 @@ func GreaterFloat64(t testing.T,
 func GreaterOrEqualFloat64(t testing.T,
 	left float64,
 	right float64,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left >= right {
@@ -1558,7 +1558,7 @@ func GreaterOrEqualFloat64(t testing.T,
 func LessFloat64(t testing.T,
 	left float64,
 	right float64,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left < right {
@@ -1575,7 +1575,7 @@ func LessFloat64(t testing.T,
 func LessOrEqualFloat64(t testing.T,
 	left float64,
 	right float64,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left <= right {
@@ -1592,7 +1592,7 @@ func LessOrEqualFloat64(t testing.T,
 func GreaterInt(t testing.T,
 	left int,
 	right int,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left > right {
@@ -1609,7 +1609,7 @@ func GreaterInt(t testing.T,
 func GreaterOrEqualInt(t testing.T,
 	left int,
 	right int,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left >= right {
@@ -1626,7 +1626,7 @@ func GreaterOrEqualInt(t testing.T,
 func LessInt(t testing.T,
 	left int,
 	right int,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left < right {
@@ -1643,7 +1643,7 @@ func LessInt(t testing.T,
 func LessOrEqualInt(t testing.T,
 	left int,
 	right int,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left <= right {
@@ -1660,7 +1660,7 @@ func LessOrEqualInt(t testing.T,
 func GreaterInt16(t testing.T,
 	left int16,
 	right int16,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left > right {
@@ -1677,7 +1677,7 @@ func GreaterInt16(t testing.T,
 func GreaterOrEqualInt16(t testing.T,
 	left int16,
 	right int16,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left >= right {
@@ -1694,7 +1694,7 @@ func GreaterOrEqualInt16(t testing.T,
 func LessInt16(t testing.T,
 	left int16,
 	right int16,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left < right {
@@ -1711,7 +1711,7 @@ func LessInt16(t testing.T,
 func LessOrEqualInt16(t testing.T,
 	left int16,
 	right int16,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left <= right {
@@ -1728,7 +1728,7 @@ func LessOrEqualInt16(t testing.T,
 func GreaterInt32(t testing.T,
 	left int32,
 	right int32,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left > right {
@@ -1745,7 +1745,7 @@ func GreaterInt32(t testing.T,
 func GreaterOrEqualInt32(t testing.T,
 	left int32,
 	right int32,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left >= right {
@@ -1762,7 +1762,7 @@ func GreaterOrEqualInt32(t testing.T,
 func LessInt32(t testing.T,
 	left int32,
 	right int32,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left < right {
@@ -1779,7 +1779,7 @@ func LessInt32(t testing.T,
 func LessOrEqualInt32(t testing.T,
 	left int32,
 	right int32,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left <= right {
@@ -1796,7 +1796,7 @@ func LessOrEqualInt32(t testing.T,
 func GreaterInt64(t testing.T,
 	left int64,
 	right int64,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left > right {
@@ -1813,7 +1813,7 @@ func GreaterInt64(t testing.T,
 func GreaterOrEqualInt64(t testing.T,
 	left int64,
 	right int64,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left >= right {
@@ -1830,7 +1830,7 @@ func GreaterOrEqualInt64(t testing.T,
 func LessInt64(t testing.T,
 	left int64,
 	right int64,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left < right {
@@ -1847,7 +1847,7 @@ func LessInt64(t testing.T,
 func LessOrEqualInt64(t testing.T,
 	left int64,
 	right int64,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left <= right {
@@ -1864,7 +1864,7 @@ func LessOrEqualInt64(t testing.T,
 func GreaterInt8(t testing.T,
 	left int8,
 	right int8,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left > right {
@@ -1881,7 +1881,7 @@ func GreaterInt8(t testing.T,
 func GreaterOrEqualInt8(t testing.T,
 	left int8,
 	right int8,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left >= right {
@@ -1898,7 +1898,7 @@ func GreaterOrEqualInt8(t testing.T,
 func LessInt8(t testing.T,
 	left int8,
 	right int8,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left < right {
@@ -1915,7 +1915,7 @@ func LessInt8(t testing.T,
 func LessOrEqualInt8(t testing.T,
 	left int8,
 	right int8,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left <= right {
@@ -1932,7 +1932,7 @@ func LessOrEqualInt8(t testing.T,
 func GreaterRune(t testing.T,
 	left rune,
 	right rune,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left > right {
@@ -1949,7 +1949,7 @@ func GreaterRune(t testing.T,
 func GreaterOrEqualRune(t testing.T,
 	left rune,
 	right rune,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left >= right {
@@ -1966,7 +1966,7 @@ func GreaterOrEqualRune(t testing.T,
 func LessRune(t testing.T,
 	left rune,
 	right rune,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left < right {
@@ -1983,7 +1983,7 @@ func LessRune(t testing.T,
 func LessOrEqualRune(t testing.T,
 	left rune,
 	right rune,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left <= right {
@@ -2000,7 +2000,7 @@ func LessOrEqualRune(t testing.T,
 func GreaterString(t testing.T,
 	left string,
 	right string,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left > right {
@@ -2017,7 +2017,7 @@ func GreaterString(t testing.T,
 func GreaterOrEqualString(t testing.T,
 	left string,
 	right string,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left >= right {
@@ -2034,7 +2034,7 @@ func GreaterOrEqualString(t testing.T,
 func LessString(t testing.T,
 	left string,
 	right string,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left < right {
@@ -2051,7 +2051,7 @@ func LessString(t testing.T,
 func LessOrEqualString(t testing.T,
 	left string,
 	right string,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left <= right {
@@ -2068,7 +2068,7 @@ func LessOrEqualString(t testing.T,
 func GreaterUint(t testing.T,
 	left uint,
 	right uint,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left > right {
@@ -2085,7 +2085,7 @@ func GreaterUint(t testing.T,
 func GreaterOrEqualUint(t testing.T,
 	left uint,
 	right uint,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left >= right {
@@ -2102,7 +2102,7 @@ func GreaterOrEqualUint(t testing.T,
 func LessUint(t testing.T,
 	left uint,
 	right uint,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left < right {
@@ -2119,7 +2119,7 @@ func LessUint(t testing.T,
 func LessOrEqualUint(t testing.T,
 	left uint,
 	right uint,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left <= right {
@@ -2136,7 +2136,7 @@ func LessOrEqualUint(t testing.T,
 func GreaterUint16(t testing.T,
 	left uint16,
 	right uint16,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left > right {
@@ -2153,7 +2153,7 @@ func GreaterUint16(t testing.T,
 func GreaterOrEqualUint16(t testing.T,
 	left uint16,
 	right uint16,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left >= right {
@@ -2170,7 +2170,7 @@ func GreaterOrEqualUint16(t testing.T,
 func LessUint16(t testing.T,
 	left uint16,
 	right uint16,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left < right {
@@ -2187,7 +2187,7 @@ func LessUint16(t testing.T,
 func LessOrEqualUint16(t testing.T,
 	left uint16,
 	right uint16,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left <= right {
@@ -2204,7 +2204,7 @@ func LessOrEqualUint16(t testing.T,
 func GreaterUint32(t testing.T,
 	left uint32,
 	right uint32,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left > right {
@@ -2221,7 +2221,7 @@ func GreaterUint32(t testing.T,
 func GreaterOrEqualUint32(t testing.T,
 	left uint32,
 	right uint32,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left >= right {
@@ -2238,7 +2238,7 @@ func GreaterOrEqualUint32(t testing.T,
 func LessUint32(t testing.T,
 	left uint32,
 	right uint32,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left < right {
@@ -2255,7 +2255,7 @@ func LessUint32(t testing.T,
 func LessOrEqualUint32(t testing.T,
 	left uint32,
 	right uint32,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left <= right {
@@ -2272,7 +2272,7 @@ func LessOrEqualUint32(t testing.T,
 func GreaterUint64(t testing.T,
 	left uint64,
 	right uint64,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left > right {
@@ -2289,7 +2289,7 @@ func GreaterUint64(t testing.T,
 func GreaterOrEqualUint64(t testing.T,
 	left uint64,
 	right uint64,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left >= right {
@@ -2306,7 +2306,7 @@ func GreaterOrEqualUint64(t testing.T,
 func LessUint64(t testing.T,
 	left uint64,
 	right uint64,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left < right {
@@ -2323,7 +2323,7 @@ func LessUint64(t testing.T,
 func LessOrEqualUint64(t testing.T,
 	left uint64,
 	right uint64,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left <= right {
@@ -2340,7 +2340,7 @@ func LessOrEqualUint64(t testing.T,
 func GreaterUint8(t testing.T,
 	left uint8,
 	right uint8,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left > right {
@@ -2357,7 +2357,7 @@ func GreaterUint8(t testing.T,
 func GreaterOrEqualUint8(t testing.T,
 	left uint8,
 	right uint8,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left >= right {
@@ -2374,7 +2374,7 @@ func GreaterOrEqualUint8(t testing.T,
 func LessUint8(t testing.T,
 	left uint8,
 	right uint8,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left < right {
@@ -2391,7 +2391,7 @@ func LessUint8(t testing.T,
 func LessOrEqualUint8(t testing.T,
 	left uint8,
 	right uint8,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left <= right {
@@ -2408,7 +2408,7 @@ func LessOrEqualUint8(t testing.T,
 func GreaterUintptr(t testing.T,
 	left uintptr,
 	right uintptr,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left > right {
@@ -2425,7 +2425,7 @@ func GreaterUintptr(t testing.T,
 func GreaterOrEqualUintptr(t testing.T,
 	left uintptr,
 	right uintptr,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left >= right {
@@ -2442,7 +2442,7 @@ func GreaterOrEqualUintptr(t testing.T,
 func LessUintptr(t testing.T,
 	left uintptr,
 	right uintptr,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left < right {
@@ -2459,7 +2459,7 @@ func LessUintptr(t testing.T,
 func LessOrEqualUintptr(t testing.T,
 	left uintptr,
 	right uintptr,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	if left <= right {
@@ -2478,9 +2478,9 @@ func LessOrEqualUintptr(t testing.T,
 //	var a int32 = 42;
 //	EqualType(t, int32(0), a)
 func EqualTypes(t testing.T,
-	left interface{},
-	right interface{},
-	msg ...interface{}) bool {
+	left any,
+	right any,
+	msg ...any) bool {
 	t.Helper()
 
 	leftType := reflect.TypeOf(left)
@@ -2501,9 +2501,9 @@ func EqualTypes(t testing.T,
 //	var a int32 = 42;
 //	NotEqualType(t, int64(0), a)
 func NotEqualTypes(t testing.T,
-	left interface{},
-	right interface{},
-	msg ...interface{}) bool {
+	left any,
+	right any,
+	msg ...any) bool {
 	t.Helper()
 
 	leftType := reflect.TypeOf(left)
@@ -2526,9 +2526,9 @@ func NotEqualTypes(t testing.T,
 // You can use the typed versions of `Contains` for more static typing.
 // See also `NotContains`.
 func Contains(t testing.T,
-	expectedElement interface{},
-	container interface{},
-	msg ...interface{}) bool {
+	expectedElement any,
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -2555,9 +2555,9 @@ func Contains(t testing.T,
 // You can use the typed versions of `NotContains` for more static typing.
 // See also `Contains`.
 func NotContains(t testing.T,
-	expectedElement interface{},
-	container interface{},
-	msg ...interface{}) bool {
+	expectedElement any,
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -2585,8 +2585,8 @@ func NotContains(t testing.T,
 // See also `NotContains`.
 func ContainsBool(t testing.T,
 	expectedElement bool,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -2613,8 +2613,8 @@ func ContainsBool(t testing.T,
 // See also `Contains`.
 func NotContainsBool(t testing.T,
 	expectedElement bool,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -2642,8 +2642,8 @@ func NotContainsBool(t testing.T,
 // See also `NotContains`.
 func ContainsByte(t testing.T,
 	expectedElement byte,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -2670,8 +2670,8 @@ func ContainsByte(t testing.T,
 // See also `Contains`.
 func NotContainsByte(t testing.T,
 	expectedElement byte,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -2699,8 +2699,8 @@ func NotContainsByte(t testing.T,
 // See also `NotContains`.
 func ContainsComplex128(t testing.T,
 	expectedElement complex128,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -2727,8 +2727,8 @@ func ContainsComplex128(t testing.T,
 // See also `Contains`.
 func NotContainsComplex128(t testing.T,
 	expectedElement complex128,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -2756,8 +2756,8 @@ func NotContainsComplex128(t testing.T,
 // See also `NotContains`.
 func ContainsComplex64(t testing.T,
 	expectedElement complex64,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -2784,8 +2784,8 @@ func ContainsComplex64(t testing.T,
 // See also `Contains`.
 func NotContainsComplex64(t testing.T,
 	expectedElement complex64,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -2813,8 +2813,8 @@ func NotContainsComplex64(t testing.T,
 // See also `NotContains`.
 func ContainsError(t testing.T,
 	expectedElement error,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -2841,8 +2841,8 @@ func ContainsError(t testing.T,
 // See also `Contains`.
 func NotContainsError(t testing.T,
 	expectedElement error,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -2870,8 +2870,8 @@ func NotContainsError(t testing.T,
 // See also `NotContains`.
 func ContainsFloat32(t testing.T,
 	expectedElement float32,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -2898,8 +2898,8 @@ func ContainsFloat32(t testing.T,
 // See also `Contains`.
 func NotContainsFloat32(t testing.T,
 	expectedElement float32,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -2927,8 +2927,8 @@ func NotContainsFloat32(t testing.T,
 // See also `NotContains`.
 func ContainsFloat64(t testing.T,
 	expectedElement float64,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -2955,8 +2955,8 @@ func ContainsFloat64(t testing.T,
 // See also `Contains`.
 func NotContainsFloat64(t testing.T,
 	expectedElement float64,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -2984,8 +2984,8 @@ func NotContainsFloat64(t testing.T,
 // See also `NotContains`.
 func ContainsInt(t testing.T,
 	expectedElement int,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -3012,8 +3012,8 @@ func ContainsInt(t testing.T,
 // See also `Contains`.
 func NotContainsInt(t testing.T,
 	expectedElement int,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -3041,8 +3041,8 @@ func NotContainsInt(t testing.T,
 // See also `NotContains`.
 func ContainsInt16(t testing.T,
 	expectedElement int16,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -3069,8 +3069,8 @@ func ContainsInt16(t testing.T,
 // See also `Contains`.
 func NotContainsInt16(t testing.T,
 	expectedElement int16,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -3098,8 +3098,8 @@ func NotContainsInt16(t testing.T,
 // See also `NotContains`.
 func ContainsInt32(t testing.T,
 	expectedElement int32,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -3126,8 +3126,8 @@ func ContainsInt32(t testing.T,
 // See also `Contains`.
 func NotContainsInt32(t testing.T,
 	expectedElement int32,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -3155,8 +3155,8 @@ func NotContainsInt32(t testing.T,
 // See also `NotContains`.
 func ContainsInt64(t testing.T,
 	expectedElement int64,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -3183,8 +3183,8 @@ func ContainsInt64(t testing.T,
 // See also `Contains`.
 func NotContainsInt64(t testing.T,
 	expectedElement int64,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -3212,8 +3212,8 @@ func NotContainsInt64(t testing.T,
 // See also `NotContains`.
 func ContainsInt8(t testing.T,
 	expectedElement int8,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -3240,8 +3240,8 @@ func ContainsInt8(t testing.T,
 // See also `Contains`.
 func NotContainsInt8(t testing.T,
 	expectedElement int8,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -3269,8 +3269,8 @@ func NotContainsInt8(t testing.T,
 // See also `NotContains`.
 func ContainsRune(t testing.T,
 	expectedElement rune,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -3297,8 +3297,8 @@ func ContainsRune(t testing.T,
 // See also `Contains`.
 func NotContainsRune(t testing.T,
 	expectedElement rune,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -3326,8 +3326,8 @@ func NotContainsRune(t testing.T,
 // See also `NotContains`.
 func ContainsString(t testing.T,
 	expectedElement string,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -3354,8 +3354,8 @@ func ContainsString(t testing.T,
 // See also `Contains`.
 func NotContainsString(t testing.T,
 	expectedElement string,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -3383,8 +3383,8 @@ func NotContainsString(t testing.T,
 // See also `NotContains`.
 func ContainsUint(t testing.T,
 	expectedElement uint,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -3411,8 +3411,8 @@ func ContainsUint(t testing.T,
 // See also `Contains`.
 func NotContainsUint(t testing.T,
 	expectedElement uint,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -3440,8 +3440,8 @@ func NotContainsUint(t testing.T,
 // See also `NotContains`.
 func ContainsUint16(t testing.T,
 	expectedElement uint16,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -3468,8 +3468,8 @@ func ContainsUint16(t testing.T,
 // See also `Contains`.
 func NotContainsUint16(t testing.T,
 	expectedElement uint16,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -3497,8 +3497,8 @@ func NotContainsUint16(t testing.T,
 // See also `NotContains`.
 func ContainsUint32(t testing.T,
 	expectedElement uint32,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -3525,8 +3525,8 @@ func ContainsUint32(t testing.T,
 // See also `Contains`.
 func NotContainsUint32(t testing.T,
 	expectedElement uint32,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -3554,8 +3554,8 @@ func NotContainsUint32(t testing.T,
 // See also `NotContains`.
 func ContainsUint64(t testing.T,
 	expectedElement uint64,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -3582,8 +3582,8 @@ func ContainsUint64(t testing.T,
 // See also `Contains`.
 func NotContainsUint64(t testing.T,
 	expectedElement uint64,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -3611,8 +3611,8 @@ func NotContainsUint64(t testing.T,
 // See also `NotContains`.
 func ContainsUint8(t testing.T,
 	expectedElement uint8,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -3639,8 +3639,8 @@ func ContainsUint8(t testing.T,
 // See also `Contains`.
 func NotContainsUint8(t testing.T,
 	expectedElement uint8,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -3668,8 +3668,8 @@ func NotContainsUint8(t testing.T,
 // See also `NotContains`.
 func ContainsUintptr(t testing.T,
 	expectedElement uintptr,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -3696,8 +3696,8 @@ func ContainsUintptr(t testing.T,
 // See also `Contains`.
 func NotContainsUintptr(t testing.T,
 	expectedElement uintptr,
-	container interface{},
-	msg ...interface{}) bool {
+	container any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.Contains(expectedElement, container)
@@ -3718,7 +3718,7 @@ func NotContainsUintptr(t testing.T,
 
 // Nil tests if the passed value is Nil. See also Empty.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
-func Nil(t testing.T, tval interface{}, msg ...interface{}) bool {
+func Nil(t testing.T, tval any, msg ...any) bool {
 	t.Helper()
 
 	isnil, err := cmp.Nil(tval)
@@ -3737,7 +3737,7 @@ func Nil(t testing.T, tval interface{}, msg ...interface{}) bool {
 
 // NotNil tests if the passed value is not Nil. See also NotEmpty.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
-func NotNil(t testing.T, tval interface{}, msg ...interface{}) bool {
+func NotNil(t testing.T, tval any, msg ...any) bool {
 	t.Helper()
 
 	isnil, err := cmp.Nil(tval)
@@ -3756,7 +3756,7 @@ func NotNil(t testing.T, tval interface{}, msg ...interface{}) bool {
 // NoError tests if err is nil.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // See also Error, ErrorIs, ErrorAs, ErrorContains.
-func NoError(t testing.T, err error, msg ...interface{}) bool {
+func NoError(t testing.T, err error, msg ...any) bool {
 	t.Helper()
 
 	if err == nil {
@@ -3770,7 +3770,7 @@ func NoError(t testing.T, err error, msg ...interface{}) bool {
 // Error tests if err is not nil.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // See also NoError, ErrorIs, ErrorAs, ErrorContains.
-func Error(t testing.T, err error, msg ...interface{}) bool {
+func Error(t testing.T, err error, msg ...any) bool {
 	t.Helper()
 
 	if err != nil {
@@ -3784,7 +3784,7 @@ func Error(t testing.T, err error, msg ...interface{}) bool {
 // ErrorIs tests if errors.Is(err, target) is true.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // See also NotErrorIs, NoError, Error.
-func ErrorIs(t testing.T, err error, target error, msg ...interface{}) bool {
+func ErrorIs(t testing.T, err error, target error, msg ...any) bool {
 	t.Helper()
 
 	if errors.Is(err, target) {
@@ -3799,7 +3799,7 @@ func ErrorIs(t testing.T, err error, target error, msg ...interface{}) bool {
 // NotErrorIs tests if errors.Is(err, target) is false.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // See also ErrorIs, NoError, Error.
-func NotErrorIs(t testing.T, err error, target error, msg ...interface{}) bool {
+func NotErrorIs(t testing.T, err error, target error, msg ...any) bool {
 	t.Helper()
 
 	if !errors.Is(err, target) {
@@ -3815,7 +3815,7 @@ func NotErrorIs(t testing.T, err error, target error, msg ...interface{}) bool {
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // target must be a non-nil pointer to either a type that implements error,
 // or to any interface type. See also NotErrorAs.
-func ErrorAs(t testing.T, err error, target interface{}, msg ...interface{}) bool {
+func ErrorAs(t testing.T, err error, target any, msg ...any) bool {
 	t.Helper()
 
 	if errors.As(err, target) {
@@ -3830,7 +3830,7 @@ func ErrorAs(t testing.T, err error, target interface{}, msg ...interface{}) boo
 // ErrorContains tests if err is not nil and err.Error() contains substr.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // See also Error, ErrorIs.
-func ErrorContains(t testing.T, err error, substr string, msg ...interface{}) bool {
+func ErrorContains(t testing.T, err error, substr string, msg ...any) bool {
 	t.Helper()
 
 	if err != nil && strings.Contains(err.Error(), substr) {
@@ -3851,7 +3851,7 @@ func ErrorContains(t testing.T, err error, substr string, msg ...interface{}) bo
 // Container can be any of Array, Chan, Map, Slice, or String.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // See also `Nil`.
-func Empty(t testing.T, container interface{}, msg ...interface{}) bool {
+func Empty(t testing.T, container any, msg ...any) bool {
 	t.Helper()
 
 	empty, err := cmp.Empty(container)
@@ -3870,7 +3870,7 @@ func Empty(t testing.T, container interface{}, msg ...interface{}) bool {
 // Container can be any of Array, Chan, Map, Slice, or String.
 // See also `NotNil`.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
-func NotEmpty(t testing.T, container interface{}, msg ...interface{}) bool {
+func NotEmpty(t testing.T, container any, msg ...any) bool {
 	t.Helper()
 
 	empty, err := cmp.Empty(container)
@@ -3887,7 +3887,7 @@ func NotEmpty(t testing.T, container interface{}, msg ...interface{}) bool {
 // Len tests if the length of container equals expected. Uses Go len().
 // Container can be any of Array, Chan, Map, Slice, or String.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
-func Len(t testing.T, container interface{}, expected int, msg ...interface{}) bool {
+func Len(t testing.T, container any, expected int, msg ...any) bool {
 	t.Helper()
 
 	v := reflect.ValueOf(container)
@@ -3914,9 +3914,9 @@ func Len(t testing.T, container interface{}, expected int, msg ...interface{}) b
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // See also Contains, DeepEqual.
 func ElementsMatch(t testing.T,
-	expected interface{},
-	actual interface{},
-	msg ...interface{}) bool {
+	expected any,
+	actual any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.ElementsMatch(expected, actual)
@@ -3937,9 +3937,9 @@ func ElementsMatch(t testing.T,
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // See also NotContains, NotDeepEqual.
 func NotElementsMatch(t testing.T,
-	expected interface{},
-	actual interface{},
-	msg ...interface{}) bool {
+	expected any,
+	actual any,
+	msg ...any) bool {
 	t.Helper()
 
 	ok, err := cmp.ElementsMatch(expected, actual)
@@ -3959,9 +3959,9 @@ func NotElementsMatch(t testing.T,
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // This is a deep, recursive equality test. See also `Equal`.
 func DeepEqual(t testing.T,
-	left interface{},
-	right interface{},
-	msg ...interface{}) bool {
+	left any,
+	right any,
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("DeepEqual")
@@ -3980,9 +3980,9 @@ func DeepEqual(t testing.T,
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // This is a deep, recursive non-equality test. See also `NotEqual`.
 func NotDeepEqual(t testing.T,
-	left interface{},
-	right interface{},
-	msg ...interface{}) bool {
+	left any,
+	right any,
+	msg ...any) bool {
 	t.Helper()
 
 	failure := fail.Failure("NotDeepEqual")
@@ -4000,7 +4000,7 @@ func NotDeepEqual(t testing.T,
 // Same tests if expected and actual point to the same object (pointer identity).
 // Both arguments must be pointers of the same type.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
-func Same(t testing.T, expected interface{}, actual interface{}, msg ...interface{}) bool {
+func Same(t testing.T, expected any, actual any, msg ...any) bool {
 	t.Helper()
 
 	ev := reflect.ValueOf(expected)
@@ -4022,7 +4022,7 @@ func Same(t testing.T, expected interface{}, actual interface{}, msg ...interfac
 // NotSame tests if expected and actual do not point to the same object.
 // Both arguments must be pointers; pointers of different types are never the same.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
-func NotSame(t testing.T, expected interface{}, actual interface{}, msg ...interface{}) bool {
+func NotSame(t testing.T, expected any, actual any, msg ...any) bool {
 	t.Helper()
 
 	ev := reflect.ValueOf(expected)
@@ -4043,7 +4043,7 @@ func NotSame(t testing.T, expected interface{}, actual interface{}, msg ...inter
 
 // Zero tests if val is the zero value for its type.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
-func Zero(t testing.T, val interface{}, msg ...interface{}) bool {
+func Zero(t testing.T, val any, msg ...any) bool {
 	t.Helper()
 
 	if val == nil || reflect.ValueOf(val).IsZero() {
@@ -4056,7 +4056,7 @@ func Zero(t testing.T, val interface{}, msg ...interface{}) bool {
 
 // NotZero tests if val is not the zero value for its type.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
-func NotZero(t testing.T, val interface{}, msg ...interface{}) bool {
+func NotZero(t testing.T, val any, msg ...any) bool {
 	t.Helper()
 
 	if val != nil && !reflect.ValueOf(val).IsZero() {
@@ -4074,7 +4074,7 @@ func InDelta(t testing.T,
 	expected float64,
 	actual float64,
 	delta float64,
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	diff := math.Abs(actual - expected)
@@ -4091,7 +4091,7 @@ func InDelta(t testing.T,
 // a *regexp.Regexp.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // See also NotRegexp.
-func Regexp(t testing.T, pattern interface{}, str string, msg ...interface{}) bool {
+func Regexp(t testing.T, pattern any, str string, msg ...any) bool {
 	t.Helper()
 
 	rx, err := toRegexp(pattern)
@@ -4111,7 +4111,7 @@ func Regexp(t testing.T, pattern interface{}, str string, msg ...interface{}) bo
 // string or a *regexp.Regexp.
 // msg is an optional list of arguments following the `fmt.Printf()` format.
 // See also Regexp.
-func NotRegexp(t testing.T, pattern interface{}, str string, msg ...interface{}) bool {
+func NotRegexp(t testing.T, pattern any, str string, msg ...any) bool {
 	t.Helper()
 
 	rx, err := toRegexp(pattern)
@@ -4127,7 +4127,7 @@ func NotRegexp(t testing.T, pattern interface{}, str string, msg ...interface{})
 		ExtraMsg(msg...))
 }
 
-func toRegexp(pattern interface{}) (*regexp.Regexp, error) {
+func toRegexp(pattern any) (*regexp.Regexp, error) {
 	switch v := pattern.(type) {
 	case string:
 		return regexp.Compile(v)
@@ -4140,7 +4140,7 @@ func toRegexp(pattern interface{}) (*regexp.Regexp, error) {
 
 // Failed logs a message and fails the test.
 // fmtstr and args follows the `fmt.Printf()` format.
-func Failed(t testing.T, fmtstr string, args ...interface{}) {
+func Failed(t testing.T, fmtstr string, args ...any) {
 	t.Helper()
 
 	failure := fail.Failure("Failed")
@@ -4151,7 +4151,7 @@ func Failed(t testing.T, fmtstr string, args ...interface{}) {
 // Panics asserts that the code inside the specified function f panics.
 //
 //	assert.Panics(t, func(){ GoCrazy() })
-func Panics(t testing.T, f func(), msg ...interface{}) bool {
+func Panics(t testing.T, f func(), msg ...any) bool {
 	t.Helper()
 
 	if funcDidPanic, _ := cmp.Panics(f); !funcDidPanic {
@@ -4167,9 +4167,9 @@ func Panics(t testing.T, f func(), msg ...interface{}) bool {
 //
 //	assert.PanicsWithValue(t, "crazy error", func(){ GoCrazy() })
 func PanicsWith(t testing.T,
-	expected interface{},
+	expected any,
 	f func(),
-	msg ...interface{}) bool {
+	msg ...any) bool {
 	t.Helper()
 
 	funcDidPanic, panicValue := cmp.Panics(f)
@@ -4188,7 +4188,7 @@ func PanicsWith(t testing.T,
 // NotPanics asserts that the code inside the specified function f does not panic.
 //
 //	assert.NotPanics(t, func(){ Sane() })
-func NotPanics(t testing.T, f func(), msg ...interface{}) bool {
+func NotPanics(t testing.T, f func(), msg ...any) bool {
 	t.Helper()
 
 	if funcDidPanic, panicValue := cmp.Panics(f); funcDidPanic {

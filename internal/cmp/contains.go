@@ -17,7 +17,7 @@ func (e ContainsError) Error() string {
 	return fmt.Sprintf("ContainsError: %s", e.Hint)
 }
 
-func newContainsError(fmtstr string, args ...interface{}) ContainsError {
+func newContainsError(fmtstr string, args ...any) ContainsError {
 	return ContainsError{
 		Hint: fmt.Sprintf(fmtstr, args...),
 	}
@@ -27,7 +27,7 @@ func newContainsError(fmtstr string, args ...interface{}) ContainsError {
 // container type is introspected at runtime. The type of elem must match the
 // type of elements in the container.
 // Supported container types: string, map (keys), array, slice.
-func Contains(elem interface{}, container interface{}) (bool, error) {
+func Contains(elem any, container any) (bool, error) {
 	containerVal := reflect.ValueOf(container)
 	elemVal := reflect.ValueOf(elem)
 

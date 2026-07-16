@@ -7,7 +7,7 @@ import (
 
 // Empty returns ok=true if `container` is empty. A nil pointer to a container
 // type is empty. A container with zero element is empty.
-func Empty(container interface{}) (bool, error) {
+func Empty(container any) (bool, error) {
 	containerVal := reflect.ValueOf(container)
 
 	switch containerVal.Kind() {

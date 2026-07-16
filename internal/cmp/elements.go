@@ -7,7 +7,7 @@ import (
 
 // ElementsMatch returns true if listA and listB contain the same elements
 // regardless of order. Both must be slices or arrays.
-func ElementsMatch(listA, listB interface{}) (bool, error) {
+func ElementsMatch(listA, listB any) (bool, error) {
 	aVal := reflect.ValueOf(listA)
 	bVal := reflect.ValueOf(listB)
 
