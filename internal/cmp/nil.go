@@ -31,5 +31,7 @@ func Nil(nullable interface{}) (ok bool, err error) {
 		}
 	}
 
+	// IsNil is safe: the switch above only falls through for nilable kinds;
+	// reflect.Value.IsNil panics only on non-nilable kinds.
 	return nullableVal.IsNil(), nil
 }
