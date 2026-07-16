@@ -255,6 +255,9 @@ func TestContains(t *testing.T) {
 		{42, nil, false},
 		{42, 42, false},
 		{42, "42", false},
+		// non-comparable element type — would panic with ==, must not panic
+		{[]int{1, 2}, [][]int{{0}, {1, 2}, {3}}, true},
+		{[]int{9}, [][]int{{0}, {1, 2}, {3}}, false},
 		{nil, []string{"a"}, false},
 		{nil, "foo", false},
 		{nil, map[string]int{"a": 1}, false},

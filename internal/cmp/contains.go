@@ -53,11 +53,11 @@ func Contains(elem any, container any) (bool, error) {
 				elem, containerVal.Type().Key())
 		}
 		return containerVal.MapIndex(elemVal).IsValid(), nil
-	case reflect.Array:
-		fallthrough
-	case reflect.Slice:
+	case reflect.Array, reflect.Slice:
 		for i := 0; i < containerVal.Len(); i++ {
-			if containerVal.Index(i).Interface() == elem {
+			// DeepEqual handles non-comparable element types (e.g. structs
+			// with slice fields) safely; == would panic for those.
+			if reflect.DeepEqual(containerVal.Index(i).Interface(), elem) {
 				return true, nil
 			}
 		}
