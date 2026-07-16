@@ -41,7 +41,7 @@ internal/assert.tmpl  →  codegen  →  assert/assert.go
                                   →  internal/tests/tests.go
 ```
 
-The code generator (`internal/codegen/`) applies `internal/assert.tmpl` (a `text/template`) once per target package, pipes the output through `goimports`, and writes `<pkg>.go`. `gen.sh` builds the codegen binary and runs it in one step; each `lib.go` has the `//go:generate` directive that invokes it.
+The code generator (`internal/codegen/`) applies `internal/assert.tmpl` (a `text/template`) once per target package, pipes the output through `gofmt`, and writes `<pkg>.go`. `gen.sh` builds the codegen binary and runs it in one step; each `lib.go` has the `//go:generate` directive that invokes it.
 
 The only code that differs between `assert`, `expect`, and the internal test package is the hand-written `lib.go` in each, which defines:
 
