@@ -30,6 +30,48 @@ func TestEx1(t *testing.T) {
 }
 ```
 
+## Failure output
+
+Failures name the two values so it is clear which one was correct. For
+equality-style assertions (`Equal`, `DeepEqual`, `Len`, `Same`, `InDelta`,
+`ElementsMatch`, and the error assertions) the values are labelled `Want`
+(the expected value) and `Got` (what was actually produced):
+
+```
+Equal check failed:
+Trace (most recent last):
+  user_test.go:12 (mypkg.TestUser)
+Want: `42` (int)
+ Got: `43` (int)
+Reason: values should be equal
+```
+
+When both values are multi-line strings, a `-want +got` line diff is shown
+instead of the raw values (`-` is the wanted value, `+` is what you got):
+
+```
+Equal check failed:
+Diff (-want +got):
+  name: alice
+- role: admin
+- region: us-east
++ role: user
++ region: us-west
+  active: true
+Reason: values should be equal
+```
+
+Assertions where neither value is a "want" — ordering comparisons
+(`Greater`, `Less`, ...), `EqualTypes`, and `Regexp` — use neutral `Left`/
+`Right` labels instead:
+
+```
+GreaterInt check failed:
+ Left: `1` (int)
+Right: `5` (int)
+Reason: expected left > right
+```
+
 ## Documentation
 
 Browse the API online at
@@ -58,7 +100,7 @@ Please report bugs via the
 #### Building and testing
 
 To build and test locally, you need the following dependencies:
- - Go 1.20 or later: [installation instructions](https://go.dev/doc/install)
+ - Go 1.21 or later: [installation instructions](https://go.dev/doc/install)
 
 ### Testwell design rules
 
