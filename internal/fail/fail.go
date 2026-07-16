@@ -189,7 +189,11 @@ func (tf TestFailure) Format(failType string) string {
 
 	writeValues := func() {
 		if hasDiff {
-			fmt.Fprintf(&b, "\nDiff (-Left +Right):\n%s", diff)
+			// The diff only fires for equality assertions, where the
+			// documented convention is left=expected, right=actual — so
+			// Expected/Actual labels are accurate here (unlike the neutral
+			// Left/Right used for the raw display shared by all assertions).
+			fmt.Fprintf(&b, "\nDiff (-Expected +Actual):\n%s", diff)
 		} else if leftStr != "" && rightStr != "" {
 			fmt.Fprintf(&b, "\n Left: %s\nRight: %s", leftStr, rightStr)
 		}
