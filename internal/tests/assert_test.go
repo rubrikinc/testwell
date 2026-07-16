@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"regexp"
+	"strings"
 	"testing"
 
 	"github.com/rubrikinc/testwell/internal/cmp"
@@ -1006,6 +1007,49 @@ func TestNotRegexp(t *testing.T) {
 }
 
 // --- Panic ---
+
+func TestPanics(t *testing.T) {
+	t.Run("panicking", func(t *testing.T) {
+		wt := wrap(t)
+		if !Panics(wt, func() { panic("boom") }) {
+			t.Errorf("Panics should pass for panicking func")
+		}
+	})
+	t.Run("non-panicking", func(t *testing.T) {
+		wt := wrap(t)
+		if Panics(wt, func() {}) {
+			t.Errorf("Panics should fail for non-panicking func")
+		}
+	})
+}
+
+func TestPanicsWith(t *testing.T) {
+	t.Run("matches", func(t *testing.T) {
+		wt := wrap(t)
+		if !PanicsWith(wt, "boom", func() { panic("boom") }) {
+			t.Errorf("PanicsWith should pass when panic value matches")
+		}
+	})
+	t.Run("does not panic", func(t *testing.T) {
+		wt := wrap(t)
+		if PanicsWith(wt, "boom", func() {}) {
+			t.Errorf("PanicsWith should fail for non-panicking func")
+		}
+	})
+	t.Run("wrong value", func(t *testing.T) {
+		wt := wrap(t)
+		if PanicsWith(wt, "expected", func() { panic("actual") }) {
+			t.Errorf("PanicsWith should fail when panic value mismatches")
+		}
+		reason := wt.LastFailure().ReasonStr
+		if !strings.Contains(reason, "Panic value:") {
+			t.Errorf("failure reason should contain 'Panic value:', got: %q", reason)
+		}
+		if strings.Contains(reason, "\r") {
+			t.Errorf("failure reason must not contain carriage return, got: %q", reason)
+		}
+	})
+}
 
 func TestNotPanics(t *testing.T) {
 	t.Run("non-panicking", func(t *testing.T) {

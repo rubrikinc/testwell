@@ -741,8 +741,7 @@ func PanicsWith(t testing.T,
 	if !funcDidPanic {
 		failure = failure.Reason("Expected %#v to panic", f)
 	} else if !reflect.DeepEqual(expected, panicValue) {
-		failure = failure.Reason("func %#v should panic with value:\t%v\n\r"+
-			"\tPanic value:\t%v", f, expected, panicValue)
+		failure = failure.Reason("func %#v should panic with value:\t%v\n\tPanic value:\t%v", f, expected, panicValue)
 	} else {
 		return true
 	}
