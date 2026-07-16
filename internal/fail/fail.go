@@ -48,6 +48,11 @@ type TestFailure struct {
 	HintStr     string
 	ExtraMsgStr string
 	Err         error
+	// wantGot labels the two values "Want"/"Got" instead of the neutral
+	// "Left"/"Right". Set by WantValue/GotValue. Used by equality- and
+	// error-style assertions where one value is the wanted result and the
+	// other is what was actually produced; ordering assertions keep Left/Right.
+	wantGot bool
 }
 
 // Failure returns a new TestFailure for the given assertion name.
@@ -76,6 +81,22 @@ func (tf TestFailure) LeftValue(left any) TestFailure {
 // RightValue used for the test.
 func (tf TestFailure) RightValue(right any) TestFailure {
 	tf.Right = valueSlot{Format: valueAsValue, Value: right}
+	return tf
+}
+
+// WantValue records the wanted (expected) value. It is labelled "Want" in the
+// output and, for diffable assertions, forms the "-want" side of the diff.
+func (tf TestFailure) WantValue(want any) TestFailure {
+	tf.Left = valueSlot{Format: valueAsValue, Value: want}
+	tf.wantGot = true
+	return tf
+}
+
+// GotValue records the actual value produced. It is labelled "Got" in the
+// output and, for diffable assertions, forms the "+got" side of the diff.
+func (tf TestFailure) GotValue(got any) TestFailure {
+	tf.Right = valueSlot{Format: valueAsValue, Value: got}
+	tf.wantGot = true
 	return tf
 }
 
@@ -188,14 +209,18 @@ func (tf TestFailure) Format(failType string) string {
 		tf.Name, failType, strings.Join(tf.formattedFrames(), "\n  "))
 
 	writeValues := func() {
-		if hasDiff {
-			// The diff only fires for equality assertions, where the
-			// documented convention is left=expected (want), right=actual
-			// (got) — so -want/+got is accurate here and matches Go's own
-			// cmp.Diff idiom, unlike the neutral Left/Right used for the raw
-			// display shared by all assertions.
+		switch {
+		case hasDiff:
+			// Diffable assertions (Equal/DeepEqual) carry want/got values, so
+			// -want/+got is accurate here and matches Go's cmp.Diff idiom.
 			fmt.Fprintf(&b, "\nDiff (-want +got):\n%s", diff)
-		} else if leftStr != "" && rightStr != "" {
+		case leftStr == "" || rightStr == "":
+			// no values to show
+		case tf.wantGot:
+			fmt.Fprintf(&b, "\nWant: %s\n Got: %s", leftStr, rightStr)
+		default:
+			// Neutral labels for assertions where neither value is a
+			// "want" (e.g. ordering comparisons).
 			fmt.Fprintf(&b, "\n Left: %s\nRight: %s", leftStr, rightStr)
 		}
 	}

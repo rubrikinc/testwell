@@ -79,7 +79,7 @@ func Equal(t testing.T,
 	}
 
 	failure = failure.Reason("values should be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -119,7 +119,7 @@ func NotEqual(t testing.T,
 	}
 
 	failure = failure.Reason("values should not be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -150,7 +150,7 @@ func EqualBool(t testing.T,
 	}
 
 	failure = failure.Reason("values should be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -182,7 +182,7 @@ func NotEqualBool(t testing.T,
 	}
 
 	failure = failure.Reason("values should not be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -213,7 +213,7 @@ func EqualByte(t testing.T,
 	}
 
 	failure = failure.Reason("values should be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -245,7 +245,7 @@ func NotEqualByte(t testing.T,
 	}
 
 	failure = failure.Reason("values should not be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -276,7 +276,7 @@ func EqualComplex128(t testing.T,
 	}
 
 	failure = failure.Reason("values should be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -308,7 +308,7 @@ func NotEqualComplex128(t testing.T,
 	}
 
 	failure = failure.Reason("values should not be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -339,7 +339,7 @@ func EqualComplex64(t testing.T,
 	}
 
 	failure = failure.Reason("values should be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -371,7 +371,7 @@ func NotEqualComplex64(t testing.T,
 	}
 
 	failure = failure.Reason("values should not be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -402,7 +402,7 @@ func EqualError(t testing.T,
 	}
 
 	failure = failure.Reason("values should be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -434,7 +434,7 @@ func NotEqualError(t testing.T,
 	}
 
 	failure = failure.Reason("values should not be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -465,7 +465,7 @@ func EqualFloat32(t testing.T,
 	}
 
 	failure = failure.Reason("values should be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -497,7 +497,7 @@ func NotEqualFloat32(t testing.T,
 	}
 
 	failure = failure.Reason("values should not be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -528,7 +528,7 @@ func EqualFloat64(t testing.T,
 	}
 
 	failure = failure.Reason("values should be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -560,7 +560,7 @@ func NotEqualFloat64(t testing.T,
 	}
 
 	failure = failure.Reason("values should not be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -591,7 +591,7 @@ func EqualInt(t testing.T,
 	}
 
 	failure = failure.Reason("values should be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -623,7 +623,7 @@ func NotEqualInt(t testing.T,
 	}
 
 	failure = failure.Reason("values should not be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -654,7 +654,7 @@ func EqualInt16(t testing.T,
 	}
 
 	failure = failure.Reason("values should be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -686,7 +686,7 @@ func NotEqualInt16(t testing.T,
 	}
 
 	failure = failure.Reason("values should not be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -717,7 +717,7 @@ func EqualInt32(t testing.T,
 	}
 
 	failure = failure.Reason("values should be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -749,7 +749,7 @@ func NotEqualInt32(t testing.T,
 	}
 
 	failure = failure.Reason("values should not be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -780,7 +780,7 @@ func EqualInt64(t testing.T,
 	}
 
 	failure = failure.Reason("values should be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -812,7 +812,7 @@ func NotEqualInt64(t testing.T,
 	}
 
 	failure = failure.Reason("values should not be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -843,7 +843,7 @@ func EqualInt8(t testing.T,
 	}
 
 	failure = failure.Reason("values should be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -875,7 +875,7 @@ func NotEqualInt8(t testing.T,
 	}
 
 	failure = failure.Reason("values should not be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -906,7 +906,7 @@ func EqualRune(t testing.T,
 	}
 
 	failure = failure.Reason("values should be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -938,7 +938,7 @@ func NotEqualRune(t testing.T,
 	}
 
 	failure = failure.Reason("values should not be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -969,7 +969,7 @@ func EqualString(t testing.T,
 	}
 
 	failure = failure.Reason("values should be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -1001,7 +1001,7 @@ func NotEqualString(t testing.T,
 	}
 
 	failure = failure.Reason("values should not be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -1032,7 +1032,7 @@ func EqualUint(t testing.T,
 	}
 
 	failure = failure.Reason("values should be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -1064,7 +1064,7 @@ func NotEqualUint(t testing.T,
 	}
 
 	failure = failure.Reason("values should not be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -1095,7 +1095,7 @@ func EqualUint16(t testing.T,
 	}
 
 	failure = failure.Reason("values should be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -1127,7 +1127,7 @@ func NotEqualUint16(t testing.T,
 	}
 
 	failure = failure.Reason("values should not be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -1158,7 +1158,7 @@ func EqualUint32(t testing.T,
 	}
 
 	failure = failure.Reason("values should be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -1190,7 +1190,7 @@ func NotEqualUint32(t testing.T,
 	}
 
 	failure = failure.Reason("values should not be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -1221,7 +1221,7 @@ func EqualUint64(t testing.T,
 	}
 
 	failure = failure.Reason("values should be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -1253,7 +1253,7 @@ func NotEqualUint64(t testing.T,
 	}
 
 	failure = failure.Reason("values should not be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -1284,7 +1284,7 @@ func EqualUint8(t testing.T,
 	}
 
 	failure = failure.Reason("values should be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -1316,7 +1316,7 @@ func NotEqualUint8(t testing.T,
 	}
 
 	failure = failure.Reason("values should not be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -1347,7 +1347,7 @@ func EqualUintptr(t testing.T,
 	}
 
 	failure = failure.Reason("values should be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -1379,7 +1379,7 @@ func NotEqualUintptr(t testing.T,
 	}
 
 	failure = failure.Reason("values should not be equal").
-		LeftValue(left).RightValue(right)
+		WantValue(left).GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -4002,7 +4002,7 @@ func ErrorIs(t testing.T, err error, target error, msg ...any) bool {
 	}
 	return failTest(t, fail.Failure("ErrorIs").
 		Reason("errors.Is(err, target) returned false").
-		LeftValue(err).RightValue(target).
+		WantValue(target).GotValue(err).
 		ExtraMsg(msg...))
 }
 
@@ -4017,7 +4017,7 @@ func NotErrorIs(t testing.T, err error, target error, msg ...any) bool {
 	}
 	return failTest(t, fail.Failure("NotErrorIs").
 		Reason("errors.Is(err, target) returned true").
-		LeftValue(err).RightValue(target).
+		WantValue(target).GotValue(err).
 		ExtraMsg(msg...))
 }
 
@@ -4033,7 +4033,7 @@ func ErrorAs(t testing.T, err error, target any, msg ...any) bool {
 	}
 	return failTest(t, fail.Failure("ErrorAs").
 		Reason("errors.As(err, target) returned false").
-		LeftValue(err).RightValue(target).
+		WantValue(target).GotValue(err).
 		ExtraMsg(msg...))
 }
 
@@ -4049,7 +4049,7 @@ func NotErrorAs(t testing.T, err error, target any, msg ...any) bool {
 	}
 	return failTest(t, fail.Failure("NotErrorAs").
 		Reason("errors.As(err, target) returned true").
-		LeftValue(err).RightValue(target).
+		WantValue(target).GotValue(err).
 		ExtraMsg(msg...))
 }
 
@@ -4067,7 +4067,7 @@ func ErrorContains(t testing.T, err error, substr string, msg ...any) bool {
 		failure = failure.Reason("expected an error containing %q, got nil", substr)
 	} else {
 		failure = failure.Reason("expected error to contain %q", substr).
-			LeftValue(err.Error()).RightValue(substr)
+			WantValue(substr).GotValue(err.Error())
 	}
 	return failTest(t, failure.ExtraMsg(msg...))
 }
@@ -4083,7 +4083,7 @@ func NotErrorContains(t testing.T, err error, substr string, msg ...any) bool {
 	}
 	return failTest(t, fail.Failure("NotErrorContains").
 		Reason("expected error not to contain %q", substr).
-		LeftValue(err.Error()).RightValue(substr).
+		WantValue(substr).GotValue(err.Error()).
 		ExtraMsg(msg...))
 }
 
@@ -4145,7 +4145,7 @@ func Len(t testing.T, container any, expected int, msg ...any) bool {
 		failure = failure.Reason("`%v` (%T) does not support Len", container, container)
 	} else {
 		failure = failure.Reason("expected length %d, got %d", expected, actual).
-			LeftValue(expected).RightValue(actual)
+			WantValue(expected).GotValue(actual)
 	}
 	return failTest(t, failure.ExtraMsg(msg...))
 }
@@ -4168,7 +4168,7 @@ func ElementsMatch(t testing.T,
 		return true
 	} else {
 		failure = failure.Reason("slices contain different elements").
-			LeftValue(expected).RightValue(actual)
+			WantValue(expected).GotValue(actual)
 	}
 	return failTest(t, failure.ExtraMsg(msg...))
 }
@@ -4191,7 +4191,7 @@ func NotElementsMatch(t testing.T,
 		return true
 	} else {
 		failure = failure.Reason("slices contain the same elements").
-			LeftValue(expected).RightValue(actual)
+			WantValue(expected).GotValue(actual)
 	}
 	return failTest(t, failure.ExtraMsg(msg...))
 }
@@ -4212,8 +4212,8 @@ func DeepEqual(t testing.T,
 	}
 
 	failure = failure.Reason("values should be deeply equal").
-		LeftValue(left).
-		RightValue(right)
+		WantValue(left).
+		GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -4233,8 +4233,8 @@ func NotDeepEqual(t testing.T,
 	}
 
 	failure = failure.Reason("values should not be deeply equal").
-		LeftValue(left).
-		RightValue(right)
+		WantValue(left).
+		GotValue(right)
 	return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -4256,7 +4256,7 @@ func Same(t testing.T, expected any, actual any, msg ...any) bool {
 	}
 	return failTest(t, fail.Failure("Same").
 		Reason("expected the same pointer").
-		LeftValue(expected).RightValue(actual).
+		WantValue(expected).GotValue(actual).
 		ExtraMsg(msg...))
 }
 
@@ -4278,7 +4278,7 @@ func NotSame(t testing.T, expected any, actual any, msg ...any) bool {
 	}
 	return failTest(t, fail.Failure("NotSame").
 		Reason("expected different pointers, got the same").
-		LeftValue(expected).RightValue(actual).
+		WantValue(expected).GotValue(actual).
 		ExtraMsg(msg...))
 }
 
@@ -4329,7 +4329,7 @@ func InDelta(t testing.T,
 	}
 	return failTest(t, fail.Failure("InDelta").
 		Reason("|actual - expected| = %v, which exceeds delta %v", diff, delta).
-		LeftValue(expected).RightValue(actual).
+		WantValue(expected).GotValue(actual).
 		ExtraMsg(msg...))
 }
 

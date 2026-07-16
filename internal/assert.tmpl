@@ -83,7 +83,7 @@ func False(t testing.T, tval bool, msg ...any) bool {
         }
 
         failure = failure.Reason("values should be equal").
-			LeftValue(left).RightValue(right)
+			WantValue(left).GotValue(right)
         return failTest(t, failure.ExtraMsg(msg...))
     }
 
@@ -124,7 +124,7 @@ func False(t testing.T, tval bool, msg ...any) bool {
         }
 
         failure = failure.Reason("values should not be equal").
-			LeftValue(left).RightValue(right)
+			WantValue(left).GotValue(right)
         return failTest(t, failure.ExtraMsg(msg...))
     }
 {{ end }}
@@ -386,7 +386,7 @@ func ErrorIs(t testing.T, err error, target error, msg ...any) bool {
     }
     return failTest(t, fail.Failure("ErrorIs").
         Reason("errors.Is(err, target) returned false").
-        LeftValue(err).RightValue(target).
+        WantValue(target).GotValue(err).
         ExtraMsg(msg...))
 }
 
@@ -400,7 +400,7 @@ func NotErrorIs(t testing.T, err error, target error, msg ...any) bool {
     }
     return failTest(t, fail.Failure("NotErrorIs").
         Reason("errors.Is(err, target) returned true").
-        LeftValue(err).RightValue(target).
+        WantValue(target).GotValue(err).
         ExtraMsg(msg...))
 }
 
@@ -415,7 +415,7 @@ func ErrorAs(t testing.T, err error, target any, msg ...any) bool {
     }
     return failTest(t, fail.Failure("ErrorAs").
         Reason("errors.As(err, target) returned false").
-        LeftValue(err).RightValue(target).
+        WantValue(target).GotValue(err).
         ExtraMsg(msg...))
 }
 
@@ -430,7 +430,7 @@ func NotErrorAs(t testing.T, err error, target any, msg ...any) bool {
     }
     return failTest(t, fail.Failure("NotErrorAs").
         Reason("errors.As(err, target) returned true").
-        LeftValue(err).RightValue(target).
+        WantValue(target).GotValue(err).
         ExtraMsg(msg...))
 }
 
@@ -447,7 +447,7 @@ func ErrorContains(t testing.T, err error, substr string, msg ...any) bool {
         failure = failure.Reason("expected an error containing %q, got nil", substr)
     } else {
         failure = failure.Reason("expected error to contain %q", substr).
-            LeftValue(err.Error()).RightValue(substr)
+            WantValue(substr).GotValue(err.Error())
     }
     return failTest(t, failure.ExtraMsg(msg...))
 }
@@ -462,7 +462,7 @@ func NotErrorContains(t testing.T, err error, substr string, msg ...any) bool {
     }
     return failTest(t, fail.Failure("NotErrorContains").
         Reason("expected error not to contain %q", substr).
-        LeftValue(err.Error()).RightValue(substr).
+        WantValue(substr).GotValue(err.Error()).
         ExtraMsg(msg...))
 }
 
@@ -521,7 +521,7 @@ func Len(t testing.T, container any, expected int, msg ...any) bool {
         failure = failure.Reason("`%v` (%T) does not support Len", container, container)
     } else {
         failure = failure.Reason("expected length %d, got %d", expected, actual).
-            LeftValue(expected).RightValue(actual)
+            WantValue(expected).GotValue(actual)
     }
     return failTest(t, failure.ExtraMsg(msg...))
 }
@@ -543,7 +543,7 @@ func ElementsMatch(t testing.T,
         return true
     } else {
         failure = failure.Reason("slices contain different elements").
-            LeftValue(expected).RightValue(actual)
+            WantValue(expected).GotValue(actual)
     }
     return failTest(t, failure.ExtraMsg(msg...))
 }
@@ -565,7 +565,7 @@ func NotElementsMatch(t testing.T,
         return true
     } else {
         failure = failure.Reason("slices contain the same elements").
-            LeftValue(expected).RightValue(actual)
+            WantValue(expected).GotValue(actual)
     }
     return failTest(t, failure.ExtraMsg(msg...))
 }
@@ -585,8 +585,8 @@ func DeepEqual(t testing.T,
     }
 
     failure = failure.Reason("values should be deeply equal").
-			LeftValue(left).
-			RightValue(right)
+			WantValue(left).
+			GotValue(right)
     return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -605,8 +605,8 @@ func NotDeepEqual(t testing.T,
     }
 
     failure = failure.Reason("values should not be deeply equal").
-			LeftValue(left).
-			RightValue(right)
+			WantValue(left).
+			GotValue(right)
     return failTest(t, failure.ExtraMsg(msg...))
 }
 
@@ -627,7 +627,7 @@ func Same(t testing.T, expected any, actual any, msg ...any) bool {
     }
     return failTest(t, fail.Failure("Same").
         Reason("expected the same pointer").
-        LeftValue(expected).RightValue(actual).
+        WantValue(expected).GotValue(actual).
         ExtraMsg(msg...))
 }
 
@@ -648,7 +648,7 @@ func NotSame(t testing.T, expected any, actual any, msg ...any) bool {
     }
     return failTest(t, fail.Failure("NotSame").
         Reason("expected different pointers, got the same").
-        LeftValue(expected).RightValue(actual).
+        WantValue(expected).GotValue(actual).
         ExtraMsg(msg...))
 }
 
@@ -696,7 +696,7 @@ func InDelta(t testing.T,
     }
     return failTest(t, fail.Failure("InDelta").
         Reason("|actual - expected| = %v, which exceeds delta %v", diff, delta).
-        LeftValue(expected).RightValue(actual).
+        WantValue(expected).GotValue(actual).
         ExtraMsg(msg...))
 }
 

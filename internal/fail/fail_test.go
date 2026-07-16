@@ -47,6 +47,32 @@ func TestFormatNoDiffForSingleLine(t *testing.T) {
 	}
 }
 
+func TestFormatWantGotLabels(t *testing.T) {
+	out := fail.Failure("Equal").WantValue(42).GotValue(43).Format("test")
+
+	if !strings.Contains(out, "Want: `42` (int)") {
+		t.Errorf("expected Want label, got:\n%s", out)
+	}
+	if !strings.Contains(out, "Got: `43` (int)") {
+		t.Errorf("expected Got label, got:\n%s", out)
+	}
+	if strings.Contains(out, "Left:") || strings.Contains(out, "Right:") {
+		t.Errorf("want/got values should not use Left/Right labels, got:\n%s", out)
+	}
+}
+
+func TestFormatNeutralLabelsWithoutWantGot(t *testing.T) {
+	// Ordering assertions use LeftValue/RightValue and keep neutral labels.
+	out := fail.Failure("GreaterInt").LeftValue(1).RightValue(5).Format("test")
+
+	if !strings.Contains(out, "Left:") || !strings.Contains(out, "Right:") {
+		t.Errorf("expected neutral Left/Right labels, got:\n%s", out)
+	}
+	if strings.Contains(out, "Want:") || strings.Contains(out, "Got:") {
+		t.Errorf("non want/got assertion should not use Want/Got, got:\n%s", out)
+	}
+}
+
 func TestFormatNoDiffForNonEqualityAssertion(t *testing.T) {
 	// ErrorContains carries two string values but a diff would misrepresent a
 	// containment check, so it must not be diffed even when multi-line.
