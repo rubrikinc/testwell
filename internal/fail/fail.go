@@ -150,7 +150,7 @@ func (tf TestFailure) formattedFrames() []string {
 	frames := runtime.CallersFrames(tf.Stack)
 	for {
 		frame, more := frames.Next()
-		if strings.Contains(frame.File, "src/testing/") {
+		if strings.HasPrefix(frame.Function, "testing.") {
 			break
 		}
 		file := path.Base(frame.File)
