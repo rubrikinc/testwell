@@ -6,6 +6,8 @@ import (
 	"math"
 	"regexp"
 	"testing"
+
+	"github.com/rubrikinc/testwell/internal/cmp"
 )
 
 func wrap(t *testing.T) *tWrapper {
@@ -34,6 +36,25 @@ func TestTrueFalse(t *testing.T) {
 	True(wt, false, "msg %v", 42)
 	if wt.LastFailure().ExtraMsgStr != "msg 42" {
 		t.Errorf("True(false) with extra msg failed")
+	}
+}
+
+func TestExtraMsg(t *testing.T) {
+	wt := wrap(t)
+
+	True(wt, false, 42)
+	if wt.LastFailure().ExtraMsgStr != "42" {
+		t.Errorf("non-string single arg: got %q, want %q", wt.LastFailure().ExtraMsgStr, "42")
+	}
+
+	True(wt, false, errors.New("boom"))
+	if wt.LastFailure().ExtraMsgStr != "boom" {
+		t.Errorf("error single arg: got %q, want %q", wt.LastFailure().ExtraMsgStr, "boom")
+	}
+
+	True(wt, false, 42, 43)
+	if wt.LastFailure().ExtraMsgStr != "42 43" {
+		t.Errorf("non-string multi-arg: got %q, want %q", wt.LastFailure().ExtraMsgStr, "42 43")
 	}
 }
 
@@ -165,6 +186,55 @@ func TestNotEqualTypes(t *testing.T) {
 	}
 }
 
+func TestEqualErrorTypes(t *testing.T) {
+	wt := wrap(t)
+
+	// Type mismatch produces TypeMismatchError with no hint.
+	Equal(wt, int(1), uint64(1))
+	lf := wt.LastFailure()
+	if _, ok := lf.Err.(cmp.TypeMismatchError); !ok {
+		t.Errorf("type mismatch: want TypeMismatchError, got %T", lf.Err)
+	}
+	if lf.HintStr != "" {
+		t.Errorf("type mismatch: want no hint, got %q", lf.HintStr)
+	}
+
+	// nil vs typed nil: TypeMismatchError with nil-check hint.
+	Equal(wt, nil, (*int)(nil))
+	lf = wt.LastFailure()
+	if _, ok := lf.Err.(cmp.TypeMismatchError); !ok {
+		t.Errorf("nil mismatch: want TypeMismatchError, got %T", lf.Err)
+	}
+	if lf.HintStr != "see Nil for <nil> checks" {
+		t.Errorf("nil mismatch: want nil hint, got %q", lf.HintStr)
+	}
+
+	// Non-comparable type produces NotComparableError with DeepEqual hint.
+	Equal(wt, []int{1}, []int{1})
+	lf = wt.LastFailure()
+	if _, ok := lf.Err.(cmp.NotComparableError); !ok {
+		t.Errorf("non-comparable: want NotComparableError, got %T", lf.Err)
+	}
+	if lf.HintStr != "take a look at DeepEqual" {
+		t.Errorf("non-comparable: want DeepEqual hint, got %q", lf.HintStr)
+	}
+
+	// Same checks for NotEqual.
+	NotEqual(wt, int(1), uint64(1))
+	lf = wt.LastFailure()
+	if _, ok := lf.Err.(cmp.TypeMismatchError); !ok {
+		t.Errorf("NotEqual type mismatch: want TypeMismatchError, got %T", lf.Err)
+	}
+	NotEqual(wt, []int{1}, []int{1})
+	lf = wt.LastFailure()
+	if _, ok := lf.Err.(cmp.NotComparableError); !ok {
+		t.Errorf("NotEqual non-comparable: want NotComparableError, got %T", lf.Err)
+	}
+	if lf.HintStr != "take a look at NotDeepEqual" {
+		t.Errorf("NotEqual non-comparable: want NotDeepEqual hint, got %q", lf.HintStr)
+	}
+}
+
 func TestContains(t *testing.T) {
 	cases := []struct {
 		E interface{}
@@ -292,6 +362,28 @@ func TestNotNil(t *testing.T) {
 				t.Errorf("NotNil(%v (%T)) should be %v", tc.V, tc.V, tc.O)
 			}
 		})
+	}
+}
+
+func TestNilNonNilable(t *testing.T) {
+	wt := wrap(t)
+
+	// Nil on a non-nilable type fails with NonNilableError.
+	Nil(wt, 42)
+	lf := wt.LastFailure()
+	if _, ok := lf.Err.(cmp.NonNilableError); !ok {
+		t.Errorf("Nil(int): want NonNilableError, got %T", lf.Err)
+	}
+	if lf.Err.Error() == "" {
+		t.Error("Nil(int): error message should not be empty")
+	}
+
+	// NotNil on a non-nilable type passes — the value is definitively non-nil.
+	if !NotNil(wt, 42) {
+		t.Error("NotNil(int): should return true for non-nilable type")
+	}
+	if !NotNil(wt, "") {
+		t.Error("NotNil(string): should return true for non-nilable type")
 	}
 }
 
