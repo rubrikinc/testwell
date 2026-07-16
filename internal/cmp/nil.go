@@ -15,7 +15,7 @@ func (e NonNilableError) Error() string {
 }
 
 // Nil returns ok=true if `nullable` is a nullable type or the zero value type.
-func Nil(nullable any) (ok bool, err error) {
+func Nil(nullable any) (bool, error) {
 	nullableVal := reflect.ValueOf(nullable)
 
 	if !nullableVal.IsValid() {
