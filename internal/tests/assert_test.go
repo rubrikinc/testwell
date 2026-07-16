@@ -1033,6 +1033,7 @@ func TestInDelta(t *testing.T) {
 		{"negative diff within delta", 1.0, 0.5, 0.5, true},
 		{"NaN expected", math.NaN(), 1.0, 1.0, false},
 		{"NaN actual", 1.0, math.NaN(), 1.0, false},
+		{"negative delta", 1.0, 1.0, -0.1, false},
 	}
 	for _, tc := range cases {
 		t.Run(tc.Name, func(t *testing.T) {

@@ -4108,6 +4108,11 @@ func InDelta(t testing.T,
 	msg ...any) bool {
 	t.Helper()
 
+	if delta < 0 {
+		return failTest(t, fail.Failure("InDelta").
+			Reason("delta must be non-negative, got %v", delta).
+			ExtraMsg(msg...))
+	}
 	diff := math.Abs(actual - expected)
 	if diff <= delta {
 		return true
